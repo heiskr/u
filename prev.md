@@ -277,12 +277,6 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
         | sort by conditional_test
         | reduce by reducer after 0
 
-*Alias: Type Annotation.* With this alias enabled, function arguments and returns can have a type specified. Type annotations are checked at build-type and not run-time.
-
-    set my_add to do num1 to num2
-        add num1 to num2
-    type: given number to number return number
-
 *Alias: Comparison Operators.* Comparison operators add back in the typical syntax, as well as the typical order of operations. Options include full function names, symbols, or both.
 
 - not, !
@@ -365,13 +359,14 @@ Compiler
 - Types must match to do a comparison.
 - One empty line should be after each block.
 - Two spaces should be before starting an inline comment.
-- Mutable variable name should be prefixed with `$`. (Run-time)
-    - `$` prefix indicates the variable _may_ be mutable, in the case of a function argument.
 - Variable names should use underscores.
 - All imports should be used.
 - All variables should be used.
 - No lines should have trailing whitespace.
 - Lines should be no longer than eighty characters.
+- Any compiler or linter for Garden should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that variables can change type, essentially creating a union type.
+- Mutable variable name should be prefixed with `$`. (Run-time)
+    - `$` prefix indicates the variable _may_ be mutable, in the case of a function argument.
 
 TODOs
 --------
@@ -382,6 +377,6 @@ TODOs
 - Standard library
 - Universal UTF-8
 - Map / Object comprehensions
-- Asynchronous code
+- Asynchronous / concurrent code
 - Default arguments
 - Functions should use full words, not abbreviations or acronyms.
