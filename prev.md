@@ -380,3 +380,10 @@ TODOs
 - Asynchronous / concurrent code
 - Default arguments
 - Functions should use full words, not abbreviations or acronyms.
+- Event based programming (when/then) and constraints (unless)
+- Sets operations instead of loops
+- Safety by observation
+- Operator precedence with symbols (but prefer function based)
+- Receiving blocks
+- until loops > while loops
+- Adjectives as function arguments
