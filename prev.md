@@ -367,6 +367,8 @@ Compiler
 - Any compiler or linter for Garden should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that variables can change type, essentially creating a union type.
 - Mutable variable name should be prefixed with `$`. (Run-time)
     - `$` prefix indicates the variable _may_ be mutable, in the case of a function argument.
+- Check for any unused code.
+- Check for duplicated code.
 
 TODOs
 --------
