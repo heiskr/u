@@ -334,7 +334,7 @@ A mutable quicksort implementation, including aliases.
     quicksort = do $a
         [$less $equal $greater] = $[$[] $[] $[]]
         if (length $a) > 1
-            pivot = random (length $a)
+            pivot = $a | length | random
             for x in a
                 if x < pivot
                     append x to $less
