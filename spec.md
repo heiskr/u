@@ -48,7 +48,7 @@ I release this document under the [Apache 2.0 license](http://www.apache.org/lic
 
 ### §3.2 Expressions
 
-### §3.3 Variables
+### §3.3 References
 
 ### §3.4 Blocks and Scope
 

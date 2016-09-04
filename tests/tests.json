@@ -1,0 +1,62 @@
+[
+    {
+        "folder": "00_expressions",
+        "file": "00_basic_expression.garden",
+        "case": "add given 3 to 1",
+        "expect": "4"
+    },
+    {
+        "folder": "00_expressions",
+        "file": "01_given.garden",
+        "case": "add 3 to 1",
+        "expect": "4"
+    },
+    {
+        "folder": "00_expressions",
+        "file": "02_nested.garden",
+        "case": "add 1 to ( add 2 to 1 )",
+        "expect": "4"
+    },
+    {
+        "folder": "00_expressions",
+        "file": "03_tight_nested.garden",
+        "case": "add 1 to (add 2 to 1)",
+        "expect": "4"
+    },
+    {
+        "folder": "00_expressions",
+        "file": "04_given_nested.garden",
+        "case": "add (add 2 to 1) to 1",
+        "expect": "4"
+    },
+    {
+        "folder": "00_expressions",
+        "file": "05_double_nested.garden",
+        "case": "add 1 to (add (add 1 to 3) to 2)",
+        "expect": "7"
+    },
+    {
+        "folder": "01_comments",
+        "file": "00_alone.garden",
+        "case": "; this is a comment",
+        "expect": ""
+    },
+    {
+        "folder": "01_comments",
+        "file": "01_with_expression.garden",
+        "case": "add 3 to 1 ; this is a comment",
+        "expect": "4"
+    },
+    {
+        "folder": "01_comments",
+        "file": "02_multiline.garden",
+        "case": ";\n    this is a\n    comment",
+        "expect": ""
+    },
+    {
+        "folder": "01_comments",
+        "file": "03_multiline_with_expression.garden",
+        "case": "add 3 to 1 ;\n    this is a\n    comment",
+        "expect": "4"
+    }
+]
