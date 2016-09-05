@@ -1,0 +1,3 @@
+set $a to ${a:1}
+get 'a' in $a
+=> 1

@@ -1,0 +1,4 @@
+set get_one to do
+    return 1
+get_one
+=> 1

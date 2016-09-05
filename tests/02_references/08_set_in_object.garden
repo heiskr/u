@@ -1,0 +1,3 @@
+set $a to {a:1}
+set 'b' in $a to 2
+=> ${a:1 b:2}

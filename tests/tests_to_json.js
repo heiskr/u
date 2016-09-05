@@ -4,7 +4,9 @@ var assert = /\=\>/g;
 
 [
     '00_expressions',
-    '01_comments'
+    '01_comments',
+    '02_references',
+    '03_functions',
 ].forEach(function(folder) {
     var files = fs.readdirSync(folder);
     files.forEach(function(file) {

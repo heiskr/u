@@ -58,5 +58,83 @@
         "file": "03_multiline_with_expression.garden",
         "case": "add 3 to 1 ;\n    this is a\n    comment",
         "expect": "4"
+    },
+    {
+        "folder": "02_references",
+        "file": "00_basic.garden",
+        "case": "set a to 1\na",
+        "expect": "1"
+    },
+    {
+        "folder": "02_references",
+        "file": "01_string.garden",
+        "case": "set a to 'a'\na",
+        "expect": "'a'"
+    },
+    {
+        "folder": "02_references",
+        "file": "02_get_from_map.garden",
+        "case": "set a to {a:1}\nget 'a' in a",
+        "expect": "1"
+    },
+    {
+        "folder": "02_references",
+        "file": "03_get_from_tuple.garden",
+        "case": "set a to [1 2 3]\nget 0 in a",
+        "expect": "1"
+    },
+    {
+        "folder": "02_references",
+        "file": "04_get_from_object.garden",
+        "case": "set $a to ${a:1}\nget 'a' in $a",
+        "expect": "1"
+    },
+    {
+        "folder": "02_references",
+        "file": "05_get_from_list.garden",
+        "case": "set $a to $[1 2 3]\nget 0 in $a",
+        "expect": "1"
+    },
+    {
+        "folder": "02_references",
+        "file": "06_set_in_map.garden",
+        "case": "set a to {a:1}\nset b to (set 'b' in a to 2)",
+        "expect": "{a:1 b:2}"
+    },
+    {
+        "folder": "02_references",
+        "file": "07_set_in_tuple.garden",
+        "case": "set a to [0 1 2]\nset b to (set 1 in a to 2)",
+        "expect": "[0 2 2]"
+    },
+    {
+        "folder": "02_references",
+        "file": "08_set_in_object.garden",
+        "case": "set $a to {a:1}\nset 'b' in $a to 2",
+        "expect": "${a:1 b:2}"
+    },
+    {
+        "folder": "02_references",
+        "file": "09_set_in_list.garden",
+        "case": "set $a to $[0 1 2]\nset 1 in $a to 2",
+        "expect": "$[0 2 2]"
+    },
+    {
+        "folder": "03_functions",
+        "file": "00_define.garden",
+        "case": "do\n    return 1",
+        "expect": ""
+    },
+    {
+        "folder": "03_functions",
+        "file": "01_define_and_call.garden",
+        "case": "set get_one to do\n    return 1\nget_one",
+        "expect": "1"
+    },
+    {
+        "folder": "03_functions",
+        "file": "02_with_arguments.garden",
+        "case": "define my_add to do given a to b\n    return add a to b\nmy_add 3 to 1",
+        "expect": "4"
     }
 ]

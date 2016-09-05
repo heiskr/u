@@ -185,11 +185,6 @@ Functions may be passed by reference as arguments to other functions. If a funct
 
     map col by add
 
-Any function that receives or returns mutable data types must have all references start with `$`.
-
-    set $scale_list to do $list by num
-        map $list by (divide by num)
-
 Conditions are simply using the keywords `if` and `else`. Conditions are also expressions.
 
     set c to (if equal a with b
@@ -365,8 +360,9 @@ Compiler
 - No lines should have trailing whitespace.
 - Lines should be no longer than eighty characters.
 - Any compiler or linter for Garden should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that variables can change type, essentially creating a union type.
-- Mutable variable name should be prefixed with `$`. (Run-time)
-    - `$` prefix indicates the variable _may_ be mutable, in the case of a function argument.
+- A linter should check to ensure that the map keys as used are defined, and if not a condition statement is used to prevent key undefined.
+- A reference to a mutable data type should be prefixed with `$`.
+    - `$` prefix indicates the referenced data _may_ be mutable, in the case of a function argument.
 - Check for any unused code.
 - Check for duplicated code.
 
