@@ -34,7 +34,9 @@ Garden only has three types of things: data, functions, and references.
 
 Comments start with a semicolon.
 
+```
   ; This is a comment.
+```
 
 Semicolons are the comment character because semicolons:
   a) require only one key,
@@ -43,179 +45,240 @@ Semicolons are the comment character because semicolons:
 Comments may be in block format.
 Indentation is 2 spaces.
 
+```
   ;
     This
     is a
     block comment.
+```
 
 Statements are terminated with the new line character.
 
 The most basic data type is none. It is always falsy. It is always immutable.
 
+```
   none
+```
 
 Booleans. Always immutable.
 
+```
   true
+```
 
 Only one type of number. Numbers are always immutable.
 Each data type has one falsy value: for numbers, its 0.
 
+```
   42
+```
 
 Strings use only the single-quote `'` character. Regular expressions are just strings.
 `\'` is the escaped version of the single quote character.
  `''`, empty string, is the falsy value. Strings are always immutable.
 
+```
   'abcd'
+```
 
 Strings can be defined in multiple lines with indentation just like comments. The indentation is stripped.
 
+```
   '
     abcd
     1234
+```
 
 Tuples are defined with `[]`. Tuples are zero-indexed.
 The falsy value of tuple is the empty tuple, `[]`. Tuples are immutable.
 Tuples can only store other immutable data types, such as boolean, number, string, tuple, and map.
 
+```
   [1 2 3]
+```
 
 Tuples do not differentiate between the kind of whitespace, so we can just as easily write:
 
+```
   [
     1
     2
     3
   ]
+```
 
 Lists are defined with `$[]`.
 The falsy value of list is the empty list, `$[]`. Lists are like tuples, but mutable.
 Lists can store immutable data, mutable data, and functions. Lists only store references.
 
+```
   $[1 2 3]
+```
 
 Maps are defined with `{}`. The falsy form of map is an empty map, `{}`.
 Maps are unordered. Maps support embedding.
 Maps are immutable. Maps may only store immutable data types.
 
+```
   {'a':1 'b':2 'c':3}
+```
 
 Maps may be also written as:
 
+```
   {
     'a':1
     'b':2
     'c':3
   }
+```
 
 Objects are like maps, but mutable. They are defined with `${}`.
 The falsy object is the empty object.
 Objects can store immutable data, mutable data, and functions. Objects only store references.
 
+```
   ${'a':1 'b':2 'c':3}
+```
 
 References are set using the `set` function, where the `given` argument is the reference and accepts an argument `to`.
 
+```
   set a to 1
+```
 
 References are dynamic, so they can change type.
 
+```
   set a to 1
   set a to 'abcd'
+```
 
 References are always lexically scoped.
 
+```
   set a to 0  ; `a` is scoped to the module
   set f to do   ;  function declaration with `do`
     set b to 2  ; `b` is scoped to the function `f`
     if equal a with b
       set a to 5  ; `a` still has module scope
       set c to 3  ; `c` is scoped to `if`
+```
 
 Any references to mutable data types, such as list or object, *must* start with a `$`.
 
+```
   set $a to $[1 2 3]
+```
 
 The `get` and `set` methods exist on all tuples, lists, maps, and objects, respecting the mutability characteristic. A `set` operation will always return the full value of the iterable.
 
+```
   set a to (get 'key' in my_map)
+```
 
 Files are treated as modules, with their own namespaces.
 If a cycle is formed with `import`, the compiler will throw an error.
 Everything in the module is made available.
 
+```
   set my_module to (import './path/to/module')
+```
 
 Access functions and other references in modules with the `get` function.
 
+```
   set math to (import './math')
   set average to (get 'average' in math)
+```
 
 Functions are called simply by having a reference to the function the first in the group.
 The first argument is the _given_ argument.
 After the first argument, prepositions are used before each argument as keywords.
 After the first argument, arguments may take any order.
 
+```
   add 1 to 2
+```
 
 Parentheses can be used to have multiple statements in a single line.
 
+```
   add 1 to (divide 3 by 4)
+```
 
 The anonymous function is defined as: `do (given) arg1 (preposition) arg2 ... \n block`
 Functions always have a _given_ first argument, and all following arguments are keyword by prepositions.
 
+```
   do col
     divide (sum col) by (length col)
+```
 
 Define functions using the following formation:
 
+```
   set average to do col
     divide (sum col) by (length col)
+```
 
 Every statement is an expression, so returns are only needed when wanting to return early.
 
+```
   set average to do col
     if equal (length col) with 0
       return 0
     divide (sum col) by (length col)
+```
 
 Functions may be passed by reference as arguments to other functions. If a function reference is not the first it its group, the function is passed as reference.
 
+```
   map col by add
+```
 
 Conditions are simply using the keywords `if` and `else`. Conditions are also expressions.
 
+```
   set c to (if equal a with b
     true
   else
     false)
+```
 
 Of course, the previous example could be written more simply.
 
+```
   set c to (equal a with b)
+```
 
 Conditions do not convert type.
 
+```
   if equal 0 with (to_number '')
     true
+```
 
 While loops work like `if` statements.
 
+```
   set a to 0
   while less_than a under 5
     set a to (add 1 to a)
+```
 
 `if` and `while` do not require parentheses around the first function call.
 
+```
   if less_than a under 5  ; these two lines are the same
   if (less_than a under 5)
   while less_than a under 5  ; and so are these two lines
   while (less_than a under 5)
+```
 
 `for` loops are aware of the data type.
 
+```
   set my_tuple to [1 2 3]
   set my_map to {'a':1 'b':2 'c':3}
 
@@ -223,15 +286,18 @@ While loops work like `if` statements.
   for [index num] of my_tuple
   for value in my_map
   for [key value] of my_map
+```
 
 Breaks and continues are allowed as well.
 
 Try and catch blocks work very similar to other languages.
 
+```
   try
     divide 1 by 0
   catch exception
     log exception
+```
 
 Aliases
 -------
@@ -240,37 +306,51 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
 
 *Alias: Getters and Setters.* Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Garden's alias can allow for that as well. Using the dot notation, the key is a string.
 
+```
   set a to my_map.key
   set b to my_tuple[0]
+```
 
 *Alias: Set.* The set alias allows the regular variable syntax instead of the `set ... to ...` syntax.
 
+```
   a = 42
+```
 
 *Alias: Comprehensions.* A few languages offer comprehensions as an alternative iterate-to-generate interface.
 
+```
   [(divide num by 3) with num in my_tuple]
+```
 
 *Alias: Destructuring.* `for ... of ...` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
 
+```
   set [a b] to [1 2]
   set {a b} to {'a':1 'b':2}
+```
 
 *Alias: Inline-block.* Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
 
+```
   map lis by (do value: divide value by 3)
+```
 
 *Alias: Ternary operation.* Sometimes, having a single line set a value conditionally is convenient.
 
+```
   set a to (if equal a with b then a else b)
+```
 
 *Alias: Pipe.* Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
 
+```
   set b to a
     | filter by filtering_test
     | map by updater
     | sort by conditional_test
     | reduce by reducer after 0
+```
 
 *Alias: Comparison Operators.* Comparison operators add back in the typical syntax, as well as the typical order of operations. Options include full function names, symbols, or both.
 
@@ -301,6 +381,7 @@ Examples
 
 A mutable quicksort implementation.
 
+```
   set $quicksort to do given $a
     set $less to $[]
     set $equal to $[]
@@ -321,11 +402,13 @@ A mutable quicksort implementation.
       )
     else
       return $a
+```
 
 ### Quicksort, with Aliases
 
 A mutable quicksort implementation, including aliases.
 
+```
   quicksort = do $a
     [$less $equal $greater] = $[$[] $[] $[]]
     if (length $a) > 1
@@ -344,6 +427,7 @@ A mutable quicksort implementation, including aliases.
       )
     else
       return $a
+```
 
 Compiler
 --------
@@ -393,3 +477,4 @@ TODOs
 - switch/match alias
 - structs/interfaces ?
 - camelCase instead of underscore?
+- raise
