@@ -17,7 +17,7 @@ Principles
 - Flat, not abstracted.
 - Isolate modules.
 
-*Influences*: Lisp, Hypertalk, Python, Coffeescript.
+*Influences*: Lisp, Hypertalk, Python, Coffeescript, Go.
 
 Core Syntax
 -----------
@@ -174,7 +174,7 @@ Any references to mutable data types, such as list or object, *must* start with 
 The `get` and `set` methods exist on all tuples, lists, maps, and objects, respecting the mutability characteristic. A `set` operation will always return the full value of the iterable.
 
 ```
-  set a to (get 'key' in my_map)
+  set a to (get 'key' in myMap)
 ```
 
 Files are treated as modules, with their own namespaces.
@@ -182,7 +182,7 @@ If a cycle is formed with `import`, the compiler will throw an error.
 Everything in the module is made available.
 
 ```
-  set my_module to (import './path/to/module')
+  set myModule to (import './path/to/module')
 ```
 
 Access functions and other references in modules with the `get` function.
@@ -255,40 +255,68 @@ Of course, the previous example could be written more simply.
 Conditions do not convert type.
 
 ```
-  if equal 0 with (to_number '')
+  if equal 0 with (toNumber '')
     true
 ```
 
-While loops work like `if` statements.
+`if` does not require parentheses around the first function call.
 
 ```
-  set a to 0
-  while less_than a under 5
-    set a to (add 1 to a)
+  ; these two lines are the same
+  if lessThan a under 5  
+    true
+  if (lessThan a under 5)
+    true
 ```
 
-`if` and `while` do not require parentheses around the first function call.
+`for` loops also do not require parentheses around the first function call.
 
 ```
-  if less_than a under 5  ; these two lines are the same
-  if (less_than a under 5)
-  while less_than a under 5  ; and so are these two lines
-  while (less_than a under 5)
+  set myTuple to [1 2 3]
+  for set [_ num] to (range myTuple)
+    log num
 ```
 
 `for` loops are aware of the data type.
 
 ```
-  set my_tuple to [1 2 3]
-  set my_map to {'a':1 'b':2 'c':3}
+  set myTuple to [1 2 3]
+  set myMap to {'a':1 'b':2 'c':3}
 
-  for num in my_tuple
-  for [index num] of my_tuple
-  for value in my_map
-  for [key value] of my_map
+  for set [index num] to (range myTuple)
+    log (concat index with num)
+
+  for set [key value] to (range myMap)
+    log (concat key with value)
+
+```
+
+You can use `_` to ignore parts you don't need.
+
+```
+  set myTuple to [1 2 3]
+  for set [_ num] to (range myTuple)
+    log num
+```
+
+`for` loops can also act like `while` loops.
+
+```
+  set a to 0
+  for lessThan a under 5
+    set a to (add 1 to a)
 ```
 
 Breaks and continues are allowed as well.
+
+```
+  for set [_ num] to (range myTuple)
+    if lessThan num under 5
+      break
+    if greaterThan num above 5
+      continue
+    doSomething num
+```
 
 Try and catch blocks work very similar to other languages.
 
@@ -304,26 +332,28 @@ Aliases
 
 Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
 
-*Alias: Getters and Setters.* Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Garden's alias can allow for that as well. Using the dot notation, the key is a string.
-
-```
-  set a to my_map.key
-  set b to my_tuple[0]
-```
-
 *Alias: Set.* The set alias allows the regular variable syntax instead of the `set ... to ...` syntax.
 
 ```
   a = 42
 ```
 
+*Alias: Getters and Setters.* Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Garden's alias can allow for that as well. Using the dot notation, the key is a string.
+
+```
+  set a to myMap.key
+  set b to myTuple[0]
+  set $myObj.key to a
+  set $myList[0] to b
+```
+
 *Alias: Comprehensions.* A few languages offer comprehensions as an alternative iterate-to-generate interface.
 
 ```
-  [(divide num by 3) with num in my_tuple]
+  [(divide num by 3) for [_ num] in (range myTuple)]
 ```
 
-*Alias: Destructuring.* `for ... of ...` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
+*Alias: Destructuring.* `for set [...] to (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
 
 ```
   set [a b] to [1 2]
@@ -346,21 +376,21 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
 
 ```
   set b to a
-    | filter by filtering_test
+    | filter by filteringTest
     | map by updater
-    | sort by conditional_test
+    | sort by conditionalTest
     | reduce by reducer after 0
 ```
 
 *Alias: Comparison Operators.* Comparison operators add back in the typical syntax, as well as the typical order of operations. Options include full function names, symbols, or both.
 
 - not, !
-- not_equal, !=
+- notEqual, !=
 - equal, ==
-- less_than, <
-- greater_than, >
-- less_than_or_equal, <=
-- greater_than_or_equal, >=
+- lessThan, <
+- greaterThan, >
+- lessThanOrEqual, <=
+- greaterThanOrEqual, >=
 - in
 - and, &&
 - or, ||
@@ -368,11 +398,11 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
 *Alias: Mathematical Operators.* Mathematical operators add back in the typical syntax, as well as the typical order of operations. Function names, symbols, or both are options.
 
 - multiply, times, *
-- divide, divided_by, /
+- divide, dividedBy, /
 - modulus, remainder, %
 - add, plus, +
 - subtract, minus, -
-- power, to_power, ^
+- power, toPower, ^
 
 Examples
 --------
@@ -382,18 +412,18 @@ Examples
 A mutable quicksort implementation.
 
 ```
-  set $quicksort to do given $a
+  set quicksort to do given $a
     set $less to $[]
     set $equal to $[]
     set $greater to $[]
-    if greater_than (length $a) over 1
+    if greaterThan (length $a) over 1
       set pivot to (random (length $a))
       for x in a
-        if less_than x under pivot
+        if lessThan x under pivot
           append x to $less
         if equal x with pivot
           append x to $equal
-        if greater_than x over pivot
+        if greaterThan x over pivot
           append x to $greater
       return (
         concat (quicksort $less)
@@ -410,7 +440,7 @@ A mutable quicksort implementation, including aliases.
 
 ```
   quicksort = do $a
-    [$less $equal $greater] = $[$[] $[] $[]]
+    [$less $equal $greater] = [$[] $[] $[]]
     if (length $a) > 1
       pivot = $a | length | random
       for x in a
@@ -432,49 +462,48 @@ A mutable quicksort implementation, including aliases.
 Compiler
 --------
 
-- Each indent should be four spaces per indent.
+- Each indent should be two spaces per indent.
 - Functions must contain less than ten statements.
-- Blocks must not go more than three levels deep.
-- Types must match to do a comparison.
+- Blocks must not go more than four levels deep.
 - One empty line should be after each block.
 - Two spaces should be before starting an inline comment.
-- Variable names should use underscores.
+- Variable names should use camelCase.
 - All imports should be used.
 - All variables should be used.
 - No lines should have trailing whitespace.
 - Lines should be no longer than eighty characters.
+- Types must match to do a comparison.
 - Any compiler or linter for Garden should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that variables can change type, essentially creating a union type.
 - A linter should check to ensure that the map keys as used are defined, and if not a condition statement is used to prevent key undefined.
 - A reference to a mutable data type should be prefixed with `$`.
-  - `$` prefix indicates the referenced data _may_ be mutable, in the case of a function argument.
+  - `~` prefix indicates the referenced data _may_ be mutable or immutable, in the case of a function argument.
 - Check for any unused code.
 - Check for duplicated code.
 
 TODOs
 --------
 
-- Complex Numbers
-- Vector / Matrix operations
-- Standard functions
-- Standard library
-- Universal UTF-8
+Add examples
 - Map / Object comprehensions
-- Asynchronous / concurrent code
+- Module import alias (see golang)
+- raise
+- Closures
+- Universal UTF-8
+- Operator precedence with symbols (but prefer function based)
+
+To noodle on
+- Complex Numbers
+- Global functions
+  - Sets operations instead of loops
+- Standard library
+  - Vector / Matrix operations
 - Default arguments
 - Functions should use full words, not abbreviations or acronyms.
-- Event based programming (when/then) and constraints (unless)
-- Sets operations instead of loops
+- Asynchronous / concurrent code
+  - Event based programming (when/then) and constraints (unless)
+  - channels / coroutines / generators etc
 - Safety by observation
-- Operator precedence with symbols (but prefer function based)
 - Receiving blocks
-- until loops > while loops
-- ...or make `for` handle "while" too?
-- `for num in (range my_tuple)` ...?
 - Adjectives as function arguments
-- Module import alias (see golang)
-- Closures
-- Multiple returns ?
-- switch/match alias
-- structs/interfaces ?
-- camelCase instead of underscore?
-- raise
+- switch/match alias (?)
+- main function
