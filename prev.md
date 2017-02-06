@@ -350,7 +350,7 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
 *Alias: Comprehensions.* A few languages offer comprehensions as an alternative iterate-to-generate interface.
 
 ```
-  [(divide num by 3) for [_ num] in (range myTuple)]
+  [(divide num by 3) for set [_ num] in (range myTuple)]
 ```
 
 *Alias: Destructuring.* `for set [...] to (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
@@ -418,7 +418,7 @@ A mutable quicksort implementation.
     set $greater to $[]
     if greaterThan (length $a) over 1
       set pivot to (random (length $a))
-      for x in a
+      for set [_ x] to (range $a)
         if lessThan x under pivot
           append x to $less
         if equal x with pivot
@@ -443,7 +443,7 @@ A mutable quicksort implementation, including aliases.
     [$less $equal $greater] = [$[] $[] $[]]
     if (length $a) > 1
       pivot = $a | length | random
-      for x in a
+      for [_ x] = range a
         if x < pivot
           append x to $less
         if x == pivot
