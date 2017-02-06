@@ -120,16 +120,16 @@ Maps are unordered. Maps support embedding.
 Maps are immutable. Maps may only store immutable data types.
 
 ```
-  {'a':1 'b':2 'c':3}
+  {'a'=1 'b'=2 'c'=3}
 ```
 
 Maps may be also written as:
 
 ```
   {
-    'a':1
-    'b':2
-    'c':3
+    'a'=1
+    'b'=2
+    'c'=3
   }
 ```
 
@@ -138,7 +138,7 @@ The falsy object is the empty object.
 Objects can store immutable data, mutable data, and functions. Objects only store references.
 
 ```
-  ${'a':1 'b':2 'c':3}
+  ${'a'=1 'b'=2 'c'=3}
 ```
 
 References are set using the `set` function, where the `given` argument is the reference and accepts an argument `to`.
@@ -281,7 +281,7 @@ Conditions do not convert type.
 
 ```
   set myTuple to [1 2 3]
-  set myMap to {'a':1 'b':2 'c':3}
+  set myMap to {'a'=1 'b'=2 'c'=3}
 
   for set [index num] to (range myTuple)
     log (concat index with num)
@@ -357,7 +357,7 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
 
 ```
   set [a b] to [1 2]
-  set {a b} to {'a':1 'b':2}
+  set {a b} to {'a'=1 'b'=2}
 ```
 
 *Alias: Inline-block.* Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
