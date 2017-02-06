@@ -412,13 +412,13 @@ Examples
 A mutable quicksort implementation.
 
 ```
-  set quicksort to do given $a
+  set quicksort to do given ~a
     set $less to $[]
     set $equal to $[]
     set $greater to $[]
-    if greaterThan (length $a) over 1
-      set pivot to (random (length $a))
-      for set [_ x] to (range $a)
+    if greaterThan (length ~a) over 1
+      set pivot to (random (length ~a))
+      for set [_ x] to (range ~a)
         if lessThan x under pivot
           append x to $less
         if equal x with pivot
@@ -431,7 +431,7 @@ A mutable quicksort implementation.
           with (quicksort $greater)
       )
     else
-      return $a
+      return ~a
 ```
 
 ### Quicksort, with Aliases
@@ -439,11 +439,11 @@ A mutable quicksort implementation.
 A mutable quicksort implementation, including aliases.
 
 ```
-  quicksort = do $a
+  quicksort = do ~a
     [$less $equal $greater] = [$[] $[] $[]]
-    if (length $a) > 1
-      pivot = $a | length | random
-      for [_ x] = range a
+    if (length ~a) > 1
+      pivot = ~a | length | random
+      for [_ x] = range ~a
         if x < pivot
           append x to $less
         if x == pivot
@@ -456,7 +456,7 @@ A mutable quicksort implementation, including aliases.
           with (quicksort $greater)
       )
     else
-      return $a
+      return ~a
 ```
 
 Compiler
