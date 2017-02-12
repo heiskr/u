@@ -1,16 +1,29 @@
 The Garden Language Specification
-=================================
-
-Garden may be a programming language. Or not. This document describes what Garden is, but does not describe what Garden is not. Garden may be implemented in whatever way you might dream. Anywhere you want Garden to be, make it.
+===============================================================================
 
 I release this document under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0).
 
-§1 Start with the Soil
-----------------------
+Version 0.0.0
 
-### §1.1 Principles
+1. Foundation
+--------------------------------------------------------------------------------
 
-### §1.2 Terms
+Garden may be a programming language. Or not. This document describes what Garden is, but does not describe what Garden is not. Garden may be implemented in whatever way you might dream. Anywhere you want Garden to be, make it.
+
+### 1.1 Principles
+
+- Read out-loud as is.
+- Omit the obvious, but be explicit.
+- Prefer one way to do things, and explain exceptions.
+- Separate data, functions, and references.
+- Flat, not abstracted.
+- Isolate modules.
+
+### 1.2 Influences
+
+Lisp, Hypertalk, Python, Coffeescript, Go.
+
+### 1.3 Definitions
 
 - **Type**:
 - **Value**:
@@ -34,78 +47,492 @@ I release this document under the [Apache 2.0 license](http://www.apache.org/lic
 - **Concurrency**:
 - **Standard Library**:
 
-§2 Birthing Cells
------------------
+2. Core Language
+--------------------------------------------------------------------------------
 
-### §2.1 Tokens
+### 2.1 Tokens
 
-### §2.2 Symbols
+### 2.2 Types
 
-§3 How to Make Plants
----------------------
+Garden only has three types of things: data, functions, and references.
 
-### §3.1 Types
+**Data**. Data does not own functions. Immutable examples are boolean, numbers, strings, tuples, and maps. Mutable lists and objects are also available.
 
-### §3.2 Expressions
+**Functions**. Functions are first-class.
 
-### §3.3 References
+**References**. References, or variables, are plain text in Garden. References may refer to data or functions. References always denote mutable types with a prefixed `$`.
 
-### §3.4 Blocks and Scope
+The most basic data type is none. It is always falsy. It is always immutable.
 
-### §3.5 Functions
+```
+  none
+```
 
-### §3.6 Control Structures
+Booleans. Always immutable.
 
-#### §3.6.1 continue/break/return
+```
+  true
+```
 
-#### §3.6.2 if/else
+Only one type of number. Numbers are always immutable.
+Each data type has one falsy value: for numbers, its 0.
 
-#### §3.6.3 for/in
+```
+  42
+```
 
-#### §3.6.4 while
+Strings use only the single-quote `'` character. Regular expressions are just strings.
+`\'` is the escaped version of the single quote character.
+ `''`, empty string, is the falsy value. Strings are always immutable.
 
-#### §3.6.5 try/catch
+```
+  'abcd'
+```
 
-#### §3.6.6 throw
+Strings can be defined in multiple lines with indentation just like comments. The indentation is stripped.
 
-### §3.7 Modules
+```
+  '
+    abcd
+    1234
+```
 
-§4 Growing Flowers
-------------------
+Tuples are defined with `[]`. Tuples are zero-indexed.
+The falsy value of tuple is the empty tuple, `[]`. Tuples are immutable.
+Tuples can only store other immutable data types, such as boolean, number, string, tuple, and map.
 
-### §4.1 Get and Set Aliases
+```
+  [1 2 3]
+```
 
-### §4.2 Destructuring Aliases
+Tuples do not differentiate between the kind of whitespace, so we can just as easily write:
 
-### §4.3 Comprehension Aliases
+```
+  [
+    1
+    2
+    3
+  ]
+```
 
-### §4.4 Math Aliases
+Lists are defined with `$[]`.
+The falsy value of list is the empty list, `$[]`. Lists are like tuples, but mutable.
+Lists can store immutable data, mutable data, and functions. Lists only store references.
 
-### §4.5 Comparison Aliases
+```
+  $[1 2 3]
+```
 
-### §4.6 Inline-block Alias
+Maps are defined with `{}`. The falsy form of map is an empty map, `{}`.
+Maps are unordered. Maps support embedding.
+Maps are immutable. Maps may only store immutable data types.
 
-### §4.7 Ternary Alias
+```
+  {'a'=1 'b'=2 'c'=3}
+```
 
-### §4.8 Pipe Alias
+Maps may be also written as:
 
-§5 A Living, Breathing Garden
------------------------------
+```
+  {
+    'a'=1
+    'b'=2
+    'c'=3
+  }
+```
 
-### §5.1 Execution
+Objects are like maps, but mutable. They are defined with `${}`.
+The falsy object is the empty object.
+Objects can store immutable data, mutable data, and functions. Objects only store references.
 
-### §5.2 Concurrency
+```
+  ${'a'=1 'b'=2 'c'=3}
+```
 
-§6 A Garden in an Ecosystem
----------------------------
+### 2.3 Expressions, Functions, References, Scope
 
-### §6.1 Universal Functions
+Statements are terminated with the new line character.
 
-### §6.2 Standard Library
+Garden is whitespace sensitive. Two spaces per indent is enforced.
 
-§7 Thriving Gardens
--------------------
+#### Calling and Defining Functions
 
-### §7.1 Best Practices
+Functions are called simply by having a reference to the function the first in the group.
+The first argument is the _given_ argument.
+After the first argument, prepositions are used before each argument as keywords.
+After the first argument, arguments may take any order.
 
-### §7.2 Implementation Checklist
+```
+  add 1 to 2
+```
+
+Parentheses can be used to have multiple statements in a single line.
+
+```
+  add 1 to (divide 3 by 4)
+```
+
+The anonymous function is defined as: `do (given) arg1 (preposition) arg2 ... \n block`
+Functions always have a _given_ first argument, and all following arguments are keyword by prepositions.
+
+```
+  do col
+    divide (sum col) by (length col)
+```
+
+Define functions using the following formation:
+
+```
+  set average to do col
+    divide (sum col) by (length col)
+```
+
+Every statement is an expression, so returns are only needed when wanting to return early.
+
+```
+  set average to do col
+    if equal (length col) with 0
+      return 0
+    divide (sum col) by (length col)
+```
+
+Functions may be passed by reference as arguments to other functions. If a function reference is not the first it its group, the function is passed as reference.
+
+```
+  map col by add
+```
+
+#### References, Get and set
+
+References are set using the `set` function, where the `given` argument is the reference and accepts an argument `to`.
+
+```
+  set a to 1
+```
+
+References are dynamic, so they can change type.
+
+```
+  set a to 1
+  set a to 'abcd'
+```
+
+References are always lexically scoped.
+
+```
+  set a to 0  ; `a` is scoped to the module
+  set f to do   ;  function declaration with `do`
+    set b to 2  ; `b` is scoped to the function `f`
+    if equal a with b
+      set a to 5  ; `a` still has module scope
+      set c to 3  ; `c` is scoped to `if`
+```
+
+Any references to mutable data types, such as list or object, *must* start with a `$`.
+
+```
+  set $a to $[1 2 3]
+```
+
+The `get` and `set` methods exist on all tuples, lists, maps, and objects, respecting the mutability characteristic. A `set` operation will always return the full value of the iterable.
+
+```
+  set a to (get 'key' in myMap)
+```
+
+#### Comments
+
+Comments start with a semicolon.
+
+```
+  ; This is a comment.
+```
+
+Semicolons are the comment character because semicolons:
+  a) require only one key,
+  b) are easy to reach, and
+  c) aren't mistaken for another operation.
+Comments may be in block format.
+Indentation is 2 spaces.
+
+```
+  ;
+    This
+    is a
+    block comment.
+```
+
+### 2.4 Control Structures
+
+Conditions are simply using the keywords `if` and `else`. Conditions are also expressions.
+
+```
+  set c to (if equal a with b
+    true
+  else
+    false)
+```
+
+Of course, the previous example could be written more simply.
+
+```
+  set c to (equal a with b)
+```
+
+Conditions do not convert type.
+
+```
+  if equal 0 with (toNumber '')
+    true
+```
+
+`if` does not require parentheses around the first function call.
+
+```
+  ; these two lines are the same
+  if lessThan a under 5  
+    true
+  if (lessThan a under 5)
+    true
+```
+
+`for` loops also do not require parentheses around the first function call.
+
+```
+  set myTuple to [1 2 3]
+  for set [_ num] to (range myTuple)
+    log num
+```
+
+`for` loops are aware of the data type.
+
+```
+  set myTuple to [1 2 3]
+  set myMap to {'a'=1 'b'=2 'c'=3}
+
+  for set [index num] to (range myTuple)
+    log (concat index with num)
+
+  for set [key value] to (range myMap)
+    log (concat key with value)
+
+```
+
+You can use `_` to ignore parts you don't need.
+
+```
+  set myTuple to [1 2 3]
+  for set [_ num] to (range myTuple)
+    log num
+```
+
+`for` loops can also act like `while` loops.
+
+```
+  set a to 0
+  for lessThan a under 5
+    set a to (add 1 to a)
+```
+
+Breaks and continues are allowed as well.
+
+```
+  for set [_ num] to (range myTuple)
+    if lessThan num under 5
+      break
+    if greaterThan num above 5
+      continue
+    doSomething num
+```
+
+Try and catch blocks work very similar to other languages.
+
+```
+  try
+    divide 1 by 0
+  catch exception
+    log exception
+```
+
+### 2.5 Modules
+
+Files are treated as modules, with their own namespaces.
+If a cycle is formed with `import`, the compiler will throw an error.
+Everything in the module is made available.
+
+```
+  set myModule to (import './path/to/module')
+```
+
+Access functions and other references in modules with the `get` function.
+
+```
+  set math to (import './math')
+  set average to (get 'average' in math)
+```
+
+3. Aliases
+--------------------------------------------------------------------------------
+
+
+Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
+
+*Alias: Set.* The set alias allows the regular variable syntax instead of the `set ... to ...` syntax.
+
+```
+  a = 42
+```
+
+*Alias: Getters and Setters.* Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Garden's alias can allow for that as well. Using the dot notation, the key is a string.
+
+```
+  set a to myMap.key
+  set b to myTuple[0]
+  set $myObj.key to a
+  set $myList[0] to b
+```
+
+*Alias: Comprehensions.* A few languages offer comprehensions as an alternative iterate-to-generate interface.
+
+```
+  [(divide num by 3) for set [_ num] in (range myTuple)]
+```
+
+*Alias: Destructuring.* `for set [...] to (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
+
+```
+  set [a b] to [1 2]
+  set {a b} to {'a'=1 'b'=2}
+```
+
+*Alias: Inline-block.* Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
+
+```
+  map lis by (do value: divide value by 3)
+```
+
+*Alias: Ternary operation.* Sometimes, having a single line set a value conditionally is convenient.
+
+```
+  set a to (if equal a with b then a else b)
+```
+
+*Alias: Pipe.* Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
+
+```
+  set b to a
+    | filter by filteringTest
+    | map by updater
+    | sort by conditionalTest
+    | reduce by reducer after 0
+```
+
+*Alias: Comparison Operators.* Comparison operators add back in the typical syntax, as well as the typical order of operations. Options include full function names, symbols, or both.
+
+- not, !
+- notEqual, !=
+- equal, ==
+- lessThan, <
+- greaterThan, >
+- lessThanOrEqual, <=
+- greaterThanOrEqual, >=
+- in
+- and, &&
+- or, ||
+
+*Alias: Mathematical Operators.* Mathematical operators add back in the typical syntax, as well as the typical order of operations. Function names, symbols, or both are options.
+
+- multiply, times, *
+- divide, dividedBy, /
+- modulus, remainder, %
+- add, plus, +
+- subtract, minus, -
+- power, toPower, ^
+
+
+4. Systems
+--------------------------------------------------------------------------------
+
+### 4.1 Universal Functions
+
+### 4.2 Concurrency
+
+### 4.3 Execution Rules: Build and Run
+
+- Each indent should be two spaces per indent.
+- Functions must contain less than ten statements.
+- Blocks must not go more than four levels deep.
+- One empty line should be after each block.
+- Two spaces should be before starting an inline comment.
+- Variable names should use camelCase.
+- All imports should be used.
+- All variables should be used.
+- No lines should have trailing whitespace.
+- Lines should be no longer than eighty characters.
+- Types must match to do a comparison.
+- Any compiler or linter for Garden should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that variables can change type, essentially creating a union type.
+- A linter should check to ensure that the map keys as used are defined, and if not a condition statement is used to prevent key undefined.
+- A reference to a mutable data type should be prefixed with `$`.
+  - `~` prefix indicates the referenced data _may_ be mutable or immutable, in the case of a function argument.
+- Check for any unused code.
+- Check for duplicated code.
+
+### 4.4 Standard Library
+
+### 4.5 Implementation Checklist
+
+### 4.6 Best Practices
+
+### 4.7 Examples
+
+#### Quicksort, no Aliases
+
+A mutable quicksort implementation.
+
+```
+  set quicksort to do given ~a
+    set $less to $[]
+    set $equal to $[]
+    set $greater to $[]
+    if greaterThan (length ~a) over 1
+      set pivot to (random (length ~a))
+      for set [_ x] to (range ~a)
+        if lessThan x under pivot
+          append x to $less
+        if equal x with pivot
+          append x to $equal
+        if greaterThan x over pivot
+          append x to $greater
+      return (
+        concat (quicksort $less)
+          with $equal
+          with (quicksort $greater)
+      )
+    else
+      return ~a
+```
+
+#### Quicksort, with Aliases
+
+A mutable quicksort implementation, including aliases.
+
+```
+  quicksort = do ~a
+    [$less $equal $greater] = [$[] $[] $[]]
+    if (length ~a) > 1
+      pivot = ~a | length | random
+      for [_ x] = range ~a
+        if x < pivot
+          append x to $less
+        if x == pivot
+          append x to $equal
+        if x > pivot
+          append x to $greater
+      return (
+        concat (quicksort $less)
+          with $equal
+          with (quicksort $greater)
+      )
+    else
+      return ~a
+```
