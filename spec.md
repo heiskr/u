@@ -52,6 +52,8 @@ Lisp, Hypertalk, Python, Coffeescript, Go.
 
 ### 2.1 Tokens
 
+TODO Universal UTF-8
+
 ### 2.2 Types
 
 Garden only has three types of things: data, functions, and references.
@@ -151,11 +153,13 @@ Objects can store immutable data, mutable data, and functions. Objects only stor
 
 ### 2.3 Expressions, Functions, References, Scope
 
+#### 2.3.1 Blocks and Termination
+
 Statements are terminated with the new line character.
 
 Garden is whitespace sensitive. Two spaces per indent is enforced.
 
-#### Calling and Defining Functions
+#### 2.3.2 Calling and Defining Functions
 
 Functions are called simply by having a reference to the function the first in the group.
 The first argument is the _given_ argument.
@@ -202,7 +206,7 @@ Functions may be passed by reference as arguments to other functions. If a funct
   map col by add
 ```
 
-#### References, Get and set
+#### 2.3.3 References, Get and set
 
 References are set using the `set` function, where the `given` argument is the reference and accepts an argument `to`.
 
@@ -228,6 +232,8 @@ References are always lexically scoped.
       set c to 3  ; `c` is scoped to `if`
 ```
 
+TODO add an example of Closures
+
 Any references to mutable data types, such as list or object, *must* start with a `$`.
 
 ```
@@ -240,7 +246,7 @@ The `get` and `set` methods exist on all tuples, lists, maps, and objects, respe
   set a to (get 'key' in myMap)
 ```
 
-#### Comments
+#### 2.3.4 Comments
 
 Comments start with a semicolon.
 
@@ -354,6 +360,8 @@ Try and catch blocks work very similar to other languages.
     log exception
 ```
 
+TODO add an example for raise
+
 ### 2.5 Modules
 
 Files are treated as modules, with their own namespaces.
@@ -398,6 +406,8 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
   [(divide num by 3) for set [_ num] in (range myTuple)]
 ```
 
+TODO Add an example of Map / Object comprehensions
+
 *Alias: Destructuring.* `for set [...] to (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
 
 ```
@@ -440,6 +450,8 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
 - and, &&
 - or, ||
 
+TODO Operator precedence with symbols
+
 *Alias: Mathematical Operators.* Mathematical operators add back in the typical syntax, as well as the typical order of operations. Function names, symbols, or both are options.
 
 - multiply, times, *
@@ -449,6 +461,9 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
 - subtract, minus, -
 - power, toPower, ^
 
+TODO Operator precedence with symbols
+
+TODO add an alias for Module import alias (see golang)
 
 4. Systems
 --------------------------------------------------------------------------------
@@ -536,3 +551,22 @@ A mutable quicksort implementation, including aliases.
     else
       return ~a
 ```
+
+### TODO
+
+To noodle on
+- Complex Numbers
+- Global functions
+  - Sets operations instead of loops
+- Standard library
+  - Vector / Matrix operations
+- Default arguments
+- Functions should use full words, not abbreviations or acronyms.
+- Asynchronous / concurrent code
+  - Event based programming (when/then) and constraints (unless)
+  - channels / coroutines / generators etc
+- Safety by observation
+- Receiving blocks
+- Adjectives as function arguments
+- switch/match alias (?)
+- main function
