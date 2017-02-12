@@ -5,6 +5,57 @@ I release this document under the [Apache 2.0 license](http://www.apache.org/lic
 
 Version 0.0.0
 
+Table of Contents
+--------------------------------------------------------------------------------
+
+- [The Garden Language Specification](#)
+	- [1. Foundation](#)
+		- [1.1 Principles](#)
+		- [1.2 Influences](#)
+		- [1.3 Definitions](#)
+	- [2. Core Language](#)
+		- [2.1 Tokens](#)
+		- [2.2 Types](#)
+			- [2.2.1 None](#)
+			- [2.2.2 Boolean](#)
+			- [2.2.3 Number](#)
+			- [2.2.4 String](#)
+			- [2.2.5 Tuple](#)
+			- [2.2.6 List](#)
+			- [2.2.7 Map](#)
+			- [2.2.8 Object](#)
+		- [2.3 Expressions, Functions, References, Scope](#)
+			- [2.3.1 Blocks and Termination](#)
+			- [2.3.2 Calling and Defining Functions](#)
+			- [2.3.3 References, Get and set](#)
+			- [2.3.4 Comments](#)
+		- [2.4 Control Structures](#)
+			- [2.4.1 Conditions](#)
+			- [2.4.2 Loops](#)
+			- [2.4.3 Exceptions](#)
+		- [2.5 Modules](#)
+	- [3. Aliases](#)
+			- [3.1 Set](#)
+			- [3.2 Getters and Setters](#)
+			- [3.3 Comprehensions](#)
+			- [3.4 Destructuring](#)
+			- [3.5 Inline-Block](#)
+			- [3.6 Ternary operation](#)
+			- [3.7 Pipe](#)
+			- [3.8 Comparison Operators](#)
+			- [3.9 Mathematical Operators](#)
+	- [4. Systems](#)
+		- [4.1 Universal Functions](#)
+		- [4.2 Concurrency](#)
+		- [4.3 Execution Rules: Build and Run](#)
+		- [4.4 Standard Library](#)
+		- [4.5 Implementation Checklist](#)
+		- [4.6 Best Practices](#)
+		- [4.7 Examples](#)
+			- [Quicksort, no Aliases](#)
+			- [Quicksort, with Aliases](#)
+		- [4.8 TODO](#)
+
 1. Foundation
 --------------------------------------------------------------------------------
 
