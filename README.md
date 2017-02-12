@@ -35,15 +35,15 @@ Table of Contents
 			- [2.4.3 Exceptions](#)
 		- [2.5 Modules](#)
 	- [3. Aliases](#)
-			- [3.1 Set](#)
-			- [3.2 Getters and Setters](#)
-			- [3.3 Comprehensions](#)
-			- [3.4 Destructuring](#)
-			- [3.5 Inline-Block](#)
-			- [3.6 Ternary operation](#)
-			- [3.7 Pipe](#)
-			- [3.8 Comparison Operators](#)
-			- [3.9 Mathematical Operators](#)
+		- [3.1 Set](#)
+		- [3.2 Getters and Setters](#)
+		- [3.3 Comprehensions](#)
+		- [3.4 Destructuring](#)
+		- [3.5 Inline-Block](#)
+		- [3.6 Ternary operation](#)
+		- [3.7 Pipe](#)
+		- [3.8 Comparison Operators](#)
+		- [3.9 Mathematical Operators](#)
 	- [4. Systems](#)
 		- [4.1 Universal Functions](#)
 		- [4.2 Concurrency](#)
@@ -457,7 +457,7 @@ Access functions and other references in modules with the `get` function.
 
 Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
 
-#### 3.1 Set
+### 3.1 Set
 
 The set alias allows the regular variable syntax instead of the `set ... to ...` syntax.
 
@@ -465,7 +465,7 @@ The set alias allows the regular variable syntax instead of the `set ... to ...`
   a = 42
 ```
 
-#### 3.2 Getters and Setters
+### 3.2 Getters and Setters
 
 Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Garden's alias can allow for that as well. Using the dot notation, the key is a string.
 
@@ -476,7 +476,7 @@ Many languages allow using `object.key` and `object[key]` for getters and setter
   set $myList[0] to b
 ```
 
-#### 3.3 Comprehensions
+### 3.3 Comprehensions
 
 A few languages offer comprehensions as an alternative iterate-to-generate interface.
 
@@ -486,7 +486,7 @@ A few languages offer comprehensions as an alternative iterate-to-generate inter
 
 TODO Add an example of Map / Object comprehensions
 
-#### 3.4 Destructuring
+### 3.4 Destructuring
 
 `for set [...] to (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
 
@@ -495,7 +495,7 @@ TODO Add an example of Map / Object comprehensions
   set {a b} to {'a'=1 'b'=2}
 ```
 
-#### 3.5 Inline-Block
+### 3.5 Inline-Block
 
 Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
 
@@ -503,7 +503,7 @@ Sometimes, having to hit return just for a single-line block doesn't feel right.
   map lis by (do value: divide value by 3)
 ```
 
-#### 3.6 Ternary operation
+### 3.6 Ternary operation
 
 Sometimes, having a single line set a value conditionally is convenient.
 
@@ -511,7 +511,7 @@ Sometimes, having a single line set a value conditionally is convenient.
   set a to (if equal a with b then a else b)
 ```
 
-#### 3.7 Pipe
+### 3.7 Pipe
 
 Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
 
@@ -523,7 +523,7 @@ Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help rest
     | reduce by reducer after 0
 ```
 
-#### 3.8 Comparison Operators
+### 3.8 Comparison Operators
 
 Comparison operators add back in the typical syntax, as well as the typical order of operations. Options include full function names, symbols, or both.
 
@@ -540,7 +540,7 @@ Comparison operators add back in the typical syntax, as well as the typical orde
 
 TODO Operator precedence with symbols
 
-#### 3.9 Mathematical Operators
+### 3.9 Mathematical Operators
 
 Mathematical operators add back in the typical syntax, as well as the typical order of operations. Function names, symbols, or both are options.
 
