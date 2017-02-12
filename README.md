@@ -64,11 +64,15 @@ Garden only has three types of things: data, functions, and references.
 
 **References**. References, or variables, are plain text in Garden. References may refer to data or functions. References always denote mutable types with a prefixed `$`.
 
+#### 2.2.1 None
+
 The most basic data type is none. It is always falsy. It is always immutable.
 
 ```
   none
 ```
+
+#### 2.2.2 Boolean
 
 Booleans. Always immutable.
 
@@ -76,12 +80,16 @@ Booleans. Always immutable.
   true
 ```
 
+#### 2.2.3 Number
+
 Only one type of number. Numbers are always immutable.
 Each data type has one falsy value: for numbers, its 0.
 
 ```
   42
 ```
+
+#### 2.2.4 String
 
 Strings use only the single-quote `'` character. Regular expressions are just strings.
 `\'` is the escaped version of the single quote character.
@@ -98,6 +106,8 @@ Strings can be defined in multiple lines with indentation just like comments. Th
     abcd
     1234
 ```
+
+#### 2.2.5 Tuple
 
 Tuples are defined with `[]`. Tuples are zero-indexed.
 The falsy value of tuple is the empty tuple, `[]`. Tuples are immutable.
@@ -117,6 +127,8 @@ Tuples do not differentiate between the kind of whitespace, so we can just as ea
   ]
 ```
 
+#### 2.2.6 List
+
 Lists are defined with `$[]`.
 The falsy value of list is the empty list, `$[]`. Lists are like tuples, but mutable.
 Lists can store immutable data, mutable data, and functions. Lists only store references.
@@ -124,6 +136,8 @@ Lists can store immutable data, mutable data, and functions. Lists only store re
 ```
   $[1 2 3]
 ```
+
+#### 2.2.7 Map
 
 Maps are defined with `{}`. The falsy form of map is an empty map, `{}`.
 Maps are unordered. Maps support embedding.
@@ -142,6 +156,8 @@ Maps may be also written as:
     'c'=3
   }
 ```
+
+#### 2.2.8 Object
 
 Objects are like maps, but mutable. They are defined with `${}`.
 The falsy object is the empty object.
@@ -270,6 +286,8 @@ Indentation is 2 spaces.
 
 ### 2.4 Control Structures
 
+#### 2.4.1 Conditions
+
 Conditions are simply using the keywords `if` and `else`. Conditions are also expressions.
 
 ```
@@ -301,6 +319,8 @@ Conditions do not convert type.
   if (lessThan a under 5)
     true
 ```
+
+#### 2.4.2 Loops
 
 `for` loops also do not require parentheses around the first function call.
 
@@ -351,6 +371,8 @@ Breaks and continues are allowed as well.
     doSomething num
 ```
 
+#### 2.4.3 Exceptions
+
 Try and catch blocks work very similar to other languages.
 
 ```
@@ -382,16 +404,19 @@ Access functions and other references in modules with the `get` function.
 3. Aliases
 --------------------------------------------------------------------------------
 
-
 Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
 
-*Alias: Set.* The set alias allows the regular variable syntax instead of the `set ... to ...` syntax.
+#### 3.1 Set
+
+The set alias allows the regular variable syntax instead of the `set ... to ...` syntax.
 
 ```
   a = 42
 ```
 
-*Alias: Getters and Setters.* Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Garden's alias can allow for that as well. Using the dot notation, the key is a string.
+#### 3.2 Getters and Setters
+
+Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Garden's alias can allow for that as well. Using the dot notation, the key is a string.
 
 ```
   set a to myMap.key
@@ -400,7 +425,9 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
   set $myList[0] to b
 ```
 
-*Alias: Comprehensions.* A few languages offer comprehensions as an alternative iterate-to-generate interface.
+#### 3.3 Comprehensions
+
+A few languages offer comprehensions as an alternative iterate-to-generate interface.
 
 ```
   [(divide num by 3) for set [_ num] in (range myTuple)]
@@ -408,26 +435,34 @@ Aliases are opt-in language features that can reduce some verbosity from the lan
 
 TODO Add an example of Map / Object comprehensions
 
-*Alias: Destructuring.* `for set [...] to (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
+#### 3.4 Destructuring
+
+`for set [...] to (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
 
 ```
   set [a b] to [1 2]
   set {a b} to {'a'=1 'b'=2}
 ```
 
-*Alias: Inline-block.* Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
+#### 3.5 Inline-Block
+
+Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
 
 ```
   map lis by (do value: divide value by 3)
 ```
 
-*Alias: Ternary operation.* Sometimes, having a single line set a value conditionally is convenient.
+#### 3.6 Ternary operation
+
+Sometimes, having a single line set a value conditionally is convenient.
 
 ```
   set a to (if equal a with b then a else b)
 ```
 
-*Alias: Pipe.* Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
+#### 3.7 Pipe
+
+Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
 
 ```
   set b to a
@@ -437,7 +472,9 @@ TODO Add an example of Map / Object comprehensions
     | reduce by reducer after 0
 ```
 
-*Alias: Comparison Operators.* Comparison operators add back in the typical syntax, as well as the typical order of operations. Options include full function names, symbols, or both.
+#### 3.8 Comparison Operators
+
+Comparison operators add back in the typical syntax, as well as the typical order of operations. Options include full function names, symbols, or both.
 
 - not, !
 - notEqual, !=
@@ -452,7 +489,9 @@ TODO Add an example of Map / Object comprehensions
 
 TODO Operator precedence with symbols
 
-*Alias: Mathematical Operators.* Mathematical operators add back in the typical syntax, as well as the typical order of operations. Function names, symbols, or both are options.
+#### 3.9 Mathematical Operators
+
+Mathematical operators add back in the typical syntax, as well as the typical order of operations. Function names, symbols, or both are options.
 
 - multiply, times, *
 - divide, dividedBy, /
@@ -552,7 +591,7 @@ A mutable quicksort implementation, including aliases.
       return ~a
 ```
 
-### TODO
+### 4.8 TODO
 
 To noodle on
 - Complex Numbers
@@ -560,6 +599,7 @@ To noodle on
   - Sets operations instead of loops
 - Standard library
   - Vector / Matrix operations
+  - Handling dates/times
 - Default arguments
 - Functions should use full words, not abbreviations or acronyms.
 - Asynchronous / concurrent code
