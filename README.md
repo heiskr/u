@@ -44,6 +44,7 @@ Table of Contents
 		- [3.7 Pipe](#)
 		- [3.8 Comparison Operators](#)
 		- [3.9 Mathematical Operators](#)
+		- [3.10 Operator Precedence](#)
 	- [4. Systems](#)
 		- [4.1 Universal Functions](#)
 		- [4.2 Concurrency](#)
@@ -54,12 +55,15 @@ Table of Contents
 		- [4.7 Examples](#)
 			- [Quicksort, no Aliases](#)
 			- [Quicksort, with Aliases](#)
-		- [4.8 TODO](#)
 
 1. Foundation
 --------------------------------------------------------------------------------
 
 Garden may be a programming language. Or not. This document describes what Garden is, but does not describe what Garden is not. Garden may be implemented in whatever way you might dream. Anywhere you want Garden to be, make it.
+
+TODO update test cases to match section numbers
+
+TODO Change name
 
 ### 1.1 Principles
 
@@ -69,12 +73,15 @@ Garden may be a programming language. Or not. This document describes what Garde
 - Separate data, functions, and references.
 - Flat, not abstracted.
 - Isolate modules.
+- Safety by observation.
 
 ### 1.2 Influences
 
 Lisp, Hypertalk, Python, Coffeescript, Go.
 
 ### 1.3 Definitions
+
+TODO write out definitions
 
 - **Type**:
 - **Value**:
@@ -102,6 +109,8 @@ Lisp, Hypertalk, Python, Coffeescript, Go.
 --------------------------------------------------------------------------------
 
 ### 2.1 Tokens
+
+TODO Write tokens section
 
 TODO Universal UTF-8
 
@@ -139,6 +148,8 @@ Each data type has one falsy value: for numbers, its 0.
 ```
   42
 ```
+
+TODO Complex Numbers
 
 #### 2.2.4 String
 
@@ -452,6 +463,8 @@ Access functions and other references in modules with the `get` function.
   set average to (get 'average' in math)
 ```
 
+TODO main function (?)
+
 3. Aliases
 --------------------------------------------------------------------------------
 
@@ -534,11 +547,9 @@ Comparison operators add back in the typical syntax, as well as the typical orde
 - greaterThan, >
 - lessThanOrEqual, <=
 - greaterThanOrEqual, >=
-- in
 - and, &&
 - or, ||
 
-TODO Operator precedence with symbols
 
 ### 3.9 Mathematical Operators
 
@@ -551,16 +562,61 @@ Mathematical operators add back in the typical syntax, as well as the typical or
 - subtract, minus, -
 - power, toPower, ^
 
-TODO Operator precedence with symbols
+### 3.10 Operator Precedence
+
+These precedences are when using aliases. Grouping with `()` will always override.
+
+- `()`   (function calls/groupings)
+- `. []` (getters/setters)
+- `!`
+- `^`
+- `* / %`
+- `+ -`
+- `< <= > >=`
+- `== !=`
+- `&&`
+- `||`
 
 TODO add an alias for Module import alias (see golang)
+
+TODO default arg alias (?)
+
+TODO switch/match alias (?)
 
 4. Systems
 --------------------------------------------------------------------------------
 
 ### 4.1 Universal Functions
 
+TODO Outline universal functions
+
 ### 4.2 Concurrency
+
+Garden has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, branch does not require parenthesis around the first function call.
+
+```
+  for set [_ i] in (range x)
+    branch log i
+```
+
+You can create a channel to pass values between branches.
+
+```
+  set ch to (createChannel)
+  branch myFunc with ch
+```
+
+Garden will pause in any branch when it arrives at `receive`.
+
+```
+  receive value from channel
+```
+
+Garden will resume in any branch when the computer tells the channel to `send`.
+
+```
+  send value to channel
+```
 
 ### 4.3 Execution Rules: Build and Run
 
@@ -584,9 +640,17 @@ TODO add an alias for Module import alias (see golang)
 
 ### 4.4 Standard Library
 
+TODO Sets operations instead of loops
+TODO Vector / Matrix operations
+TODO Handling dates/times
+
 ### 4.5 Implementation Checklist
 
+TODO
+
 ### 4.6 Best Practices
+
+TODO
 
 ### 4.7 Examples
 
@@ -642,22 +706,4 @@ A mutable quicksort implementation, including aliases.
       return ~a
 ```
 
-### 4.8 TODO
-
-To noodle on
-- Complex Numbers
-- Global functions
-  - Sets operations instead of loops
-- Standard library
-  - Vector / Matrix operations
-  - Handling dates/times
-- Default arguments
-- Functions should use full words, not abbreviations or acronyms.
-- Asynchronous / concurrent code
-  - Event based programming (when/then) and constraints (unless)
-  - channels / coroutines / generators etc
-- Safety by observation
-- Receiving blocks
-- Adjectives as function arguments
-- switch/match alias (?)
-- main function
+TODO add more examples
