@@ -147,18 +147,30 @@ TODO Universal UTF-8
 
 **Prepositions**
 
-This is the official list of prepositions. Do not use other prepositions.
+This is the official list of prepositions. Do not use other prepositions. In parenthesis are unused alternatives.
 
-- `to`
-- `from`
-- `by`
-- `with`
-- `as`
-- `under`
-- `over`
-- `above`
-- `in`
-- ... TODO
+- about
+- after (since, beyond, past)
+- against (versus)
+- as (like)
+- at
+- before
+- between
+- but (except, less, without)
+- by (via)
+- from
+- in (within, into, inside)
+- near
+- of
+- off
+- on (onto)
+- out (outside)
+- over (above)
+- per (for)
+- to (until, toward, through)
+- under (underneath, below, beneath)
+- when (if, during, upon)
+- with
 
 ### 2.2 Types
 
@@ -486,7 +498,7 @@ Breaks and continues are allowed as well.
   for set [_ num] to (range myTuple)
     if lessThan num under 5
       break
-    if greaterThan num above 5
+    if greaterThan num over 5
       continue
     doSomething num
 ```
