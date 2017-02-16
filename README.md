@@ -1,4 +1,4 @@
-The Garden Language Specification
+The Grove Language Specification
 ===============================================================================
 
 I release this document under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) and [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
@@ -8,7 +8,7 @@ Version 0.0.0
 Table of Contents
 --------------------------------------------------------------------------------
 
-- [The Garden Language Specification](#)
+- [The Grove Language Specification](#)
 	- [1. Foundation](#)
 		- [1.1 Principles](#)
 		- [1.2 Influences](#)
@@ -59,11 +59,9 @@ Table of Contents
 1. Foundation
 --------------------------------------------------------------------------------
 
-Garden may be a programming language. Or not. This document describes what Garden is, but does not describe what Garden is not. Garden may be implemented in whatever way you might dream. Anywhere you want Garden to be, make it.
+Grove may be a programming language. Or not. This document describes what Grove is, but does not describe what Grove is not. Grove may be implemented in whatever way you might dream. Anywhere you want Grove to be, make it.
 
 TODO update test cases to match section numbers
-
-TODO Change name
 
 ### 1.1 Principles
 
@@ -164,13 +162,13 @@ This is the official list of prepositions. Do not use other prepositions.
 
 ### 2.2 Types
 
-Garden only has three types of things: data, functions, and references.
+Grove only has three types of things: data, functions, and references.
 
 **Data**. Immutable examples are boolean, numbers, strings, tuples, and maps. Mutable lists and objects are also available. There are no secondary or user-defined types.
 
 **Functions**. Functions are first-class. Data does not own functions. Methods do not exist.
 
-**References**. References, or variables, are plain text in Garden. References may refer to data or functions. References always denote mutable types with a prefixed `$`. References that may be mutable or immutable are prefixed with `~`.
+**References**. References, or variables, are plain text in Grove. References may refer to data or functions. References always denote mutable types with a prefixed `$`. References that may be mutable or immutable are prefixed with `~`.
 
 #### 2.2.1 None
 
@@ -289,7 +287,7 @@ Objects can store immutable data, mutable data, and functions. Objects only stor
 
 Statements are terminated with the new line character.
 
-Garden is whitespace sensitive. Two spaces per indent is enforced.
+Grove is whitespace sensitive. Two spaces per indent is enforced.
 
 #### 2.3.2 Calling and Defining Functions
 
@@ -527,7 +525,7 @@ TODO main function (?)
 
 ### 2.6 Concurrency
 
-Garden has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, branch does not require parenthesis around the first function call.
+Grove has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, branch does not require parenthesis around the first function call.
 
 ```
   for set [_ i] in (range x)
@@ -541,13 +539,13 @@ You can create a channel to pass values between branches.
   branch myFunc with ch
 ```
 
-Garden will pause in any branch when it arrives at `receive`.
+Grove will pause in any branch when it arrives at `receive`.
 
 ```
   receive value from channel
 ```
 
-Garden will resume in any branch when the computer tells the channel to `send`.
+Grove will resume in any branch when the computer tells the channel to `send`.
 
 ```
   send value to channel
@@ -600,7 +598,7 @@ TODO Outline universal functions
 - No lines should have trailing whitespace.
 - Lines should be no longer than 80 characters.
 - Types must match to do a comparison.
-- Any compiler or linter for Garden should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that variables can change type, essentially creating a union type.
+- Any compiler or linter for Grove should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that variables can change type, essentially creating a union type.
 - A linter should check to ensure that the tuple and list indexes and map and object keys as used are defined and within range, and if not a condition statement is used to prevent the use of an undefined index or key.
 - A reference to a mutable data type should be prefixed with `$`.
   - `~` prefix indicates the referenced data _may_ be mutable or immutable, in the case of a function argument.
@@ -620,7 +618,7 @@ TODO autoformat
 
 Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
 
-_Garden runs without aliases by default._ A project may be configured to default to have aliases enabled.
+_Grove runs without aliases by default._ A project may be configured to default to have aliases enabled.
 
 ### 4.1 Set
 
@@ -632,7 +630,7 @@ The set alias allows the regular variable syntax instead of the `set ... to ...`
 
 ### 4.2 Getters and Setters
 
-Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Garden's alias can allow for that as well. Using the dot notation, the key is a string.
+Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Grove's alias can allow for that as well. Using the dot notation, the key is a string.
 
 ```
   set a to myMap.key

@@ -1,139 +1,139 @@
 [
     {
         "folder": "00_expressions",
-        "file": "00_basic_expression.garden",
+        "file": "00_basic_expression.grove",
         "case": "add given 3 to 1",
         "expect": "4"
     },
     {
         "folder": "00_expressions",
-        "file": "01_given.garden",
+        "file": "01_given.grove",
         "case": "add 3 to 1",
         "expect": "4"
     },
     {
         "folder": "00_expressions",
-        "file": "02_nested.garden",
+        "file": "02_nested.grove",
         "case": "add 1 to ( add 2 to 1 )",
         "expect": "4"
     },
     {
         "folder": "00_expressions",
-        "file": "03_tight_nested.garden",
+        "file": "03_tight_nested.grove",
         "case": "add 1 to (add 2 to 1)",
         "expect": "4"
     },
     {
         "folder": "00_expressions",
-        "file": "04_given_nested.garden",
+        "file": "04_given_nested.grove",
         "case": "add (add 2 to 1) to 1",
         "expect": "4"
     },
     {
         "folder": "00_expressions",
-        "file": "05_double_nested.garden",
+        "file": "05_double_nested.grove",
         "case": "add 1 to (add (add 1 to 3) to 2)",
         "expect": "7"
     },
     {
         "folder": "01_comments",
-        "file": "00_alone.garden",
+        "file": "00_alone.grove",
         "case": "; this is a comment",
         "expect": ""
     },
     {
         "folder": "01_comments",
-        "file": "01_with_expression.garden",
+        "file": "01_with_expression.grove",
         "case": "add 3 to 1 ; this is a comment",
         "expect": "4"
     },
     {
         "folder": "01_comments",
-        "file": "02_multiline.garden",
+        "file": "02_multiline.grove",
         "case": ";\n    this is a\n    comment",
         "expect": ""
     },
     {
         "folder": "01_comments",
-        "file": "03_multiline_with_expression.garden",
+        "file": "03_multiline_with_expression.grove",
         "case": "add 3 to 1 ;\n    this is a\n    comment",
         "expect": "4"
     },
     {
         "folder": "02_references",
-        "file": "00_basic.garden",
+        "file": "00_basic.grove",
         "case": "set a to 1\na",
         "expect": "1"
     },
     {
         "folder": "02_references",
-        "file": "01_string.garden",
+        "file": "01_string.grove",
         "case": "set a to 'a'\na",
         "expect": "'a'"
     },
     {
         "folder": "02_references",
-        "file": "02_get_from_map.garden",
+        "file": "02_get_from_map.grove",
         "case": "set a to {a:1}\nget 'a' in a",
         "expect": "1"
     },
     {
         "folder": "02_references",
-        "file": "03_get_from_tuple.garden",
+        "file": "03_get_from_tuple.grove",
         "case": "set a to [1 2 3]\nget 0 in a",
         "expect": "1"
     },
     {
         "folder": "02_references",
-        "file": "04_get_from_object.garden",
+        "file": "04_get_from_object.grove",
         "case": "set $a to ${a:1}\nget 'a' in $a",
         "expect": "1"
     },
     {
         "folder": "02_references",
-        "file": "05_get_from_list.garden",
+        "file": "05_get_from_list.grove",
         "case": "set $a to $[1 2 3]\nget 0 in $a",
         "expect": "1"
     },
     {
         "folder": "02_references",
-        "file": "06_set_in_map.garden",
+        "file": "06_set_in_map.grove",
         "case": "set a to {a:1}\nset b to (set 'b' in a to 2)",
         "expect": "{a:1 b:2}"
     },
     {
         "folder": "02_references",
-        "file": "07_set_in_tuple.garden",
+        "file": "07_set_in_tuple.grove",
         "case": "set a to [0 1 2]\nset b to (set 1 in a to 2)",
         "expect": "[0 2 2]"
     },
     {
         "folder": "02_references",
-        "file": "08_set_in_object.garden",
+        "file": "08_set_in_object.grove",
         "case": "set $a to {a:1}\nset 'b' in $a to 2",
         "expect": "${a:1 b:2}"
     },
     {
         "folder": "02_references",
-        "file": "09_set_in_list.garden",
+        "file": "09_set_in_list.grove",
         "case": "set $a to $[0 1 2]\nset 1 in $a to 2",
         "expect": "$[0 2 2]"
     },
     {
         "folder": "03_functions",
-        "file": "00_define.garden",
+        "file": "00_define.grove",
         "case": "do\n    return 1",
         "expect": ""
     },
     {
         "folder": "03_functions",
-        "file": "01_define_and_call.garden",
+        "file": "01_define_and_call.grove",
         "case": "set get_one to do\n    return 1\nget_one",
         "expect": "1"
     },
     {
         "folder": "03_functions",
-        "file": "02_with_arguments.garden",
+        "file": "02_with_arguments.grove",
         "case": "define my_add to do given a to b\n    return add a to b\nmy_add 3 to 1",
         "expect": "4"
     }
