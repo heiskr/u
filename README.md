@@ -690,28 +690,28 @@ Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help rest
 
 ### 4.8 Comparison Operators
 
-Comparison operators add back in the typical syntax, as well as the typical order of operations. Options include full function names, symbols, or both.
+Comparison operators add back in the typical syntax, as well as the typical order of operations.
 
-- not, !
-- notEqual, !=
-- equal, ==
-- lessThan, <
-- greaterThan, >
-- lessThanOrEqual, <=
-- greaterThanOrEqual, >=
-- and, &&
-- or, ||
+- not => `!`
+- notEqual => `!=`
+- equal => `==`
+- lessThan => `<`
+- greaterThan => `>`
+- lessThanOrEqual => `<=`
+- greaterThanOrEqual => `>=`
+- and => `&&`
+- or => `||`  
 
 ### 4.9 Mathematical Operators
 
-Mathematical operators add back in the typical syntax, as well as the typical order of operations. Function names, symbols, or both are options.
+Mathematical operators add back in the typical syntax, as well as the typical order of operations.
 
-- multiply, times, *
-- divide, dividedBy, /
-- modulus, remainder, %
-- add, plus, +
-- subtract, minus, -
-- power, toPower, ^
+- multiply => `*`
+- divide => `/`
+- modulus => `%`
+- add => `+`
+- subtract => `-`
+- power => `^`
 
 ### 4.10 Operator Precedence
 
