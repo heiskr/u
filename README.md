@@ -1,7 +1,7 @@
 The Garden Language Specification
 ===============================================================================
 
-I release this document under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0).
+I release this document under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) and [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
 Version 0.0.0
 
@@ -34,27 +34,27 @@ Table of Contents
 			- [2.4.2 Loops](#)
 			- [2.4.3 Exceptions](#)
 		- [2.5 Modules](#)
-	- [3. Aliases](#)
-		- [3.1 Set](#)
-		- [3.2 Getters and Setters](#)
-		- [3.3 Comprehensions](#)
-		- [3.4 Destructuring](#)
-		- [3.5 Inline-Block](#)
-		- [3.6 Ternary operation](#)
-		- [3.7 Pipe](#)
-		- [3.8 Comparison Operators](#)
-		- [3.9 Mathematical Operators](#)
-		- [3.10 Operator Precedence](#)
-	- [4. Systems](#)
-		- [4.1 Universal Functions](#)
-		- [4.2 Concurrency](#)
-		- [4.3 Execution Rules: Build and Run](#)
-		- [4.4 Standard Library](#)
-		- [4.5 Implementation Checklist](#)
-		- [4.6 Best Practices](#)
-		- [4.7 Examples](#)
-			- [Quicksort, no Aliases](#)
-			- [Quicksort, with Aliases](#)
+		- [2.6 Concurrency](#)
+	- [3. Environment](#)
+	    - [3.1 Universal Functions](#)
+		- [3.2 Execution Rules: Build and Run](#)
+		- [3.3 Standard Library](#)
+	- [4. Aliases](#)
+		- [4.1 Set](#)
+		- [4.2 Getters and Setters](#)
+		- [4.3 Comprehensions](#)
+		- [4.4 Destructuring](#)
+		- [4.5 Inline-Block](#)
+		- [4.6 Ternary operation](#)
+		- [4.7 Pipe](#)
+		- [4.8 Comparison Operators](#)
+		- [4.9 Mathematical Operators](#)
+		- [4.10 Operator Precedence](#)
+	- [5. Extras](#)
+		- [5.1 Implementation Checklist](#)
+		- [5.2 Best Practices](#)
+		- [5.3 Examples](#)
+			- [5.3.1 Quicksort](#)
 
 1. Foundation
 --------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ TODO Change name
 
 ### 1.2 Influences
 
-Lisp, Hypertalk, Python, Coffeescript, Go.
+Lisp, Hypertalk, Python, JavaScript/Coffeescript, Go.
 
 ### 1.3 Definitions
 
@@ -114,15 +114,63 @@ TODO Write tokens section
 
 TODO Universal UTF-8
 
+**Symbols**
+
+- `Space`: Separator between tokens.
+- `Newline`: Ends a statement. A new line within parenthesis or literal definition does not end a statement. Newlines must use the Unix character.
+- `Two Spaces` at the beginning of a line: Indents. Tabs or other cadences of spaces cannot be used.
+- `()`: Call a function. This is often optional.
+- `'`: String definition. Two must be used within a single line. One by itself indicates a multiline string.
+- `;`: Begins a comment. On a line by itself, indicates a multiline comment.
+- `[]`: Defines an immutable tuple.
+- `$[]`: Defines a mutable list.
+- `{} =`: Defines an immutable map.
+- `${} =`: Defines a mutable object.
+
+**Allowed Reference Names**
+
+`[$~]?[a-zA-Z0-9unicode]+` TODO how to represent unicode?
+
+**Keywords**
+
+- `none`
+- `true`
+- `false`
+- `do`
+- `return`
+- `if`
+- `for`
+- `break`
+- `continue`
+- `try`
+- `catch`
+- `raise`
+- `branch`
+
+**Prepositions**
+
+This is the official list of prepositions. Do not use other prepositions.
+
+- `to`
+- `from`
+- `by`
+- `with`
+- `as`
+- `under`
+- `over`
+- `above`
+- `in`
+- ... TODO
+
 ### 2.2 Types
 
 Garden only has three types of things: data, functions, and references.
 
-**Data**. Data does not own functions. Immutable examples are boolean, numbers, strings, tuples, and maps. Mutable lists and objects are also available.
+**Data**. Immutable examples are boolean, numbers, strings, tuples, and maps. Mutable lists and objects are also available. There are no secondary or user-defined types.
 
-**Functions**. Functions are first-class.
+**Functions**. Functions are first-class. Data does not own functions. Methods do not exist.
 
-**References**. References, or variables, are plain text in Garden. References may refer to data or functions. References always denote mutable types with a prefixed `$`.
+**References**. References, or variables, are plain text in Garden. References may refer to data or functions. References always denote mutable types with a prefixed `$`. References that may be mutable or immutable are prefixed with `~`.
 
 #### 2.2.1 None
 
@@ -246,6 +294,12 @@ After the first argument, arguments may take any order.
 
 ```
   add 1 to 2
+```
+
+Function calls always take the following format. The key `given` is always optional. The first set of parens per line is optional. As many keys and values may be used as desired.
+
+```
+  (functionName given givenArg key value key value ...)
 ```
 
 Parentheses can be used to have multiple statements in a single line.
@@ -465,132 +519,7 @@ Access functions and other references in modules with the `get` function.
 
 TODO main function (?)
 
-3. Aliases
---------------------------------------------------------------------------------
-
-Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
-
-### 3.1 Set
-
-The set alias allows the regular variable syntax instead of the `set ... to ...` syntax.
-
-```
-  a = 42
-```
-
-### 3.2 Getters and Setters
-
-Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Garden's alias can allow for that as well. Using the dot notation, the key is a string.
-
-```
-  set a to myMap.key
-  set b to myTuple[0]
-  set $myObj.key to a
-  set $myList[0] to b
-```
-
-### 3.3 Comprehensions
-
-A few languages offer comprehensions as an alternative iterate-to-generate interface.
-
-```
-  [(divide num by 3) for set [_ num] in (range myTuple)]
-```
-
-TODO Add an example of Map / Object comprehensions
-
-### 3.4 Destructuring
-
-`for set [...] to (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
-
-```
-  set [a b] to [1 2]
-  set {a b} to {'a'=1 'b'=2}
-```
-
-### 3.5 Inline-Block
-
-Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
-
-```
-  map lis by (do value: divide value by 3)
-```
-
-### 3.6 Ternary operation
-
-Sometimes, having a single line set a value conditionally is convenient.
-
-```
-  set a to (if equal a with b then a else b)
-```
-
-### 3.7 Pipe
-
-Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
-
-```
-  set b to a
-    | filter by filteringTest
-    | map by updater
-    | sort by conditionalTest
-    | reduce by reducer after 0
-```
-
-### 3.8 Comparison Operators
-
-Comparison operators add back in the typical syntax, as well as the typical order of operations. Options include full function names, symbols, or both.
-
-- not, !
-- notEqual, !=
-- equal, ==
-- lessThan, <
-- greaterThan, >
-- lessThanOrEqual, <=
-- greaterThanOrEqual, >=
-- and, &&
-- or, ||
-
-
-### 3.9 Mathematical Operators
-
-Mathematical operators add back in the typical syntax, as well as the typical order of operations. Function names, symbols, or both are options.
-
-- multiply, times, *
-- divide, dividedBy, /
-- modulus, remainder, %
-- add, plus, +
-- subtract, minus, -
-- power, toPower, ^
-
-### 3.10 Operator Precedence
-
-These precedences are when using aliases. Grouping with `()` will always override.
-
-- `()`   (function calls/groupings)
-- `. []` (getters/setters)
-- `!`
-- `^`
-- `* / %`
-- `+ -`
-- `< <= > >=`
-- `== !=`
-- `&&`
-- `||`
-
-TODO add an alias for Module import alias (see golang)
-
-TODO default arg alias (?)
-
-TODO switch/match alias (?)
-
-4. Systems
---------------------------------------------------------------------------------
-
-### 4.1 Universal Functions
-
-TODO Outline universal functions
-
-### 4.2 Concurrency
+### 2.6 Concurrency
 
 Garden has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, branch does not require parenthesis around the first function call.
 
@@ -618,7 +547,41 @@ Garden will resume in any branch when the computer tells the channel to `send`.
   send value to channel
 ```
 
-### 4.3 Execution Rules: Build and Run
+3. Environment
+--------------------------------------------------------------------------------
+
+### 3.1 Universal Functions
+
+TODO Outline universal functions
+
+- set
+- get
+- import
+- send
+- receive
+- range
+- add
+- subtract
+- multiply
+- divide
+- equals
+- lessThan
+- lessThanOrEqual
+- greaterThan
+- greaterThanOrEqual
+- log
+- warn
+- error
+- append
+- concat
+- slice
+- filter
+- sort
+- map
+- forEach
+- reduce
+
+### 3.2 Execution Rules: Lint, Build, and Run
 
 - Each indent should be two spaces per indent.
 - Functions must contain less than ten statements.
@@ -629,34 +592,160 @@ Garden will resume in any branch when the computer tells the channel to `send`.
 - All imports should be used.
 - All variables should be used.
 - No lines should have trailing whitespace.
-- Lines should be no longer than eighty characters.
+- Lines should be no longer than 80 characters.
 - Types must match to do a comparison.
 - Any compiler or linter for Garden should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that variables can change type, essentially creating a union type.
-- A linter should check to ensure that the map keys as used are defined, and if not a condition statement is used to prevent key undefined.
+- A linter should check to ensure that the tuple and list indexes and map and object keys as used are defined and within range, and if not a condition statement is used to prevent the use of an undefined index or key.
 - A reference to a mutable data type should be prefixed with `$`.
   - `~` prefix indicates the referenced data _may_ be mutable or immutable, in the case of a function argument.
 - Check for any unused code.
 - Check for duplicated code.
 
-### 4.4 Standard Library
+### 3.3 Standard Library
 
 TODO Sets operations instead of loops
 TODO Vector / Matrix operations
 TODO Handling dates/times
+TODO Dependency management
+TODO autoformat
 
-### 4.5 Implementation Checklist
+4. Aliases
+--------------------------------------------------------------------------------
+
+Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
+
+_Garden runs without aliases by default._ A project may be configured to default to have aliases enabled.
+
+### 4.1 Set
+
+The set alias allows the regular variable syntax instead of the `set ... to ...` syntax.
+
+```
+  a = 42
+```
+
+### 4.2 Getters and Setters
+
+Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Garden's alias can allow for that as well. Using the dot notation, the key is a string.
+
+```
+  set a to myMap.key
+  set b to myTuple[0]
+  set $myObj.key to a
+  set $myList[0] to b
+```
+
+### 4.3 Comprehensions
+
+A few languages offer comprehensions as an alternative iterate-to-generate interface.
+
+```
+  [(divide num by 3) for set [_ num] in (range myTuple)]
+```
+
+TODO Add an example of Map / Object comprehensions
+
+### 4.4 Destructuring
+
+`for set [...] to (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
+
+```
+  set [a b] to [1 2]
+  set {a b} to {'a'=1 'b'=2}
+```
+
+TODO should this be moved to the core language?
+
+### 4.5 Inline-Block
+
+Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
+
+```
+  map lis by (do value: divide value by 3)
+```
+
+### 4.6 Ternary operation
+
+Sometimes, having a single line set a value conditionally is convenient.
+
+```
+  set a to (if equal a with b then a else b)
+```
+
+### 4.7 Pipe
+
+Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
+
+```
+  set b to a
+    | filter by filteringTest
+    | map by updater
+    | sort by conditionalTest
+    | reduce by reducer after 0
+```
+
+### 4.8 Comparison Operators
+
+Comparison operators add back in the typical syntax, as well as the typical order of operations. Options include full function names, symbols, or both.
+
+- not, !
+- notEqual, !=
+- equal, ==
+- lessThan, <
+- greaterThan, >
+- lessThanOrEqual, <=
+- greaterThanOrEqual, >=
+- and, &&
+- or, ||
+
+### 4.9 Mathematical Operators
+
+Mathematical operators add back in the typical syntax, as well as the typical order of operations. Function names, symbols, or both are options.
+
+- multiply, times, *
+- divide, dividedBy, /
+- modulus, remainder, %
+- add, plus, +
+- subtract, minus, -
+- power, toPower, ^
+
+### 4.10 Operator Precedence
+
+These precedences are when using aliases. Grouping with `()` will always override.
+
+- `()`   (function calls/groupings)
+- `. []` (getters/setters)
+- `!`
+- `^`
+- `* / %`
+- `+ -`
+- `< <= > >=`
+- `== !=`
+- `&&`
+- `||`
+
+TODO add an alias for Module import alias (see golang)
+
+TODO default arg alias (?)
+
+TODO switch/match alias (?)
+
+5. Extras
+--------------------------------------------------------------------------------
+
+### 5.1 Implementation Checklist
 
 TODO
 
-### 4.6 Best Practices
+### 5.2 Best Practices
 
 TODO
 
-### 4.7 Examples
+### 5.3 Examples
 
-#### Quicksort, no Aliases
+#### 5.3.1
 
-A mutable quicksort implementation.
+*No aliases*. A mutable quicksort implementation.
 
 ```
   set quicksort to do given ~a
@@ -680,8 +769,6 @@ A mutable quicksort implementation.
     else
       return ~a
 ```
-
-#### Quicksort, with Aliases
 
 A mutable quicksort implementation, including aliases.
 
