@@ -124,8 +124,8 @@ TODO Universal UTF-8
 - `;`: Begins a comment. On a line by itself, indicates a multiline comment.
 - `[]`: Defines an immutable tuple.
 - `$[]`: Defines a mutable list.
-- `{} =`: Defines an immutable map.
-- `${} =`: Defines a mutable object.
+- `{}`: Defines an immutable map.
+- `${}`: Defines a mutable object.
 
 **Allowed Reference Names**
 
@@ -254,16 +254,22 @@ Maps are unordered. Maps support embedding.
 Maps are immutable. Maps may only store immutable data types.
 
 ```
-  {'a'=1 'b'=2 'c'=3}
+  {'a' 1 'b' 2 'c' 3}
+```
+
+The pattern is always:
+
+```
+	{key value key value key value ...}
 ```
 
 Maps may be also written as:
 
 ```
   {
-    'a'=1
-    'b'=2
-    'c'=3
+    'a' 1
+    'b' 2
+    'c' 3
   }
 ```
 
@@ -274,7 +280,7 @@ The falsy object is the empty object.
 Objects can store immutable data, mutable data, and functions. Objects only store references.
 
 ```
-  ${'a'=1 'b'=2 'c'=3}
+  ${'a' 1 'b' 2 'c' 3}
 ```
 
 ### 2.3 Expressions, Functions, References, Scope
@@ -450,7 +456,7 @@ Conditions do not convert type.
 
 ```
   set myTuple to [1 2 3]
-  set myMap to {'a'=1 'b'=2 'c'=3}
+  set myMap to {'a' 1 'b' 2 'c' 3}
 
   for set [index num] to (range myTuple)
     log (concat index with num)
@@ -651,7 +657,7 @@ TODO Add an example of Map / Object comprehensions
 
 ```
   set [a b] to [1 2]
-  set {a b} to {'a'=1 'b'=2}
+  set {a b} to {'a' 1 'b' 2}
 ```
 
 TODO should this be moved to the core language?
