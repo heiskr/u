@@ -62,6 +62,7 @@ Table of Contents
 Grove may be a programming language. Or not. This document describes what Grove is, but does not describe what Grove is not. Grove may be implemented in whatever way you might dream. Anywhere you want Grove to be, make it.
 
 TODO update test cases to match section numbers
+TODO vet document for casual and active voice.
 
 ### 1.1 Principles
 
@@ -137,6 +138,7 @@ TODO Universal UTF-8
 - `do`
 - `return`
 - `if`
+- `else`
 - `for`
 - `break`
 - `continue`
@@ -155,12 +157,11 @@ This is the official list of prepositions. Do not use other prepositions. In par
 - as (like)
 - at
 - before
-- between
-- but (except, less, without)
+- but (except, less, without, yet)
 - by (via)
 - from
-- in (within, into, inside)
-- near
+- in (between, within, into, inside)
+- near (around)
 - of
 - off
 - on (onto)
@@ -247,6 +248,14 @@ Tuples do not differentiate between the kind of whitespace, so we can just as ea
   ]
 ```
 
+A tuple statement would be like
+
+```
+  set column to [1 2 3]
+```
+
+The read out-loud equilavent would be `set column to (tuple of 1 2 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `[]` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
+
 #### 2.2.6 List
 
 Lists are defined with `$[]`.
@@ -282,6 +291,8 @@ Maps may be also written as:
     'c' 3
   }
 ```
+
+The read out-loud equilavent would be `set myMap to (map where 'a' is 1, 'b' is 2, 'c' is 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `{}` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
 
 #### 2.2.8 Object
 
@@ -515,6 +526,7 @@ Try and catch blocks work very similar to other languages.
 ```
 
 TODO add an example for raise
+TODO raise any immutable type (number, string, tuple, map etc) as an error
 
 ### 2.5 Modules
 
@@ -568,7 +580,13 @@ Grove will resume in any branch when the computer tells the channel to `send`.
 
 ### 3.1 Universal Functions
 
-TODO Outline universal functions
+When should a function be universal, as opposed to part of the standard library?
+
+- When the function is absolutely critical to using the language. Basically every module would use it.
+- When the function is so commonly used that it would make sense to alias, such as `add` => `+`. Examples are math and comparisons.
+- When the function transcends types and modules. Examples are logging or type conversion.
+
+Basic, universal functions.
 
 - set
 - get
@@ -576,28 +594,43 @@ TODO Outline universal functions
 - send
 - receive
 - range
+
+Math functions that get aliased.
+
 - add
 - subtract
 - multiply
 - divide
-- equals
+- power
+- modulus
+
+Comparison functions that get aliased.
+
+- and
+- or
+- equal
 - lessThan
 - lessThanOrEqual
 - greaterThan
 - greaterThanOrEqual
+
+TODO should we make these verbs?
+
+Logging... because its the first thing people will do.
+
 - log
 - warn
 - error
-- append
-- concat
-- slice
-- filter
-- sort
-- map
-- forEach
-- reduce
+
+- TODO type conversions
+- TODO to consider... format, length, typeof/instanceof/getType, slice
 
 ### 3.2 Execution Rules: Lint, Build, and Run
+
+TODO Autoformat
+TODO Autoupgrade lang version
+TODO stand alone / repl (?)
+TODO error outputs, stacks etc. Write error messages in affirmative, active, casual, and not overly technical, language. Demonstrate when possible (did you mean...?). The compiler may refer to itself as `I`.
 
 - Each indent should be two spaces per indent.
 - Functions must contain less than ten statements.
@@ -619,11 +652,122 @@ TODO Outline universal functions
 
 ### 3.3 Standard Library
 
-TODO Sets operations instead of loops
-TODO Vector / Matrix operations
-TODO Handling dates/times
-TODO Dependency management
-TODO autoformat
+TODO Note where something would be a browser specific library or a server/local specific library.
+Functions in modules in the standard library should not be nested past one level.
+(e.g. math.abs  instead of math.number.abs )
+
+Function names should always be verbs or start with verbs.
+
+#### TODO Logging
+
+The functions `log`, `warn`, and `error` are universal. The logging module helps figure out where the logging should go.
+
+#### TODO Strings and Regular Expressions
+
+- Formatting
+- Matching
+
+#### TODO Numbers and Mathematics
+
+- TODO Infinity (?)
+- TODO Vector and Matrix operations
+- TODO complex numbers
+- TODO fractions
+- TODO statistics
+- TODO geometry / trig
+
+#### TODO Collections (Tuples, Lists, Maps, Objects)
+
+- append
+- concat
+- slice
+- filter
+- sort
+- map
+- forEach
+- reduce
+
+- TODO Collection operations instead of loops -- functional programming
+- TODO and others, such as Sets, Stacks, etc over the default types
+- TODO iterators
+- TODO sorting
+- TODO Schema Helpers: Basically, utilities for ensuring schemas for maps and objects.
+
+#### TODO Dates and Times
+
+TODO what basic type should represent datetimes? Number, String, or Map?
+
+#### TODO Streams, Files and Directories
+
+#### TODO Network
+
+- TODO HTTP, SSL, sockets
+    - CGI
+    - URL: Formatting, parsing strings for IP, domain, path, query string etc
+    - Server
+    - Headers / cookies
+- TODO Email (pop, imap, smtp, etc)
+- TODO HTML
+- TODO FTP (?)
+- TODO Telnet (?)
+
+#### TODO Transformation (Encoding and Decoding)
+
+- TODO JSON
+- TODO YAML
+- TODO CSV
+- TODO SQL
+- TODO XML (?)
+- TODO markdown
+- TODO Base64
+- TODO hex
+- TODO Compression and decompression algorithms (tar, zip, etc)
+- TODO Hashing and Encryption
+- TODO Generate IDs (UUID, others)
+
+#### TODO Operating System
+
+- TODO Execution (parsing command line, etc)
+- TODO Signals
+    - exit
+- TODO Users and permissions
+- TODO foreign function interface
+
+#### TODO Concurrency Helpers
+
+#### TODO Multimedia
+
+- TODO Images
+    - Fonts
+- TODO Audio and sound generation/synthesis
+- TODO Video
+- TODO 2d/3d graphics
+
+#### TODO Localization
+
+#### TODO Graphical User Interfaces (for native applications)
+
+- TODO Accessibility
+
+#### TODO Browser interaction
+
+- TODO DOM
+
+#### TODO Testing
+
+- Unit testing
+    - Structure
+    - Assertions
+    - Coverage
+    - Spy/stub
+- Debugging
+- Performance
+- Documentation
+
+#### TODO Dependency Management
+
+- Semver
+
 
 4. Aliases
 --------------------------------------------------------------------------------
