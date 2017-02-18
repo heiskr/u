@@ -36,7 +36,7 @@ Table of Contents
 		- [2.5 Modules](#)
 		- [2.6 Concurrency](#)
 	- [3. Environment](#)
-	    - [3.1 Universal Functions](#)
+	  - [3.1 Universal Functions](#)
 		- [3.2 Execution Rules: Build and Run](#)
 		- [3.3 Standard Library](#)
 	- [4. Aliases](#)
@@ -61,7 +61,6 @@ Table of Contents
 
 Grove may be a programming language. Or not. This document describes what Grove is, but does not describe what Grove is not. Grove may be implemented in whatever way you might dream. Anywhere you want Grove to be, make it.
 
-TODO update test cases to match section numbers
 TODO vet document for casual and active voice.
 
 ### 1.1 Principles
