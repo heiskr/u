@@ -448,7 +448,7 @@ Of course, the previous example could be written more simply.
 Conditions do not convert type.
 
 ```
-  if equal 0 with (toNumber '')
+  if equal 0 with (make '' as number)
     true
 ```
 
@@ -587,42 +587,59 @@ When should a function be universal, as opposed to part of the standard library?
 
 Basic, universal functions.
 
-- set
-- get
-- import
-- send
-- receive
-- range
+- `set`:
+  - reference to _T_ -> reference
+  - number in (tuple/list) to _T_ -> _T_
+  - (none|boolean|number|string|tuple) in (map/object) to _T_ -> _T_
+- `get`:
+  - number in (tuple/list) -> _T_
+  - (none|boolean|number|string|tuple) in (map/object) -> _T_
+- `import`: string -> module
+- `send`: _T_ to channel -> _T_
+- `receive`: reference from channel -> reference
+- `range`: (tuple/list/map/object) -> tuple (iterable)
 
 Math functions that get aliased.
 
-- add
-- subtract
-- multiply
-- divide
-- power
-- modulus
+- `add`: number with number -> number
+- `subtract`: number with number -> number
+- `multiply`: number by number -> number
+- `divide`: number by number -> number
+- `power`: number by number -> number
+- `modulus`: number by number -> number
 
 Comparison functions that get aliased.
 
-- and
-- or
-- equal
-- lessThan
-- lessThanOrEqual
-- greaterThan
-- greaterThanOrEqual
-
-TODO should we make these verbs?
+- `not`: boolean -> boolean
+- `all`: [_T_] -> boolean
+- `any`: [_T_] -> boolean
+- `equal`: _T_ with _T_ -> boolean
+- `notEqual`: _T_ with _T_ -> boolean
+- `lessThan`: _T_ under _T_ -> boolean
+- `lessThanOrEqual`: _T_ under _T_ -> boolean
+- `greaterThan`: _T_ over _T_ -> boolean
+- `greaterThanOrEqual`: _T_ over _T_ -> boolean
 
 Logging... because its the first thing people will do.
 
-- log
-- warn
-- error
+- `log`: _T_ -> _T_
+- `warn`: _T_ -> _T_
+- `error`: _T_ -> _T_
 
-- TODO type conversions
-- TODO to consider... format, length, typeof/instanceof/getType, slice
+Type conversions transcend type.
+
+- `make`:  _T1_ as string -> _T2_
+  - (can't convert to none)
+  - any as 'boolean' -> boolean
+  - (none|boolean|string) as 'number' -> number
+  - (none|boolean|number) as 'string' -> string
+  - list as 'tuple' -> tuple
+  - tuple as 'list' -> list
+  - object as 'map' -> map
+  - map as 'object' -> object
+- `getType`: _T_ -> string
+
+- TODO to consider... format, slice
 
 ### 3.2 Execution Rules: Lint, Build, and Run
 
@@ -854,8 +871,8 @@ Comparison operators add back in the typical syntax, as well as the typical orde
 - greaterThan => `>`
 - lessThanOrEqual => `<=`
 - greaterThanOrEqual => `>=`
-- and => `&&`
-- or => `||`  
+- all => `&&`
+- any => `||`  
 
 ### 4.9 Mathematical Operators
 
