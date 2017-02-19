@@ -353,7 +353,7 @@ Every statement is an expression, so returns are only needed when wanting to ret
 
 ```
   set average to do col
-    if equal (length col) with 0
+    if compare (length col) as 0
       return 0
     divide (sum col) by (length col)
 ```
@@ -385,7 +385,7 @@ References are always lexically scoped.
   set a to 0  ; `a` is scoped to the module
   set f to do   ;  function declaration with `do`
     set b to 2  ; `b` is scoped to the function `f`
-    if equal a with b
+    if compare a as b
       set a to 5  ; `a` still has module scope
       set c to 3  ; `c` is scoped to `if`
 ```
@@ -433,7 +433,7 @@ Indentation is 2 spaces.
 Conditions are simply using the keywords `if` and `else`. Conditions are also expressions.
 
 ```
-  set c to (if equal a with b
+  set c to (if compare a as b
     true
   else
     false)
@@ -442,13 +442,13 @@ Conditions are simply using the keywords `if` and `else`. Conditions are also ex
 Of course, the previous example could be written more simply.
 
 ```
-  set c to (equal a with b)
+  set c to (compare a as b)
 ```
 
 Conditions do not convert type.
 
 ```
-  if equal 0 with (make '' as number)
+  if compare 0 as (make '' as number)
     true
 ```
 
@@ -456,9 +456,9 @@ Conditions do not convert type.
 
 ```
   ; these two lines are the same
-  if lessThan a under 5  
+  if compare a under 5  
     true
-  if (lessThan a under 5)
+  if (compare a under 5)
     true
 ```
 
@@ -498,7 +498,7 @@ You can use `_` to ignore parts you don't need.
 
 ```
   set a to 0
-  for lessThan a under 5
+  for compare a under 5
     set a to (add 1 to a)
 ```
 
@@ -506,9 +506,9 @@ Breaks and continues are allowed as well.
 
 ```
   for set [_ num] to (range myTuple)
-    if lessThan num under 5
+    if compare num under 5
       break
-    if greaterThan num over 5
+    if compare num over 5
       continue
     doSomething num
 ```
@@ -613,12 +613,14 @@ Comparison functions that get aliased.
 - `not`: boolean -> boolean
 - `all`: [_T_] -> boolean
 - `any`: [_T_] -> boolean
-- `equal`: _T_ with _T_ -> boolean
-- `notEqual`: _T_ with _T_ -> boolean
-- `lessThan`: _T_ under _T_ -> boolean
-- `lessThanOrEqual`: _T_ under _T_ -> boolean
-- `greaterThan`: _T_ over _T_ -> boolean
-- `greaterThanOrEqual`: _T_ over _T_ -> boolean
+- `compare`:
+  - where _A_ is none|boolean|string|number
+  - compare _A_ as _A_ -> boolean (equals)
+  - compare _A_ against _A_ -> boolean (not equals)
+  - compare _A_ under _A_ -> boolean (less than)
+  - compare _A_ over _A_ -> boolean (greater than)
+  - compare _A_ in _A_ -> boolean (less than or equal)
+  - compare _A_ out _A_ -> boolean (greater than or equal)
 
 Logging... because its the first thing people will do.
 
@@ -846,7 +848,7 @@ Sometimes, having to hit return just for a single-line block doesn't feel right.
 Sometimes, having a single line set a value conditionally is convenient.
 
 ```
-  set a to (if equal a with b then a else b)
+  set a to (if compare a as b then a else b)
 ```
 
 ### 4.7 Pipe
@@ -866,12 +868,7 @@ Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help rest
 Comparison operators add back in the typical syntax, as well as the typical order of operations.
 
 - not => `!`
-- notEqual => `!=`
-- equal => `==`
-- lessThan => `<`
-- greaterThan => `>`
-- lessThanOrEqual => `<=`
-- greaterThanOrEqual => `>=`
+- compare => `==` `!=` `<` `>` `<=` `>=`
 - all => `&&`
 - any => `||`  
 
@@ -929,14 +926,14 @@ TODO
     set $less to $[]
     set $equal to $[]
     set $greater to $[]
-    if greaterThan (length ~a) over 1
+    if compare (length ~a) over 1
       set pivot to (random (length ~a))
       for set [_ x] to (range ~a)
-        if lessThan x under pivot
+        if compare x under pivot
           append x to $less
-        if equal x with pivot
+        if compare x as pivot
           append x to $equal
-        if greaterThan x over pivot
+        if compare x over pivot
           append x to $greater
       return (
         concat (quicksort $less)
