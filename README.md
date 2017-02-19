@@ -643,10 +643,12 @@ Type conversions transcend type.
 
 ### 3.2 Execution Rules: Lint, Build, and Run
 
-TODO Autoformat
-TODO Autoupgrade lang version
-TODO stand alone / repl (?)
-TODO error outputs, stacks etc. Write error messages in affirmative, active, casual, and not overly technical, language. Demonstrate when possible (did you mean...?). The compiler may refer to itself as `I`.
+- TODO Autoformat
+- TODO Autoupgrade lang version
+- TODO stand alone / repl (?)
+- TODO error outputs, stacks etc. Write error messages in affirmative, active, casual, and not overly technical, language. Demonstrate when possible (did you mean...?). The compiler may refer to itself as `I`.
+
+~~~
 
 - Each indent should be two spaces per indent.
 - Functions must contain less than ten statements.
@@ -668,11 +670,10 @@ TODO error outputs, stacks etc. Write error messages in affirmative, active, cas
 
 ### 3.3 Standard Library
 
-TODO Note where something would be a browser specific library or a server/local specific library.
-Functions in modules in the standard library should not be nested past one level.
-(e.g. math.abs  instead of math.number.abs )
-
-Function names should always be verbs or start with verbs.
+- TODO Note where something would be a browser specific library or a server/local specific library.
+- Functions in modules in the standard library should not be nested past one level. (e.g. math.abs  instead of math.number.abs )
+- Function names should always be verbs or start with verbs.
+- Function name should be comprehensive (e.g. loadJson v load).
 
 #### TODO Logging
 
