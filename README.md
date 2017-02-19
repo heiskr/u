@@ -648,7 +648,7 @@ Type conversions transcend type.
 - TODO stand alone / repl (?)
 - TODO error outputs, stacks etc. Write error messages in affirmative, active, casual, and not overly technical, language. Demonstrate when possible (did you mean...?). The compiler may refer to itself as `I`.
 
-~~~
+* * *
 
 - Each indent should be two spaces per indent.
 - Functions must contain less than ten statements.
