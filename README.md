@@ -22,8 +22,10 @@ Table of Contents
       - [2.2.4 String](#)
       - [2.2.5 Tuple](#)
       - [2.2.6 List](#)
-      - [2.2.7 Map](#)
-      - [2.2.8 Object](#)
+      - [2.2.7 Set](#)
+      - [2.2.8 Group](#)
+      - [2.2.9 Map](#)
+      - [2.2.10 Object](#)
     - [2.3 Expressions, Functions, References, Scope](#)
       - [2.3.1 Blocks and Termination](#)
       - [2.3.2 Calling and Defining Functions](#)
@@ -122,8 +124,10 @@ TODO Universal UTF-8
 - `;`: Begins a comment. On a line by itself, indicates a multiline comment.
 - `[]`: Defines an immutable tuple.
 - `$[]`: Defines a mutable list.
-- `{}`: Defines an immutable map.
-- `${}`: Defines a mutable object.
+- `{}`: Defines an immutable set.
+- `${}`: Defines a mutable group.
+- `{=}`: Defines an immutable map.
+- `${=}`: Defines a mutable object.
 
 **Allowed Reference Names**
 
@@ -265,42 +269,74 @@ Lists can store immutable data, mutable data, and functions. Lists only store re
   $[1 2 3]
 ```
 
-#### 2.2.7 Map
+#### 2.2.7 Set
 
-Maps are defined with `{}`. The falsy form of map is an empty map, `{}`.
+Sets are defined with `{}`. The falsy form of set is an empty set, `{}`.
+Sets are unordered. Sets support embedding.
+Sets are immutable. Sets may only store immutable data types.
+
+```
+  {1 2 3}
+```
+
+Sets may be also written as:
+
+```
+  {
+    1
+    2
+    3
+  }
+```
+
+The read out-loud equilavent would be `set column to (set of 1 2 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `{}` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
+
+#### 2.2.8 Group
+
+Groups are like sets, but mutable. They are defined with `${}`.
+The falsy group is the empty group.
+Groups can store immutable data, mutable data, and functions. Groups only store references.
+
+```
+  ${1 2 3}
+```
+
+#### 2.2.9 Map
+
+Maps are defined with `{}`. The falsy form of map is an empty map, `{=}`.
 Maps are unordered. Maps support embedding.
 Maps are immutable. Maps may only store immutable data types.
 
 ```
-  {'a' 1 'b' 2 'c' 3}
+  {'a'=1 'b'=2 'c'=3}
 ```
 
 The pattern is always:
 
 ```
-  {key value key value key value ...}
+  {key=value key=value key=value ...}
 ```
 
 Maps may be also written as:
 
 ```
   {
-    'a' 1
-    'b' 2
-    'c' 3
+    'a'=1
+    'b'=2
+    'c'=3
   }
 ```
 
 The read out-loud equilavent would be `set myMap to (map where 'a' is 1, 'b' is 2, 'c' is 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `{}` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
 
-#### 2.2.8 Object
+#### 2.2.10 Object
 
 Objects are like maps, but mutable. They are defined with `${}`.
 The falsy object is the empty object.
 Objects can store immutable data, mutable data, and functions. Objects only store references.
 
 ```
-  ${'a' 1 'b' 2 'c' 3}
+  ${'a'=1 'b'=2 'c'=3}
 ```
 
 ### 2.3 Expressions, Functions, References, Scope
@@ -398,7 +434,7 @@ Any references to mutable data types, such as list or object, *must* start with 
   set $a to $[1 2 3]
 ```
 
-The `get` and `set` methods exist on all tuples, lists, maps, and objects, respecting the mutability characteristic. A `set` operation will always return the full value of the iterable.
+The `get` and `set` methods exist on all tuples, lists, sets, groups, maps, and objects, respecting the mutability characteristic. A `set` operation will always return the full value of the iterable.
 
 ```
   set a to (get 'key' in myMap)
@@ -476,7 +512,7 @@ Conditions do not convert type.
 
 ```
   set myTuple to [1 2 3]
-  set myMap to {'a' 1 'b' 2 'c' 3}
+  set myMap to {'a'=1 'b'=2 'c'=3}
 
   for set [index num] to (range myTuple)
     log (concat index with num)
@@ -525,7 +561,7 @@ Try and catch blocks work very similar to other languages.
 ```
 
 TODO add an example for raise
-TODO raise any immutable type (number, string, tuple, map etc) as an error
+TODO raise any immutable type (number, string, tuple, set, map etc) as an error
 
 ### 2.5 Modules
 
@@ -589,15 +625,17 @@ Basic, universal functions.
 
 - `set`:
   - reference to _T_ -> reference
-  - number in (tuple/list) to _T_ -> _T_
+  - number in (tuple|list) to _T_ -> _T_
   - (none|boolean|number|string|tuple) in (map/object) to _T_ -> _T_
 - `get`:
-  - number in (tuple/list) -> _T_
+  - number in (tuple|list) -> _T_
   - (none|boolean|number|string|tuple) in (map/object) -> _T_
 - `import`: string -> module
 - `send`: _T_ to channel -> _T_
 - `receive`: reference from channel -> reference
-- `range`: (tuple/list/map/object) -> tuple (iterable)
+- `range`
+  - (tuple|list|map|object) -> tuple (iterable)
+  - set|group -> _T_ (iterable)
 
 Math functions that get aliased.
 
@@ -633,10 +671,12 @@ Type conversions transcend type.
 - `make`:  _T1_ as string -> _T2_
   - (can't convert to none)
   - any as 'boolean' -> boolean
-  - (none|boolean|string) as 'number' -> number
-  - (none|boolean|number) as 'string' -> string
-  - list as 'tuple' -> tuple
-  - tuple as 'list' -> list
+  - none|boolean|string as 'number' -> number
+  - any as 'string' -> string
+  - list|set|group as 'tuple' -> tuple
+  - tuple|set|group as 'list' -> list
+  - tuple|list|set as 'group' -> group
+  - tuple|list|group as 'set' -> set
   - object as 'map' -> map
   - map as 'object' -> object
 - `getType`: _T_ -> string
@@ -707,7 +747,7 @@ The functions `log`, `warn`, and `error` are universal. The logging module helps
 - reduce
 
 - TODO Collection operations instead of loops -- functional programming
-- TODO and others, such as Sets, Stacks, etc over the default types
+- TODO and others, such as Stacks, etc over the default types
 - TODO iterators
 - TODO sorting
 - TODO Schema Helpers: Basically, utilities for ensuring schemas for maps and objects.
@@ -830,10 +870,11 @@ TODO Add an example of Map / Object comprehensions
 
 ```
   set [a b] to [1 2]
-  set {a b} to {'a' 1 'b' 2}
+  set {a b} to {'a'=1 'b'=2}
 ```
 
 TODO should this be moved to the core language?
+TODO examples of list, set, group, object
 
 ### 4.5 Inline-Block
 
