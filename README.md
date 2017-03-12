@@ -801,6 +801,7 @@ TODO what basic type should represent datetimes? Number, String, or Map?
 - TODO Audio and sound generation/synthesis
 - TODO Video
 - TODO 2d/3d graphics
+- TODO Graphing (from stats library)
 
 #### TODO Localization
 
