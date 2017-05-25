@@ -1,0 +1,128 @@
+2: of
+4: to
+5: a
+6: in
+12: with
+15: for
+16: as
+21: on
+22: at
+23: by
+28: from
+30: but
+41: an
+57: out
+61: up
+62: into
+70: than
+75: upon
+76: about
+82: like
+97: before
+100: over
+104: after
+110: down
+123: without
+124: come
+131: through
+151: under
+170: against
+200: off
+207: between
+254: among
+297: until
+305: since
+315: less
+320: within
+365: near
+386: above
+405: along
+409: during
+464: behind
+473: towards
+486: short
+514: around
+562: across
+619: toward
+622: beyond
+634: except
+642: past
+758: save
+782: per
+863: below
+872: outside
+914: worth
+946: beside
+1054: sans
+1156: beneath
+1358: opposite
+1379: besides
+1578: throughout
+2037: post
+2180: inside
+2650: abroad
+2991: amid
+3317: notwithstanding
+3321: chez
+3668: bar
+4106: absent
+4221: pace
+4567: unlike
+4920: vice
+5245: despite
+6747: aboard
+8551: alongside
+9168: underneath
+10066: adjacent
+11237: via
+11598: re
+11632: onto
+13932: abreast
+17593: qua
+17710: upside
+22760: minus
+22770: apud
+23648: astride
+30373: versus
+41798: apropos
+44408: circa
+48133: atop
+56099: pre
+100001: ontop
+100001: pro
+100001: vis-à-vis
+100001: according to
+100001: ahead of
+100001: apart from
+100001: as for
+100001: as of
+100001: as per
+100001: as regards
+100001: aside from
+100001: astern of
+100001: back to
+100001: because of
+100001: close to
+100001: due to
+100001: except for
+100001: far from
+100001: inside of
+100001: instead of
+100001: left of
+100001: near to
+100001: next to
+100001: opposite of
+100001: opposite to
+100001: out from
+100001: out of
+100001: outside of
+100001: owing to
+100001: prior to
+100001: pursuant to
+100001: rather than
+100001: regardless of
+100001: right of
+100001: subsequent to
+100001: such as
+100001: thanks to
+100001: up to
