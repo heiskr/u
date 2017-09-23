@@ -37,21 +37,21 @@ Table of Contents
       - [2.4.3 Exceptions](#)
     - [2.5 Modules](#)
     - [2.6 Concurrency](#)
-  - [3. Environment](#)
-    - [3.1 Universal Functions](#)
-    - [3.2 Execution Rules: Build and Run](#)
-    - [3.3 Standard Library](#)
-  - [4. Aliases](#)
-    - [4.3 Comprehensions](#)
-    - [4.4 Destructuring](#)
-    - [4.5 Inline-Block](#)
-    - [4.6 Ternary operation](#)
-    - [4.7 Pipe](#)
-  - [5. Extras](#)
-    - [5.1 Implementation Checklist](#)
-    - [5.2 Best Practices](#)
-    - [5.3 Examples](#)
-      - [5.3.1 Quicksort](#)
+  - [3. Aliases](#)
+    - [3.1 Comprehensions](#)
+    - [3.2 Destructuring](#)
+    - [3.3 Inline-Block](#)
+    - [3.4 Ternary operation](#)
+    - [3.5 Pipe](#)
+  - [4. Universal Functions](#)
+  - [5. Execution Rules: Build and Run](#)
+  - [6. Standard Library](#)
+  - [7. Extras](#)
+    - [7.1 Implementation Checklist](#)
+    - [7.2 Best Practices](#)
+    - [7.3 Examples](#)
+      - [7.3.1 Quicksort](#)
+      - [7.3.2 REST Endpoints](#)
 
 1. Foundation
 --------------------------------------------------------------------------------
@@ -597,10 +597,73 @@ Grove will resume in any branch when the computer tells the channel to `send`.
   send channel value
 ```
 
+3. Aliases
+--------------------------------------------------------------------------------
+
+Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
+
+_Grove runs without aliases by default._ A project may be configured to default to have aliases enabled.
+
+### 3.1 Comprehensions
+
+A few languages offer comprehensions as an alternative iterate-to-generate interface.
+
+```
+  [(divide num 3) for set [_ num] (range myTuple)]
+```
+
+TODO Add an example of Map / Object comprehensions
+
+### 3.2 Destructuring
+
+`for set [...] (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
+
+```
+  set [a b] [1 2]
+  set {a b} {'a'=1 'b'=2}
+```
+
+TODO examples of list, set, group, object
+TODO this is part of the core language now
+
+### 3.3 Inline-Block
+
+Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
+
+```
+  map lis (do value: divide value 3)
+```
+
+### 3.4 Ternary operation
+
+Sometimes, having a single line set a value conditionally is convenient.
+
+```
+  set a (if equal a b then a else b)
+```
+
+### 3.5 Pipe
+
+Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
+
+```
+  set b a
+    | filter filteringTest
+    | map updater
+    | sort conditionalTest
+    | reduce reducer 0
+```
+
+TODO add an alias for Module import (see golang)
+
+TODO default arg (?)
+
+TODO switch/match (?)
+
 3. Environment
 --------------------------------------------------------------------------------
 
-### 3.1 Universal Functions
+### 4. Universal Functions
 
 When should a function be universal, as opposed to part of the standard library?
 
@@ -668,7 +731,7 @@ Type conversions transcend type.
 
 - TODO to consider... format, slice
 
-### 3.2 Execution Rules: Lint, Build, and Run
+### 5. Execution Rules: Lint, Build, and Run
 
 - TODO Autoformat
 - TODO Autoupgrade lang version
@@ -695,7 +758,7 @@ Type conversions transcend type.
 - Check for any unused code.
 - Check for duplicated code.
 
-### 3.3 Standard Library
+### 6. Standard Library
 
 - TODO Note where something would be a browser specific library or a server/local specific library.
 - Functions in modules in the standard library should not be nested past one level. (e.g. math.abs  instead of math.number.abs )
@@ -813,82 +876,20 @@ TODO what basic type should represent datetimes? Number, String, or Map?
 
 - Semver
 
-4. Aliases
+7.  Extras
 --------------------------------------------------------------------------------
 
-Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
-
-_Grove runs without aliases by default._ A project may be configured to default to have aliases enabled.
-
-### 4.3 Comprehensions
-
-A few languages offer comprehensions as an alternative iterate-to-generate interface.
-
-```
-  [(divide num by 3) for set [_ num] in (range myTuple)]
-```
-
-TODO Add an example of Map / Object comprehensions
-
-### 4.4 Destructuring
-
-`for set [...] to (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
-
-```
-  set [a b] to [1 2]
-  set {a b} to {'a'=1 'b'=2}
-```
-
-TODO examples of list, set, group, object
-
-### 4.5 Inline-Block
-
-Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
-
-```
-  map lis by (do value: divide value by 3)
-```
-
-### 4.6 Ternary operation
-
-Sometimes, having a single line set a value conditionally is convenient.
-
-```
-  set a to (if compare a as b then a else b)
-```
-
-### 4.7 Pipe
-
-Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
-
-```
-  set b a
-    | filter by filteringTest
-    | map by updater
-    | sort by conditionalTest
-    | reduce by reducer after 0
-```
-
-TODO add an alias for Module import (see golang)
-
-TODO default arg (?)
-
-TODO switch/match (?)
-
-5. Extras
---------------------------------------------------------------------------------
-
-### 5.1 Implementation Checklist
+### 7.1 Implementation Checklist
 
 TODO
 
-### 5.2 Best Practices
+### 7.2 Best Practices
 
 TODO
 
-### 5.3 Examples
+### 7.3 Examples
 
-#### 5.3.1 Quicksort
+#### 7.3.1 Quicksort
 
 A mutable quicksort implementation.
 
@@ -908,7 +909,7 @@ set quicksort do ~a
   return ~a
 ```
 
-#### 5.3.2 REST-ful service
+#### 7.3.2 REST-ful service
 
 ```
 set {handleHttp listenAndServe} (import 'http')
