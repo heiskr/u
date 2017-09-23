@@ -331,7 +331,7 @@ Parentheses can be used to have multiple function calls in a single line.
   add 1 (divide 3 4)
 ```
 
-When you call a function with zero, one, or two arguments, omit the argument keys.
+When you call a function with zero, one, or two arguments, you may omit the argument keys.
 
 ```
   add 1 2
@@ -350,6 +350,32 @@ You may also use the reference names as argument keys.
   set path '/keys'
   set function listKeys
   handleHttp method path function
+```
+
+In the case you use reference names for two or less arguments, AND at least one of the reference names matches one of the argument names, you must: 1) use the references/arguments in the same order or 2) overwrite with explicit keys.
+
+```
+  set dividend 3
+  set divisor 12
+
+  ; This is the normal format.
+  ; Both names match an are in order.
+  divide dividend divisor
+
+  ; This will run fine.
+  ; One name matches and is in order.
+  divide dividend 12
+
+  ; This will also run fine.
+  ; One name matches and is in order.
+  divide 3 divisor
+
+  ; This will not compile and will throw an error.
+  ; One of the reference names matches an argument name and its out of order.
+  divide divisor 36
+
+  ; Instead, you could write the above without error as:
+  divide dividend=divisor divisor=36
 ```
 
 The anonymous function is defined as: `do arg1 arg2 ... \n block`
