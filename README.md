@@ -1,12 +1,10 @@
-The Grove Language Specification
-===============================================================================
+# The Grove Language Specification
 
 I release this document under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) and [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
 Version 0.0.0
 
-Table of Contents
---------------------------------------------------------------------------------
+## Table of Contents
 
 - [The Grove Language Specification](#)
   - [1. Foundation](#)
@@ -53,8 +51,7 @@ Table of Contents
       - [7.3.1 Quicksort](#)
       - [7.3.2 REST Endpoints](#)
 
-1. Foundation
---------------------------------------------------------------------------------
+## 1. Foundation
 
 Grove may be a programming language. Or not. This document describes what Grove is, but does not describe what Grove is not. Grove may be implemented in whatever way you might dream. Anywhere you want Grove to be, make it.
 
@@ -99,8 +96,7 @@ TODO write out definitions
 - **Concurrency**:
 - **Standard Library**:
 
-2. Core Language
---------------------------------------------------------------------------------
+## 2. Core Language
 
 ### 2.1 Tokens
 
@@ -597,8 +593,7 @@ Grove will resume in any branch when the computer tells the channel to `send`.
   send channel value
 ```
 
-3. Aliases
---------------------------------------------------------------------------------
+## 3. Aliases
 
 Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
 
@@ -660,10 +655,7 @@ TODO default arg (?)
 
 TODO switch/match (?)
 
-3. Environment
---------------------------------------------------------------------------------
-
-### 4. Universal Functions
+## 4. Universal Functions
 
 When should a function be universal, as opposed to part of the standard library?
 
@@ -731,7 +723,7 @@ Type conversions transcend type.
 
 - TODO to consider... format, slice
 
-### 5. Execution Rules: Lint, Build, and Run
+## 5. Execution Rules: Lint, Build, and Run
 
 - TODO Autoformat
 - TODO Autoupgrade lang version
@@ -758,7 +750,7 @@ Type conversions transcend type.
 - Check for any unused code.
 - Check for duplicated code.
 
-### 6. Standard Library
+## 6. Standard Library
 
 - TODO Note where something would be a browser specific library or a server/local specific library.
 - Functions in modules in the standard library should not be nested past one level. (e.g. math.abs  instead of math.number.abs )
@@ -876,8 +868,7 @@ TODO what basic type should represent datetimes? Number, String, or Map?
 
 - Semver
 
-7.  Extras
---------------------------------------------------------------------------------
+## 7.  Extras
 
 ### 7.1 Implementation Checklist
 
