@@ -352,7 +352,7 @@ You may also use the reference names as argument keys.
   handleHttp method path function
 ```
 
-In the case you use reference names for two or less arguments, AND at least one of the reference names matches one of the argument names, you must: 1) use the references/arguments in the same order or 2) overwrite with explicit keys.
+In the case you use reference names, and at least one of the reference names matches one of the argument names, you must: 1) use the references/arguments in the same order or 2) overwrite with explicit keys.
 
 ```
   set dividend 3
