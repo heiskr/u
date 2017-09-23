@@ -484,14 +484,14 @@ Conditions do not convert type. Comparing two non-matching types results in an e
 
 #### 2.4.2 Destructuring
 
-`for set [...] (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
+Set multiple references at the same time by pulling values out of tuples, lists, maps, and objects.
 
 ```
   set [a b] [1 2]
   set {a b} {'a'=1 'b'=2}
 ```
 
-TODO examples of list, set, group, object
+TODO examples of list, object
 
 #### 2.4.3 Loops
 
@@ -641,11 +641,11 @@ Sometimes, having a single line set a value conditionally is convenient.
 Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
 
 ```
-  set b a
-    | filter filteringTest
-    | map updater
-    | sort conditionalTest
-    | reduce reducer 0
+  set result [0 1 2 3 4 5 6 7 8 9]
+    | filter isOddNumber
+    | map addThree
+    | sort getLargerNumber
+    | reduce sum 0
 ```
 
 TODO add an alias for Module import (see golang)
@@ -659,7 +659,7 @@ TODO switch/match (?)
 When should a function be universal, as opposed to part of the standard library?
 
 - When the function is absolutely critical to using the language. Basically every module would use it.
-- When the function is so commonly used that it would make sense to alias, such as `add` => `+`. Examples are math and comparisons.
+- When the function is so commonly used that most other languages have a symbol for it. Examples are math and comparisons.
 - When the function transcends types and modules. Examples are logging or type conversion.
 
 Basic, universal functions.
@@ -678,7 +678,7 @@ Basic, universal functions.
   - (tuple|list|map|object) -> tuple (iterable)
   - set|group -> _T_ (iterable)
 
-Math functions that get aliased.
+Math functions.
 
 - `add`: number number -> number
 - `subtract`: number number -> number
@@ -687,7 +687,7 @@ Math functions that get aliased.
 - `power`: number number -> number
 - `modulus`: number number -> number
 
-Comparison functions that get aliased.
+Comparison functions.
 
 - `not`: boolean -> boolean
 - `all`: [_T_] -> boolean
@@ -954,7 +954,7 @@ set updateKey do request id
     UPDATE keys
     SET value = {value}
     WHERE id = {id};
-  set row (runQuery id value) ; keys are var names
+  set row (runQuery query id value) ; keys are var names
   if not row
     return [400 {message='Bad Parameters'}]
   return [200 row]
