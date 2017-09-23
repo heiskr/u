@@ -42,16 +42,11 @@ Table of Contents
     - [3.2 Execution Rules: Build and Run](#)
     - [3.3 Standard Library](#)
   - [4. Aliases](#)
-    - [4.1 Set](#)
-    - [4.2 Getters and Setters](#)
     - [4.3 Comprehensions](#)
     - [4.4 Destructuring](#)
     - [4.5 Inline-Block](#)
     - [4.6 Ternary operation](#)
     - [4.7 Pipe](#)
-    - [4.8 Comparison Operators](#)
-    - [4.9 Mathematical Operators](#)
-    - [4.10 Operator Precedence](#)
   - [5. Extras](#)
     - [5.1 Implementation Checklist](#)
     - [5.2 Best Practices](#)
@@ -101,7 +96,6 @@ TODO write out definitions
 - **Key**:
 - **Control Structure**:
 - **Module**:
-- **Alias**:
 - **Concurrency**:
 - **Standard Library**:
 
@@ -149,32 +143,6 @@ TODO Universal UTF-8
 - `catch`
 - `raise`
 - `branch`
-
-**Prepositions**
-
-This is the official list of prepositions. Do not use other prepositions. In parenthesis are unused alternatives.
-
-- about
-- after (since, beyond, past)
-- against (versus)
-- as (like)
-- at
-- before
-- but (except, less, without, yet)
-- by (via)
-- from
-- in (between, within, into, inside)
-- near (around)
-- of
-- off
-- on (onto)
-- out (outside)
-- over (above)
-- per (for)
-- to (until, toward, through)
-- under (underneath, below, beneath)
-- when (if, during, upon)
-- with
 
 ### 2.2 Types
 
@@ -254,7 +222,7 @@ Tuples do not differentiate between the kind of whitespace, so we can just as ea
 A tuple statement would be like
 
 ```
-  set column to [1 2 3]
+  set column [1 2 3]
 ```
 
 The read out-loud equilavent would be `set column to (tuple of 1 2 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `[]` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
@@ -350,80 +318,100 @@ Grove is whitespace sensitive. Two spaces per indent is enforced.
 #### 2.3.2 Calling and Defining Functions
 
 Functions are called simply by having a reference to the function the first in the group.
-The first argument is the _given_ argument.
-After the first argument, prepositions are used before each argument as keywords.
-After the first argument, arguments may take any order.
 
 ```
-  add 1 to 2
+  add 1 2
 ```
 
-Function calls always take the following format. The key `given` is always optional. The first set of parens per line is optional. As many keys and values may be used as desired.
+Function calls always take the following format. The first set of parens per line is optional. As many keys and values may be used as desired.
 
 ```
-  (functionName given givenArg key value key value ...)
+  (functionName arg1 arg2 arg3 ...)
 ```
 
-Parentheses can be used to have multiple statements in a single line.
+Parentheses can be used to have multiple function calls in a single line.
 
 ```
-  add 1 to (divide 3 by 4)
+  add 1 (divide 3 4)
 ```
 
-The anonymous function is defined as: `do (given) arg1 (preposition) arg2 ... \n block`
-Functions always have a _given_ first argument, and all following arguments are keyword by prepositions.
+When you call a function with zero, one, or two arguments, omit the argument keys.
+
+```
+  add 1 2
+```
+
+For three or more arguments, you must use the argument keys.
+
+```
+  handleHttp method='GET' path='/keys' function=listKeys
+```
+
+You may also use the reference names as argument keys.
+
+```
+  set method 'GET'
+  set path '/keys'
+  set function listKeys
+  handleHttp method path function
+```
+
+The anonymous function is defined as: `do arg1 arg2 ... \n block`
 
 ```
   do col
-    divide (sum col) by (length col)
+    divide (sum col) (length col)
 ```
 
-Define functions using the following formation:
+Define functions using the following formation. `do` has special powers: you do not need to use parantheses around `do`.
 
 ```
-  set average to do col
-    divide (sum col) by (length col)
+  set average do col
+    divide (sum col) (length col)
 ```
 
 Every statement is an expression, so returns are only needed when wanting to return early.
 
 ```
-  set average to do col
-    if compare (length col) as 0
+  set average do col
+    if equal (length col) 0
       return 0
-    divide (sum col) by (length col)
+    divide (sum col) (length col)
 ```
 
 Functions may be passed by reference as arguments to other functions. If a function reference is not the first it its group, the function is passed as reference.
 
 ```
-  map col by add
+  set col [1 2 3]
+  set addThree do num
+    add num 3
+  map col addThree
 ```
 
 #### 2.3.3 References, Get and set
 
-References are set using the `set` function, where the `given` argument is the reference and accepts an argument `to`.
+References are set using the `set` function. The first argument is the reference, the second argument is the value.
 
 ```
-  set a to 1
+  set a 1
 ```
 
 References are dynamic, so they can change type.
 
 ```
-  set a to 1
-  set a to 'abcd'
+  set a 1
+  set a 'abcd'
 ```
 
 References are always lexically scoped.
 
 ```
-  set a to 0  ; `a` is scoped to the module
-  set f to do   ;  function declaration with `do`
-    set b to 2  ; `b` is scoped to the function `f`
-    if compare a as b
-      set a to 5  ; `a` still has module scope
-      set c to 3  ; `c` is scoped to `if`
+  set a 0  ; `a` is scoped to the module
+  set f do   ;  function declaration with `do`
+    set b 2  ; `b` is scoped to the function `f`
+    if equal a b
+      set a 5  ; `a` still has module scope
+      set c 3  ; `c` is scoped to `if`
 ```
 
 TODO add an example of Closures
@@ -431,13 +419,13 @@ TODO add an example of Closures
 Any references to mutable data types, such as list or object, *must* start with a `$`.
 
 ```
-  set $a to $[1 2 3]
+  set $a $[1 2 3]
 ```
 
 The `get` and `set` methods exist on all tuples, lists, sets, groups, maps, and objects, respecting the mutability characteristic. A `set` operation will always return the full value of the iterable.
 
 ```
-  set a to (get 'key' in myMap)
+  set a (get myMap 'key')
 ```
 
 #### 2.3.4 Comments
@@ -466,10 +454,10 @@ Indentation is 2 spaces.
 
 #### 2.4.1 Conditions
 
-Conditions are simply using the keywords `if` and `else`. Conditions are also expressions.
+Conditions use the keywords `if` and `else`. Conditions are also expressions.
 
 ```
-  set c to (if compare a as b
+  set c (if equal a b
     true
   else
     false)
@@ -478,13 +466,13 @@ Conditions are simply using the keywords `if` and `else`. Conditions are also ex
 Of course, the previous example could be written more simply.
 
 ```
-  set c to (compare a as b)
+  set c (equal a b)
 ```
 
-Conditions do not convert type.
+Conditions do not convert type. Comparing two non-matching types results in an error.
 
 ```
-  if compare 0 as (make '' as number)
+  if equal 0 (toNumber '')
     true
 ```
 
@@ -492,9 +480,9 @@ Conditions do not convert type.
 
 ```
   ; these two lines are the same
-  if compare a under 5  
+  if lessThan a 5
     true
-  if (compare a under 5)
+  if (lessThan a 5)
     true
 ```
 
@@ -503,48 +491,47 @@ Conditions do not convert type.
 `for` loops also do not require parentheses around the first function call.
 
 ```
-  set myTuple to [1 2 3]
-  for set [_ num] to (range myTuple)
+  set myTuple [1 2 3]
+  for set [_ num] (range myTuple)
     log num
 ```
 
-`for` loops are aware of the data type.
+`for` loops are aware of the data type because the range function can handle multiple types.
 
 ```
-  set myTuple to [1 2 3]
-  set myMap to {'a'=1 'b'=2 'c'=3}
+  set myTuple [1 2 3]
+  set myMap {'a'=1 'b'=2 'c'=3}
 
-  for set [index num] to (range myTuple)
-    log (concat index with num)
+  for set [index num] (range myTuple)
+    log (concat index num)
 
-  for set [key value] to (range myMap)
-    log (concat key with value)
-
+  for set [key value] (range myMap)
+    log (concat key value)
 ```
 
 You can use `_` to ignore parts you don't need.
 
 ```
-  set myTuple to [1 2 3]
-  for set [_ num] to (range myTuple)
+  set myTuple [1 2 3]
+  for set [_ num] (range myTuple)
     log num
 ```
 
 `for` loops can also act like `while` loops.
 
 ```
-  set a to 0
-  for compare a under 5
-    set a to (add 1 to a)
+  set a 0
+  for lessThan a 5
+    set a (add 1 a)
 ```
 
 Breaks and continues are allowed as well.
 
 ```
-  for set [_ num] to (range myTuple)
-    if compare num under 5
+  for set [_ num] (range myTuple)
+    if lessThan num 5
       break
-    if compare num over 5
+    if greaterThan num 5
       continue
     doSomething num
 ```
@@ -555,7 +542,7 @@ Try and catch blocks work very similar to other languages.
 
 ```
   try
-    divide 1 by 0
+    divide 1 0
   catch exception
     log exception
 ```
@@ -570,44 +557,44 @@ If a cycle is formed with `import`, the compiler will throw an error.
 Everything in the module is made available.
 
 ```
-  set myModule to (import './path/to/module')
+  set myModule (import './path/to/module')
 ```
 
 Access functions and other references in modules with the `get` function.
 
 ```
-  set math to (import './math')
-  set average to (get 'average' in math)
+  set math (import './math')
+  set average (get math 'average')
 ```
 
-TODO main function (?)
+TODO main function
 
 ### 2.6 Concurrency
 
 Grove has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, branch does not require parenthesis around the first function call.
 
 ```
-  for set [_ i] in (range x)
+  for set [_ i] (range x)
     branch log i
 ```
 
 You can create a channel to pass values between branches.
 
 ```
-  set ch to (createChannel)
-  branch myFunc with ch
+  set ch (createChannel)
+  branch myFunc ch
 ```
 
 Grove will pause in any branch when it arrives at `receive`.
 
 ```
-  receive value from channel
+  receive channel value
 ```
 
 Grove will resume in any branch when the computer tells the channel to `send`.
 
 ```
-  send value to channel
+  send channel value
 ```
 
 3. Environment
@@ -624,41 +611,40 @@ When should a function be universal, as opposed to part of the standard library?
 Basic, universal functions.
 
 - `set`:
-  - reference to _T_ -> reference
-  - number in (tuple|list) to _T_ -> _T_
-  - (none|boolean|number|string|tuple) in (map/object) to _T_ -> _T_
+  - reference _T_ -> reference
+  - (tuple|list) number _T_ -> _T_
+  - (map/object) (none|boolean|number|string|tuple) _T_ -> _T_
 - `get`:
-  - number in (tuple|list) -> _T_
-  - (none|boolean|number|string|tuple) in (map/object) -> _T_
+  - (tuple|list) number -> _T_
+  - (map/object) (none|boolean|number|string|tuple) -> _T_
 - `import`: string -> module
-- `send`: _T_ to channel -> _T_
-- `receive`: reference from channel -> reference
+- `send`: channel _T_ -> _T_
+- `receive`: channel reference -> reference
 - `range`
   - (tuple|list|map|object) -> tuple (iterable)
   - set|group -> _T_ (iterable)
 
 Math functions that get aliased.
 
-- `add`: number with number -> number
-- `subtract`: number with number -> number
-- `multiply`: number by number -> number
-- `divide`: number by number -> number
-- `power`: number by number -> number
-- `modulus`: number by number -> number
+- `add`: number number -> number
+- `subtract`: number number -> number
+- `multiply`: number number -> number
+- `divide`: number number -> number
+- `power`: number number -> number
+- `modulus`: number number -> number
 
 Comparison functions that get aliased.
 
 - `not`: boolean -> boolean
 - `all`: [_T_] -> boolean
 - `any`: [_T_] -> boolean
-- `compare`:
-  - where _A_ is none|boolean|string|number
-  - compare _A_ as _A_ -> boolean (equals)
-  - compare _A_ against _A_ -> boolean (not equals)
-  - compare _A_ under _A_ -> boolean (less than)
-  - compare _A_ over _A_ -> boolean (greater than)
-  - compare _A_ in _A_ -> boolean (less than or equal)
-  - compare _A_ out _A_ -> boolean (greater than or equal)
+- `equal`: _A_ _A_ -> boolean; where _A_ is none|boolean|string|number
+- `is`: _A_ _A_ -> boolean
+- `not`: _A_ _A_ -> boolean
+- `lessThan`: _A_ _A_ -> boolean
+- `greaterThan`: _A_ _A_ -> boolean
+- `lessThanOrEqual`: _A_ _A_ -> boolean
+- `greaterThanOrEqual`: _A_ _A_ -> boolean
 
 Logging... because its the first thing people will do.
 
@@ -668,18 +654,17 @@ Logging... because its the first thing people will do.
 
 Type conversions transcend type.
 
-- `make`:  _T1_ as string -> _T2_
-  - (can't convert to none)
-  - any as 'boolean' -> boolean
-  - none|boolean|string as 'number' -> number
-  - any as 'string' -> string
-  - list|set|group as 'tuple' -> tuple
-  - tuple|set|group as 'list' -> list
-  - tuple|list|set as 'group' -> group
-  - tuple|list|group as 'set' -> set
-  - object as 'map' -> map
-  - map as 'object' -> object
-- `getType`: _T_ -> string
+- (can't convert to none)
+- `toBoolean`: any -> boolean
+- `toNumber`: none|boolean|string -> number
+- `toString`: any -> string
+- `toTuple`: list|set|group -> tuple
+- `toList`: tuple|set|group -> list
+- `toSet`: tuple|list|group -> set
+- `toGroup`: tuple|list|set -> group
+- `toMap`: object -> map
+- `toObject`: map -> object
+- `getType`: any -> string
 
 - TODO to consider... format, slice
 
@@ -704,7 +689,7 @@ Type conversions transcend type.
 - Lines should be no longer than 80 characters.
 - Types must match to do a comparison.
 - Any compiler or linter for Grove should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that variables can change type, essentially creating a union type.
-- A linter should check to ensure that the tuple and list indexes and map and object keys as used are defined and within range, and if not a condition statement is used to prevent the use of an undefined index or key.
+- A linter should check to ensure that the tuple and list indexes and map and object keys as used are defined and within range, and return the expected, and if not a condition statement is used to prevent the use of an unexpected index or key.
 - A reference to a mutable data type should be prefixed with `$`.
   - `~` prefix indicates the referenced data _may_ be mutable or immutable, in the case of a function argument.
 - Check for any unused code.
@@ -828,32 +813,12 @@ TODO what basic type should represent datetimes? Number, String, or Map?
 
 - Semver
 
-
 4. Aliases
 --------------------------------------------------------------------------------
 
 Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
 
 _Grove runs without aliases by default._ A project may be configured to default to have aliases enabled.
-
-### 4.1 Set
-
-The set alias allows the regular variable syntax instead of the `set ... to ...` syntax.
-
-```
-  a = 42
-```
-
-### 4.2 Getters and Setters
-
-Many languages allow using `object.key` and `object[key]` for getters and setters of iterables, and Grove's alias can allow for that as well. Using the dot notation, the key is a string.
-
-```
-  set a to myMap.key
-  set b to myTuple[0]
-  set $myObj.key to a
-  set $myList[0] to b
-```
 
 ### 4.3 Comprehensions
 
@@ -874,7 +839,6 @@ TODO Add an example of Map / Object comprehensions
   set {a b} to {'a'=1 'b'=2}
 ```
 
-TODO should this be moved to the core language?
 TODO examples of list, set, group, object
 
 ### 4.5 Inline-Block
@@ -898,53 +862,18 @@ Sometimes, having a single line set a value conditionally is convenient.
 Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
 
 ```
-  set b to a
+  set b a
     | filter by filteringTest
     | map by updater
     | sort by conditionalTest
     | reduce by reducer after 0
 ```
 
-### 4.8 Comparison Operators
+TODO add an alias for Module import (see golang)
 
-Comparison operators add back in the typical syntax, as well as the typical order of operations.
+TODO default arg (?)
 
-- not => `!`
-- compare => `==` `!=` `<` `>` `<=` `>=`
-- all => `&&`
-- any => `||`  
-
-### 4.9 Mathematical Operators
-
-Mathematical operators add back in the typical syntax, as well as the typical order of operations.
-
-- multiply => `*`
-- divide => `/`
-- modulus => `%`
-- add => `+`
-- subtract => `-`
-- power => `^`
-
-### 4.10 Operator Precedence
-
-These precedences are when using aliases. Grouping with `()` will always override.
-
-- `()`   (function calls/groupings)
-- `. []` (getters/setters)
-- `!`
-- `^`
-- `* / %`
-- `+ -`
-- `< <= > >=`
-- `== !=`
-- `&&`
-- `||`
-
-TODO add an alias for Module import alias (see golang)
-
-TODO default arg alias (?)
-
-TODO switch/match alias (?)
+TODO switch/match (?)
 
 5. Extras
 --------------------------------------------------------------------------------
@@ -959,54 +888,83 @@ TODO
 
 ### 5.3 Examples
 
-#### 5.3.1
+#### 5.3.1 Quicksort
 
-*No aliases*. A mutable quicksort implementation.
-
-```
-  set quicksort to do given ~a
-    set $less to $[]
-    set $equal to $[]
-    set $greater to $[]
-    if compare (length ~a) over 1
-      set pivot to (random (length ~a))
-      for set [_ x] to (range ~a)
-        if compare x under pivot
-          append x to $less
-        if compare x as pivot
-          append x to $equal
-        if compare x over pivot
-          append x to $greater
-      return (
-        concat (quicksort $less)
-          with $equal
-          with (quicksort $greater)
-      )
-    else
-      return ~a
-```
-
-A mutable quicksort implementation, including aliases.
+A mutable quicksort implementation.
 
 ```
-  quicksort = do ~a
-    [$less $equal $greater] = [$[] $[] $[]]
-    if (length ~a) > 1
-      pivot = ~a | length | random
-      for [_ x] = range ~a
-        if x < pivot
-          append x to $less
-        if x == pivot
-          append x to $equal
-        if x > pivot
-          append x to $greater
-      return (
-        concat (quicksort $less)
-          with $equal
-          with (quicksort $greater)
-      )
-    else
-      return ~a
+set quicksort do ~a
+  set [$less $equal $greater] [$[] $[] $[]]
+  if greaterThan (length ~a) 1
+    set pivot (random (length ~a))
+    for set [_ x] (range ~a)
+      if lessThan x pivot
+        append $less x
+      if equal x pivot
+        append $equal x
+      if greaterThan x pivot
+        append $greater x
+    return concat [(quicksort $less) $equal (quicksort $greater)]
+  return ~a
+```
+
+#### 5.3.2 REST-ful service
+
+```
+set {handleHttp listenAndServe} (import 'http')
+set {runQuery} (import 'database')
+
+set main do
+  set port 8573
+  handleHttp method='GET' path='/keys' function=listKeys
+  handleHttp method='GET' path='/keys/{id}' function=getKey
+  handleHttp method='POST' path='/keys' function=createKey
+  handleHttp method='PUT' path='/keys/{id}' function=updateKey
+  log (format 'Server started on {port}' port)
+  listenAndServe port
+
+; Zero, one, two arguments -> call linearly or keys
+; Three+ arguments -> use keys
+
+set listKeys do request
+  set query '
+    SELECT *
+    FROM keys;
+  set rows (runQuery query) ; keys are var names
+  if not rows
+    return [404 {message='Not Found'}]
+  return [200 rows]
+
+set getKey do request id
+  set query '
+    SELECT *
+    FROM keys
+    WHERE id={id};
+  set rows (runQuery query id) ; keys are var names
+  set row (get rows 0)
+  if not row
+    return [404 {message='Not Found'}]
+  return [200 rows]
+
+set createKey do request
+  set query '
+    INSERT INTO keys (value)
+    VALUES ({value});
+  set value (get request 'value')
+  set row (runQuery query value)
+  if not row
+    return [400 {message='Bad Parameters'}]
+  return [200 row]
+
+set updateKey do request id
+  set query '
+    UPDATE keys
+    SET value = {value}
+    WHERE id = {id};
+  set row (runQuery id value) ; keys are var names
+  if not row
+    return [400 {message='Bad Parameters'}]
+  return [200 row]
 ```
 
 TODO add more examples
