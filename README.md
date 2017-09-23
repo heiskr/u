@@ -31,16 +31,16 @@ Version 0.0.0
       - [2.3.4 Comments](#)
     - [2.4 Control Structures](#)
       - [2.4.1 Conditions](#)
+      - [2.4.2 Destructuring](#)
       - [2.4.2 Loops](#)
       - [2.4.3 Exceptions](#)
     - [2.5 Modules](#)
     - [2.6 Concurrency](#)
   - [3. Aliases](#)
     - [3.1 Comprehensions](#)
-    - [3.2 Destructuring](#)
-    - [3.3 Inline-Block](#)
-    - [3.4 Ternary operation](#)
-    - [3.5 Pipe](#)
+    - [3.2 Inline-Block](#)
+    - [3.3 Ternary operation](#)
+    - [3.4 Pipe](#)
   - [4. Universal Functions](#)
   - [5. Execution Rules: Build and Run](#)
   - [6. Standard Library](#)
@@ -482,7 +482,18 @@ Conditions do not convert type. Comparing two non-matching types results in an e
     true
 ```
 
-#### 2.4.2 Loops
+#### 2.4.2 Destructuring
+
+`for set [...] (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
+
+```
+  set [a b] [1 2]
+  set {a b} {'a'=1 'b'=2}
+```
+
+TODO examples of list, set, group, object
+
+#### 2.4.3 Loops
 
 `for` loops also do not require parentheses around the first function call.
 
@@ -532,7 +543,7 @@ Breaks and continues are allowed as well.
     doSomething num
 ```
 
-#### 2.4.3 Exceptions
+#### 2.4.4 Exceptions
 
 Try and catch blocks work very similar to other languages.
 
@@ -609,19 +620,7 @@ A few languages offer comprehensions as an alternative iterate-to-generate inter
 
 TODO Add an example of Map / Object comprehensions
 
-### 3.2 Destructuring
-
-`for set [...] (range ...)` statements already provide a most basic destructuring. This alias will turn on destructuring across the board.
-
-```
-  set [a b] [1 2]
-  set {a b} {'a'=1 'b'=2}
-```
-
-TODO examples of list, set, group, object
-TODO this is part of the core language now
-
-### 3.3 Inline-Block
+### 3.2 Inline-Block
 
 Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
 
@@ -629,7 +628,7 @@ Sometimes, having to hit return just for a single-line block doesn't feel right.
   map lis (do value: divide value 3)
 ```
 
-### 3.4 Ternary operation
+### 3.3 Ternary operation
 
 Sometimes, having a single line set a value conditionally is convenient.
 
@@ -637,7 +636,7 @@ Sometimes, having a single line set a value conditionally is convenient.
   set a (if equal a b then a else b)
 ```
 
-### 3.5 Pipe
+### 3.4 Pipe
 
 Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
 
