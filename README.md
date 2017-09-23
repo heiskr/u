@@ -720,7 +720,7 @@ Type conversions transcend type.
 - `toObject`: map -> object
 - `getType`: any -> string
 
-- TODO to consider... format, slice
+TODO to consider... format, slice
 
 ## 5. Execution Rules: Lint, Build, and Run
 
@@ -785,11 +785,13 @@ The functions `log`, `warn`, and `error` are universal. The logging module helps
 - forEach
 - reduce
 
-- TODO Collection operations instead of loops -- functional programming
-- TODO and others, such as Stacks, etc over the default types
-- TODO iterators
-- TODO sorting
-- TODO Schema Helpers: Basically, utilities for ensuring schemas for maps and objects.
+TODO
+
+- Collection operations instead of loops -- functional programming
+- and others, such as Stacks, etc over the default types
+- iterators
+- sorting
+- Schema Helpers: Basically, utilities for ensuring schemas for maps and objects.
 
 #### TODO Dates and Times
 
