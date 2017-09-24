@@ -525,20 +525,20 @@ TODO examples of list, object
 
 ```
   set myTuple [1 2 3]
-  for set [_ num] (range myTuple)
+  for range [_ num] myTuple
     log num
 ```
 
-`for` loops are aware of the data type because the range function can handle multiple types.
+`for` loops are aware of the data type because the range function can handle multiple types. `range` returns `false` until its at the end, then returns `true`.
 
 ```
   set myTuple [1 2 3]
   set myMap {'a'=1 'b'=2 'c'=3}
 
-  for set [index num] (range myTuple)
+  for range [index num] myTuple
     log (concat index num)
 
-  for set [key value] (range myMap)
+  for range [key value] myMap
     log (concat key value)
 ```
 
@@ -546,7 +546,7 @@ You can use `_` to ignore parts you don't need.
 
 ```
   set myTuple [1 2 3]
-  for set [_ num] (range myTuple)
+  for range [_ num] myTuple
     log num
 ```
 
@@ -561,7 +561,7 @@ You can use `_` to ignore parts you don't need.
 Breaks and continues are allowed as well.
 
 ```
-  for set [_ num] (range myTuple)
+  for range [_ num] myTuple
     if lessThan num 5
       break
     if greaterThan num 5
@@ -607,7 +607,7 @@ TODO main function
 Grove has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, branch does not require parenthesis around the first function call.
 
 ```
-  for set [_ i] (range x)
+  for range [_ i] x
     branch log i
 ```
 
@@ -641,7 +641,7 @@ _Grove runs without aliases by default._ A project may be configured to default 
 A few languages offer comprehensions as an alternative iterate-to-generate interface.
 
 ```
-  [(divide num 3) for set [_ num] (range myTuple)]
+  [(divide num 3) for range [_ num] myTuple]
 ```
 
 TODO Add an example of Map / Object comprehensions
@@ -916,7 +916,7 @@ set quicksort do ~a
   set [$less $equal $greater] [$[] $[] $[]]
   if greaterThan (length ~a) 1
     set pivot (random (length ~a))
-    for set [_ x] (range ~a)
+    for range [_ x] ~a
       if lessThan x pivot
         append $less x
       if equal x pivot
