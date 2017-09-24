@@ -2,7 +2,7 @@
 
 I release this document under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) and [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
-Version 0.0.0
+Version 0
 
 ## Table of Contents
 
@@ -41,6 +41,7 @@ Version 0.0.0
     - [3.2 Inline-Block](#)
     - [3.3 Ternary operation](#)
     - [3.4 Pipe](#)
+    - [3.5 Switch and Match](#)
   - [4. Universal Functions](#)
   - [5. Execution Rules: Build and Run](#)
   - [6. Standard Library](#)
@@ -102,7 +103,7 @@ TODO write out definitions
 
 TODO Write tokens section
 
-TODO Universal UTF-8
+Grove assumes UTF-8 across the board. Any change from that must explicitly override UTF-8.
 
 **Symbols**
 
@@ -121,7 +122,7 @@ TODO Universal UTF-8
 
 **Allowed Reference Names**
 
-`[$~]?[a-zA-Z0-9unicode]+` TODO how to represent unicode?
+Reference names may start with `$` or `~`, any letter `a-z` or `A-Z` as well as any unicode letter from any spoken language or mathematics; reference names cannot start with a digit. The remainder of the reference name may use any letters `a-z` or `A-Z` as well as any unicode letter from any spoken language or mathematics, or any digit; the remainder of the reference name cannot use punctuation including `$` or `~`. When using Latin languages, use camelCase. You may only use `_` to ignore references when destructuring.
 
 **Keywords**
 
@@ -139,6 +140,8 @@ TODO Universal UTF-8
 - `catch`
 - `raise`
 - `branch`
+
+Also, the `send` and `receive` functions have special execution properties.
 
 ### 2.2 Types
 
@@ -307,6 +310,7 @@ A map must have an `=` to be a map and not a set. A map can start with `=` or en
 set a 1
 set b 2
 set c 3
+set mySet {a b c}
 set myMap {= a b c =}
 ```
 
@@ -348,19 +352,19 @@ Parentheses can be used to have multiple function calls in a single line.
 add 1 (divide 3 4)
 ```
 
-When you call a function with zero, one, or two arguments, you may omit the argument keys.
-
-```
-add 1 2
-```
-
 For three or more arguments, you must use the argument keys.
 
 ```
 handleHttp method='GET' path='/keys' function=listKeys
 ```
 
-You may also use the reference names as argument keys.
+When you call a function with zero, one, or two arguments, you may omit the argument keys.
+
+```
+add 1 2
+```
+
+You may also use reference names as argument keys.
 
 ```
 set method 'GET'
@@ -369,29 +373,40 @@ set function listKeys
 handleHttp method path function
 ```
 
-In the case you use reference names, and at least one of the reference names matches one of the argument names, you must: 1) use the references/arguments in the same order or 2) overwrite with explicit keys.
+If you use at least one reference name as an argument key, you must meet one of the following criteria:
+
+1. All of the arguments use argument keys, either explicitly or by reference names.
+2. The named arguments are in order up to any unnamed arguments. This allows the computer to interpret the unnamed arguments.
 
 ```
 set dividend 3
 set divisor 12
+set a dividend
+set b divisor
 
-; This is the normal format.
-; Both names match an are in order.
+; Good: This is a normal format.
+divide 3 12
+
+; Good: These are always fine, because no reference name is an argument key.
+divide a b
+divide b a
+
+; Good: Both names match an are in order.
 divide dividend divisor
 
-; This will run fine.
-; One name matches and is in order.
+; Good: One name matches and is in order.
 divide dividend 12
 
-; This will also run fine.
-; One name matches and is in order.
+; Good: One name matches and is in order.
 divide 3 divisor
 
-; This will not compile and will throw an error.
-; One of the reference names matches an argument name and its out of order.
+; ERROR: One of the reference names matches an argument name and its out of order.
 divide divisor 36
 
-; Instead, you could write the above without error as:
+; Good: Use explicit keys instead.
+divide divisor dividend=36
+
+; Good: Use explicit keys instead.
 divide dividend=divisor divisor=36
 ```
 
@@ -425,6 +440,29 @@ set col [1 2 3]
 set addThree do num
   add num 3
 map col addThree
+```
+
+You must call functions with the exact set of available arguments. However, functions may define defaults for some arguments. When calling functions, arguments with defined defaults can be skipped.
+
+```
+set divideAndAdd do a b c
+  add (divide a b) c
+
+set divideAndAddWithDefaults do a b=1 c=0
+  add (divide a b) c
+
+; ERROR: You must use the exact set of arguments.
+divideAndAdd 1 2
+divideAndAdd 1 2 3 4
+
+; Good: Using the exact set of arguments.
+divideAndAdd 1 2 3
+
+; Good: You may skip arguments with defaults.
+divideAndAddWithDefaults 1
+divideAndAddWithDefaults 1 2
+divideAndAddWithDefaults 1 2 3
+divideAndAddWithDefaults a=1 c=3
 ```
 
 #### 2.3.3 References, Get and set
@@ -527,14 +565,14 @@ if (lessThan a 5)
 
 #### 2.4.2 Destructuring
 
-Set multiple references at the same time by pulling values out of tuples, lists, maps, and objects.
+Set multiple references at the same time by pulling values out of tuples, lists, maps, and objects. There's no way to destructure sets or groups.
 
 ```
 set [a b] [1 2]
+set [a b] $[1 2]
 set {a b} {'a'=1 'b'=2}
+set {a b} ${'a'=1 'b'=2}
 ```
-
-TODO examples of list, object
 
 #### 2.4.3 Loops
 
@@ -546,7 +584,7 @@ for range [_ num] myTuple
   log num
 ```
 
-`for` loops are aware of the data type because the range function can handle multiple types. `range` returns `false` until its at the end, then returns `true`.
+`for` loops are aware of the data type because the `range` function can handle multiple types. `range` returns `false` until its at the end, then returns `true`.
 
 ```
 set myTuple [1 2 3]
@@ -597,14 +635,21 @@ catch exception
   log exception
 ```
 
-TODO add an example for raise
-TODO raise any immutable type (number, string, tuple, set, map etc) as an error
+There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any string, tuple, set, or map that is not empty.
+
+```
+try
+  raise 'You just found an error!'
+catch exception
+  log exception
+```
+
+An unhandled exception will stop the execution of the program. The compiler will warn about any possible unhandled exceptions at lint or build time.
 
 ### 2.5 Modules
 
 Files are treated as modules, with their own namespaces.
 If a cycle is formed with `import`, the compiler will throw an error.
-Everything in the module is made available.
 
 ```
 set myModule (import './path/to/module')
@@ -614,14 +659,27 @@ Access functions and other references in modules with the `get` function.
 
 ```
 set math (import './math')
-set average (get math 'average')
+set mean (get math 'mean')
 ```
 
-TODO main function
+A more convenient way is to combine import with destructuring.
+
+```
+set {mean median mode} (import './math')
+```
+
+Everything in the module is made available. Grove has no concept of `public` or `private` references or data. However, module outputs are read-only.
+
+Some modes of execution will default to look for a `main` function. This function will be the entry point to the program.
+
+```
+set main do
+  add 1 2
+```
 
 ### 2.6 Concurrency
 
-Grove has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, branch does not require parenthesis around the first function call.
+Grove has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, `branch` does not require parenthesis around the first function call.
 
 ```
 for range [_ i] x
@@ -658,10 +716,15 @@ _Grove runs without aliases by default._ A project may be configured to default 
 A few languages offer comprehensions as an alternative iterate-to-generate interface.
 
 ```
+; A tuple comprehension.
 [(divide num 3) for range [_ num] myTuple]
-```
 
-TODO Add an example of Map / Object comprehensions
+; A set comprehension.
+{(divide num 3) for range num mySet}
+
+; A map comprehension. Notice the `=`.
+{key=(divide num 3) for range [key num] myMap}
+```
 
 ### 3.2 Inline-Block
 
@@ -688,14 +751,12 @@ set result [0 1 2 3 4 5 6 7 8 9]
   | filter isOddNumber
   | map addThree
   | sort getLargerNumber
-  | reduce sum 0
+  | reduce fn=sum start=0
 ```
 
-TODO add an alias for Module import (see golang)
+### 3.5 Switch and Match
 
-TODO default arg (?)
-
-TODO switch/match (?)
+TODO
 
 ## 4. Universal Functions
 
@@ -704,6 +765,8 @@ When should a function be universal, as opposed to part of the standard library?
 - When the function is absolutely critical to using the language. Basically every module would use it.
 - When the function is so commonly used that most other languages have a symbol for it. Examples are math and comparisons.
 - When the function transcends types and modules. Examples are logging or type conversion.
+
+The compiler will throw an error at any attempt to override universal functions.
 
 Basic, universal functions.
 
@@ -763,7 +826,7 @@ Type conversions transcend type.
 - `toObject`: map -> object
 - `getType`: any -> string
 
-TODO to consider... format, slice
+TODO to consider... format, slice; tuple/list/set/group/map/object operations
 
 ## 5. Execution Rules: Lint, Build, and Run
 
@@ -779,13 +842,13 @@ TODO to consider... format, slice
 - Blocks must not go more than four levels deep.
 - One empty line should be after each block.
 - Two spaces should be before starting an inline comment.
-- Variable names should use camelCase.
+- Reference names should use camelCase.
 - All imports should be used.
-- All variables should be used.
+- All references should be used.
 - No lines should have trailing whitespace.
 - Lines should be no longer than 80 characters.
 - Types must match to do a comparison.
-- Any compiler or linter for Grove should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that variables can change type, essentially creating a union type.
+- Any compiler or linter for Grove should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that references can change type, essentially creating a union type.
 - A linter should check to ensure that the tuple and list indexes and map and object keys as used are defined and within range, and return the expected, and if not a condition statement is used to prevent the use of an unexpected index or key.
 - A reference to a mutable data type should be prefixed with `$`.
   - `~` prefix indicates the referenced data _may_ be mutable or immutable, in the case of a function argument.
@@ -910,9 +973,28 @@ TODO what basic type should represent datetimes? Number, String, or Map?
 
 #### TODO Dependency Management
 
-- Semver
+Any dependency change should be treated as a breaking change.
 
-## 7.  Extras
+Versions may be whole numbers or hashes. Versions are immutable. Version tags, such as 'latest', 'stable', or 'jazz hands' may be used. A version tag is a reference to version. The package author may change the version tag to a different version at another time. The dependency manager should default to use specific versions (ie number or hash, not the tag). The user may override to use a version tag instead.
+
+When you run `grove install packageName`, it will by default pick the latest specific version currently tagged with `stable` or `stable-.*` (where .* is anything), or the specific version currently tagged as `latest`, or finally the actual latest version.
+
+TODO
+
+### TODO Command Line Interface
+
+`grove install`
+`grove install packageName@latest`
+`grove remove packageName`
+`grove lint ...`
+`grove build ...`
+`grove run ...`
+`grove test ...`
+`grove repl ...` ; Run Grove REPL, optionally with environment
+
+TODO package author tools
+
+## 7. Extras
 
 ### 7.1 Implementation Checklist
 
@@ -1003,4 +1085,8 @@ set updateKey do request id
   return [200 row]
 ```
 
-TODO add more examples
+TODO Statistics / ML example with graph
+TODO Web UI example
+TODO Native application example
+TODO Audio / graphics example
+TODO Test example
