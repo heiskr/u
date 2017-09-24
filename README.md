@@ -155,7 +155,7 @@ Grove only has three types of things: data, functions, and references.
 The most basic data type is none. It is always falsy. It is always immutable.
 
 ```
-  none
+none
 ```
 
 #### 2.2.2 Boolean
@@ -163,7 +163,7 @@ The most basic data type is none. It is always falsy. It is always immutable.
 Booleans. Always immutable.
 
 ```
-  true
+true
 ```
 
 #### 2.2.3 Number
@@ -172,7 +172,7 @@ Only one type of number. Numbers are always immutable.
 Each data type has one falsy value: for numbers, its 0.
 
 ```
-  42
+42
 ```
 
 TODO Complex Numbers
@@ -184,15 +184,15 @@ Strings use only the single-quote `'` character. Regular expressions are just st
  `''`, empty string, is the falsy value. Strings are always immutable.
 
 ```
-  'abcd'
+'abcd'
 ```
 
 Strings can be defined in multiple lines with indentation just like comments. The indentation is stripped.
 
 ```
-  '
-    abcd
-    1234
+'
+  abcd
+  1234
 ```
 
 #### 2.2.5 Tuple
@@ -202,23 +202,23 @@ The falsy value of tuple is the empty tuple, `[]`. Tuples are immutable.
 Tuples can only store other immutable data types, such as boolean, number, string, tuple, and map.
 
 ```
-  [1 2 3]
+[1 2 3]
 ```
 
 Tuples do not differentiate between the kind of whitespace, so we can just as easily write:
 
 ```
-  [
-    1
-    2
-    3
-  ]
+[
+  1
+  2
+  3
+]
 ```
 
 A tuple statement would be like
 
 ```
-  set column [1 2 3]
+set column [1 2 3]
 ```
 
 The read out-loud equilavent would be `set column to (tuple of 1 2 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `[]` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
@@ -230,7 +230,7 @@ The falsy value of list is the empty list, `$[]`. Lists are like tuples, but mut
 Lists can store immutable data, mutable data, and functions. Lists only store references.
 
 ```
-  $[1 2 3]
+$[1 2 3]
 ```
 
 #### 2.2.7 Set
@@ -240,17 +240,17 @@ Sets are unordered. Sets support embedding.
 Sets are immutable. Sets may only store immutable data types.
 
 ```
-  {1 2 3}
+{1 2 3}
 ```
 
 Sets may be also written as:
 
 ```
-  {
-    1
-    2
-    3
-  }
+{
+  1
+  2
+  3
+}
 ```
 
 The read out-loud equilavent would be `set column to (set of 1 2 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `{}` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
@@ -262,7 +262,7 @@ The falsy group is the empty group.
 Groups can store immutable data, mutable data, and functions. Groups only store references.
 
 ```
-  ${1 2 3}
+${1 2 3}
 ```
 
 #### 2.2.9 Map
@@ -272,26 +272,43 @@ Maps are unordered. Maps support embedding.
 Maps are immutable. Maps may only store immutable data types.
 
 ```
-  {'a'=1 'b'=2 'c'=3}
+{'a'=1 'b'=2 'c'=3}
 ```
 
 The pattern is always:
 
 ```
-  {key=value key=value key=value ...}
+{key=value key=value key=value ...}
 ```
 
 Maps may be also written as:
 
 ```
-  {
-    'a'=1
-    'b'=2
-    'c'=3
-  }
+{
+  'a'=1
+  'b'=2
+  'c'=3
+}
 ```
 
 The read out-loud equilavent would be `set myMap to (map where 'a' is 1, 'b' is 2, 'c' is 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `{}` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
+
+You may use reference names as map keys.
+
+```
+set a 1
+set b 2
+set myMap {a b 'c'=3}
+```
+
+A map must have an `=` to be a map and not a set. A map can start with `=` or end with `=` to indicate its a map.
+
+```
+set a 1
+set b 2
+set c 3
+set myMap {= a b c =}
+```
 
 #### 2.2.10 Object
 
@@ -300,7 +317,7 @@ The falsy object is the empty object.
 Objects can store immutable data, mutable data, and functions. Objects only store references.
 
 ```
-  ${'a'=1 'b'=2 'c'=3}
+${'a'=1 'b'=2 'c'=3}
 ```
 
 ### 2.3 Expressions, Functions, References, Scope
@@ -316,98 +333,98 @@ Grove is whitespace sensitive. Two spaces per indent is enforced.
 Functions are called simply by having a reference to the function the first in the group.
 
 ```
-  add 1 2
+add 1 2
 ```
 
 Function calls always take the following format. The first set of parens per line is optional. As many keys and values may be used as desired.
 
 ```
-  (functionName arg1 arg2 arg3 ...)
+(functionName arg1 arg2 arg3 ...)
 ```
 
 Parentheses can be used to have multiple function calls in a single line.
 
 ```
-  add 1 (divide 3 4)
+add 1 (divide 3 4)
 ```
 
 When you call a function with zero, one, or two arguments, you may omit the argument keys.
 
 ```
-  add 1 2
+add 1 2
 ```
 
 For three or more arguments, you must use the argument keys.
 
 ```
-  handleHttp method='GET' path='/keys' function=listKeys
+handleHttp method='GET' path='/keys' function=listKeys
 ```
 
 You may also use the reference names as argument keys.
 
 ```
-  set method 'GET'
-  set path '/keys'
-  set function listKeys
-  handleHttp method path function
+set method 'GET'
+set path '/keys'
+set function listKeys
+handleHttp method path function
 ```
 
 In the case you use reference names, and at least one of the reference names matches one of the argument names, you must: 1) use the references/arguments in the same order or 2) overwrite with explicit keys.
 
 ```
-  set dividend 3
-  set divisor 12
+set dividend 3
+set divisor 12
 
-  ; This is the normal format.
-  ; Both names match an are in order.
-  divide dividend divisor
+; This is the normal format.
+; Both names match an are in order.
+divide dividend divisor
 
-  ; This will run fine.
-  ; One name matches and is in order.
-  divide dividend 12
+; This will run fine.
+; One name matches and is in order.
+divide dividend 12
 
-  ; This will also run fine.
-  ; One name matches and is in order.
-  divide 3 divisor
+; This will also run fine.
+; One name matches and is in order.
+divide 3 divisor
 
-  ; This will not compile and will throw an error.
-  ; One of the reference names matches an argument name and its out of order.
-  divide divisor 36
+; This will not compile and will throw an error.
+; One of the reference names matches an argument name and its out of order.
+divide divisor 36
 
-  ; Instead, you could write the above without error as:
-  divide dividend=divisor divisor=36
+; Instead, you could write the above without error as:
+divide dividend=divisor divisor=36
 ```
 
 The anonymous function is defined as: `do arg1 arg2 ... \n block`
 
 ```
-  do col
-    divide (sum col) (length col)
+do col
+  divide (sum col) (length col)
 ```
 
 Define functions using the following formation. `do` has special powers: you do not need to use parantheses around `do`.
 
 ```
-  set average do col
-    divide (sum col) (length col)
+set average do col
+  divide (sum col) (length col)
 ```
 
 Every statement is an expression, so returns are only needed when wanting to return early.
 
 ```
-  set average do col
-    if equal (length col) 0
-      return 0
-    divide (sum col) (length col)
+set average do col
+  if equal (length col) 0
+    return 0
+  divide (sum col) (length col)
 ```
 
 Functions may be passed by reference as arguments to other functions. If a function reference is not the first it its group, the function is passed as reference.
 
 ```
-  set col [1 2 3]
-  set addThree do num
-    add num 3
-  map col addThree
+set col [1 2 3]
+set addThree do num
+  add num 3
+map col addThree
 ```
 
 #### 2.3.3 References, Get and set
@@ -415,25 +432,25 @@ Functions may be passed by reference as arguments to other functions. If a funct
 References are set using the `set` function. The first argument is the reference, the second argument is the value.
 
 ```
-  set a 1
+set a 1
 ```
 
 References are dynamic, so they can change type.
 
 ```
-  set a 1
-  set a 'abcd'
+set a 1
+set a 'abcd'
 ```
 
 References are always lexically scoped.
 
 ```
-  set a 0  ; `a` is scoped to the module
-  set f do   ;  function declaration with `do`
-    set b 2  ; `b` is scoped to the function `f`
-    if equal a b
-      set a 5  ; `a` still has module scope
-      set c 3  ; `c` is scoped to `if`
+set a 0  ; `a` is scoped to the module
+set f do   ;  function declaration with `do`
+  set b 2  ; `b` is scoped to the function `f`
+  if equal a b
+    set a 5  ; `a` still has module scope
+    set c 3  ; `c` is scoped to `if`
 ```
 
 TODO add an example of Closures
@@ -441,13 +458,13 @@ TODO add an example of Closures
 Any references to mutable data types, such as list or object, *must* start with a `$`.
 
 ```
-  set $a $[1 2 3]
+set $a $[1 2 3]
 ```
 
 The `get` and `set` methods exist on all tuples, lists, sets, groups, maps, and objects, respecting the mutability characteristic. A `set` operation will always return the full value of the iterable.
 
 ```
-  set a (get myMap 'key')
+set a (get myMap 'key')
 ```
 
 #### 2.3.4 Comments
@@ -455,7 +472,7 @@ The `get` and `set` methods exist on all tuples, lists, sets, groups, maps, and 
 Comments start with a semicolon.
 
 ```
-  ; This is a comment.
+; This is a comment.
 ```
 
 Semicolons are the comment character because semicolons:
@@ -466,10 +483,10 @@ Comments may be in block format.
 Indentation is 2 spaces.
 
 ```
-  ;
-    This
-    is a
-    block comment.
+;
+  This
+  is a
+  block comment.
 ```
 
 ### 2.4 Control Structures
@@ -479,33 +496,33 @@ Indentation is 2 spaces.
 Conditions use the keywords `if` and `else`. Conditions are also expressions.
 
 ```
-  set c (if equal a b
-    true
-  else
-    false)
+set c (if equal a b
+  true
+else
+  false)
 ```
 
 Of course, the previous example could be written more simply.
 
 ```
-  set c (equal a b)
+set c (equal a b)
 ```
 
 Conditions do not convert type. Comparing two non-matching types results in an error.
 
 ```
-  if equal 0 (toNumber '')
-    true
+if equal 0 (toNumber '')
+  true
 ```
 
 `if` does not require parentheses around the first function call.
 
 ```
-  ; these two lines are the same
-  if lessThan a 5
-    true
-  if (lessThan a 5)
-    true
+; these two lines are the same
+if lessThan a 5
+  true
+if (lessThan a 5)
+  true
 ```
 
 #### 2.4.2 Destructuring
@@ -513,8 +530,8 @@ Conditions do not convert type. Comparing two non-matching types results in an e
 Set multiple references at the same time by pulling values out of tuples, lists, maps, and objects.
 
 ```
-  set [a b] [1 2]
-  set {a b} {'a'=1 'b'=2}
+set [a b] [1 2]
+set {a b} {'a'=1 'b'=2}
 ```
 
 TODO examples of list, object
@@ -524,49 +541,49 @@ TODO examples of list, object
 `for` loops also do not require parentheses around the first function call.
 
 ```
-  set myTuple [1 2 3]
-  for range [_ num] myTuple
-    log num
+set myTuple [1 2 3]
+for range [_ num] myTuple
+  log num
 ```
 
 `for` loops are aware of the data type because the range function can handle multiple types. `range` returns `false` until its at the end, then returns `true`.
 
 ```
-  set myTuple [1 2 3]
-  set myMap {'a'=1 'b'=2 'c'=3}
+set myTuple [1 2 3]
+set myMap {'a'=1 'b'=2 'c'=3}
 
-  for range [index num] myTuple
-    log (concat index num)
+for range [index num] myTuple
+  log (concat index num)
 
-  for range [key value] myMap
-    log (concat key value)
+for range [key value] myMap
+  log (concat key value)
 ```
 
 You can use `_` to ignore parts you don't need.
 
 ```
-  set myTuple [1 2 3]
-  for range [_ num] myTuple
-    log num
+set myTuple [1 2 3]
+for range [_ num] myTuple
+  log num
 ```
 
 `for` loops can also act like `while` loops.
 
 ```
-  set a 0
-  for lessThan a 5
-    set a (add 1 a)
+set a 0
+for lessThan a 5
+  set a (add 1 a)
 ```
 
 Breaks and continues are allowed as well.
 
 ```
-  for range [_ num] myTuple
-    if lessThan num 5
-      break
-    if greaterThan num 5
-      continue
-    doSomething num
+for range [_ num] myTuple
+  if lessThan num 5
+    break
+  if greaterThan num 5
+    continue
+  doSomething num
 ```
 
 #### 2.4.4 Exceptions
@@ -574,10 +591,10 @@ Breaks and continues are allowed as well.
 Try and catch blocks work very similar to other languages.
 
 ```
-  try
-    divide 1 0
-  catch exception
-    log exception
+try
+  divide 1 0
+catch exception
+  log exception
 ```
 
 TODO add an example for raise
@@ -590,14 +607,14 @@ If a cycle is formed with `import`, the compiler will throw an error.
 Everything in the module is made available.
 
 ```
-  set myModule (import './path/to/module')
+set myModule (import './path/to/module')
 ```
 
 Access functions and other references in modules with the `get` function.
 
 ```
-  set math (import './math')
-  set average (get math 'average')
+set math (import './math')
+set average (get math 'average')
 ```
 
 TODO main function
@@ -607,27 +624,27 @@ TODO main function
 Grove has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, branch does not require parenthesis around the first function call.
 
 ```
-  for range [_ i] x
-    branch log i
+for range [_ i] x
+  branch log i
 ```
 
 You can create a channel to pass values between branches.
 
 ```
-  set ch (createChannel)
-  branch myFunc ch
+set ch (createChannel)
+branch myFunc ch
 ```
 
 Grove will pause in any branch when it arrives at `receive`.
 
 ```
-  receive channel value
+receive channel value
 ```
 
 Grove will resume in any branch when the computer tells the channel to `send`.
 
 ```
-  send channel value
+send channel value
 ```
 
 ## 3. Aliases
@@ -641,7 +658,7 @@ _Grove runs without aliases by default._ A project may be configured to default 
 A few languages offer comprehensions as an alternative iterate-to-generate interface.
 
 ```
-  [(divide num 3) for range [_ num] myTuple]
+[(divide num 3) for range [_ num] myTuple]
 ```
 
 TODO Add an example of Map / Object comprehensions
@@ -651,7 +668,7 @@ TODO Add an example of Map / Object comprehensions
 Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
 
 ```
-  map lis (do value: divide value 3)
+map lis (do value: divide value 3)
 ```
 
 ### 3.3 Ternary operation
@@ -659,7 +676,7 @@ Sometimes, having to hit return just for a single-line block doesn't feel right.
 Sometimes, having a single line set a value conditionally is convenient.
 
 ```
-  set a (if equal a b then a else b)
+set a (if equal a b then a else b)
 ```
 
 ### 3.4 Pipe
@@ -667,11 +684,11 @@ Sometimes, having a single line set a value conditionally is convenient.
 Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
 
 ```
-  set result [0 1 2 3 4 5 6 7 8 9]
-    | filter isOddNumber
-    | map addThree
-    | sort getLargerNumber
-    | reduce sum 0
+set result [0 1 2 3 4 5 6 7 8 9]
+  | filter isOddNumber
+  | map addThree
+  | sort getLargerNumber
+  | reduce sum 0
 ```
 
 TODO add an alias for Module import (see golang)
