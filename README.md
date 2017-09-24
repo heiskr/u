@@ -453,15 +453,15 @@ set divideAndAddWithDefaults do a b=1 c=0
 
 ; ERROR: You must use the exact set of arguments.
 divideAndAdd 1 2
-divideAndAdd 1 2 3 4
+divideAndAdd a=1 b=2 c=3 d=4
 
 ; Good: Using the exact set of arguments.
-divideAndAdd 1 2 3
+divideAndAdd a=1 b=2 c=3
 
 ; Good: You may skip arguments with defaults.
 divideAndAddWithDefaults 1
 divideAndAddWithDefaults 1 2
-divideAndAddWithDefaults 1 2 3
+divideAndAddWithDefaults a=1 b=2 c=3
 divideAndAddWithDefaults a=1 c=3
 ```
 
