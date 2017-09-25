@@ -10,7 +10,8 @@ Version 0
   - [1. Foundation](#)
     - [1.1 Principles](#)
     - [1.2 Influences](#)
-    - [1.3 Definitions](#)
+    - [1.3 Major Features](#)
+    - [1.4 Definitions](#)
   - [2. Core Language](#)
     - [2.1 Tokens](#)
     - [2.2 Types](#)
@@ -72,7 +73,19 @@ TODO vet document for casual and active voice.
 
 Lisp, Hypertalk, Python, JavaScript/Coffeescript, Go.
 
-### 1.3 Definitions
+### 1.3 Major Features
+
+- Grove is statically-typed, but Grove looks and writes like its dynamic.
+- Grove has a small number of built-in types. There are no secondary or user defined types. No class-based object-oriented programming. Instead, use of indexes and keys are statically checked.
+- Whitespace significant.
+- Immutable first, but mutable data is allowed.
+- Team focused: standardized lint and format.
+- Everything is an expression.
+- Massive standard library. Complete toolset.
+- Native concurrency pattern.
+- Specification first, implementation second. Not environment specific.
+
+### 1.4 Definitions
 
 TODO write out definitions
 
@@ -983,14 +996,15 @@ TODO
 
 ### TODO Command Line Interface
 
-`grove install`
-`grove install packageName@latest`
-`grove remove packageName`
-`grove lint ...`
-`grove build ...`
-`grove run ...`
-`grove test ...`
-`grove repl ...` ; Run Grove REPL, optionally with environment
+- `grove install`
+- `grove install packageName@latest`
+- `grove remove packageName`
+- `grove lint ...`
+- `grove format ...` ; autoformat all grove code in directory
+- `grove build ...`
+- `grove run ...`
+- `grove test ...`
+- `grove repl ...` ; Run Grove REPL, optionally with environment
 
 TODO package author tools
 
@@ -1085,8 +1099,8 @@ set updateKey do request id
   return [200 row]
 ```
 
-TODO Statistics / ML example with graph
-TODO Web UI example
-TODO Native application example
-TODO Audio / graphics example
-TODO Test example
+- TODO Statistics / ML example with graph
+- TODO Web UI example
+- TODO Native application example
+- TODO Audio / graphics example
+- TODO Test example
