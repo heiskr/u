@@ -523,7 +523,7 @@ fn 2  ; => 2
 fn 3  ; => 5
 ```
 
-You may also call the `scope` function to set the scope of a reference without defining its value.
+You may also call the `scope` function to set the scope of a reference without defining its value. `scope ref` is essentially identical to `set ref none`.
 
 ```
 scope num
