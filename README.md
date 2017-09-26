@@ -1,4 +1,4 @@
-# The Grove Language Specification
+z# The Grove Language Specification
 
 I release this document under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) and [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
@@ -504,7 +504,38 @@ set f do   ;  function declaration with `do`
     set c 3  ; `c` is scoped to `if`
 ```
 
-TODO add an example of Closures
+Closures.
+
+```
+set outer do num
+  set sum num
+  set inner do num2
+    set sum (add sum num2)
+    sum
+  inner
+
+(outer 3) 2  ; => 5
+
+set fn (outer 0)
+fn 2  ; => 2
+fn 3  ; => 5
+```
+
+You may also call the `scope` function to set the scope of a reference without defining its value.
+
+```
+scope num
+
+set myAdd do num2
+  set num (add num num2)
+
+set mySubtract do num2
+  set num (subtract num num2)
+
+set num 0
+myAdd 3  ; num is now 3
+mySubtract 2  ; num is now 1
+```
 
 Any references to mutable data types, such as list or object, *must* start with a `$`.
 
