@@ -478,6 +478,8 @@ divideAndAddWithDefaults a=1 b=2 c=3
 divideAndAddWithDefaults a=1 c=3
 ```
 
+Immutable type default arguments (none, boolean, number, string, tuple, set, map) are created only once. Mutable type default arguments (list, group, object) are created each time the function is called.
+
 #### 2.3.3 References, Get and set
 
 References are set using the `set` function. The first argument is the reference, the second argument is the value.
