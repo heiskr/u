@@ -513,8 +513,6 @@ set outer do num
   set sum num
   set inner do num2
     set sum (add sum num2)
-    sum
-  inner
 
 (outer 3) 2  ; => 5
 
