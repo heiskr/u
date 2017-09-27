@@ -1,4 +1,4 @@
-z# The Grove Language Specification
+# The Grove Language Specification
 
 I release this document under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) and [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
