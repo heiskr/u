@@ -902,6 +902,17 @@ TODO to consider... format, slice; tuple/list/set/group/map/object operations
 - Function names should always be verbs or start with verbs.
 - Function name should be comprehensive (e.g. loadJson v load).
 
+A few target areas:
+
+- Web Dev
+- Systems/DevOps/Security
+- Network
+- Databases
+- Native applications (mobile/desktop)
+- Data Science, Academic, Scientific
+- Artistic Media
+- Games
+
 #### TODO Logging
 
 The functions `log`, `warn`, and `error` are universal. The logging module helps figure out where the logging should go.
