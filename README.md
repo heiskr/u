@@ -36,22 +36,22 @@ Version 0
       - [2.4.2 Loops](#)
       - [2.4.3 Exceptions](#)
     - [2.5 Modules](#)
-    - [2.6 Concurrency](#)
-  - [3. Aliases](#)
-    - [3.1 Comprehensions](#)
-    - [3.2 Inline-Block](#)
-    - [3.3 Ternary operation](#)
-    - [3.4 Pipe](#)
-    - [3.5 Switch and Match](#)
-  - [4. Universal Functions](#)
-  - [5. Execution Rules: Build and Run](#)
-  - [6. Standard Library](#)
-  - [7. Extras](#)
-    - [7.1 Implementation Checklist](#)
-    - [7.2 Best Practices](#)
-    - [7.3 Examples](#)
-      - [7.3.1 Quicksort](#)
-      - [7.3.2 REST Endpoints](#)
+    - [2.6 Advanced Syntax](#)
+      - [2.6.1 Concurrency](#)
+      - [2.6.2 Comprehensions](#)
+      - [2.6.3 Inline-Block](#)
+      - [2.6.4 Ternary operation](#)
+      - [2.6.5 Pipe](#)
+      - [2.6.6 Switch and Match](#)
+  - [3. Universal Functions](#)
+  - [4. Execution Rules: Build and Run](#)
+  - [5. Standard Library](#)
+  - [6. Extras](#)
+    - [6.1 Implementation Checklist](#)
+    - [6.2 Best Practices](#)
+    - [6.3 Examples](#)
+      - [6.3.1 Quicksort](#)
+      - [6.3.2 REST Endpoints](#)
 
 ## 1. Foundation
 
@@ -721,7 +721,9 @@ set main do
   add 1 2
 ```
 
-### 2.6 Concurrency
+### 2.6 Advanced Syntax
+
+### 2.6.1 Concurrency
 
 Grove has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, `branch` does not require parenthesis around the first function call.
 
@@ -749,13 +751,7 @@ Grove will resume in any branch when the computer tells the channel to `send`.
 send channel value
 ```
 
-## 3. Aliases
-
-Aliases are opt-in language features that can reduce some verbosity from the language, at the cost of some consistency.
-
-_Grove runs without aliases by default._ A project may be configured to default to have aliases enabled.
-
-### 3.1 Comprehensions
+### 2.6.2 Comprehensions
 
 A few languages offer comprehensions as an alternative iterate-to-generate interface.
 
@@ -770,15 +766,15 @@ A few languages offer comprehensions as an alternative iterate-to-generate inter
 {key=(divide num 3) for range [key num] myMap}
 ```
 
-### 3.2 Inline-Block
+### 2.6.3 Inline-Block
 
-Sometimes, having to hit return just for a single-line block doesn't feel right. This alias enables a work-around. The colon character here replaces the newline plus indent.
+Sometimes, having to hit return just for a single-line block doesn't feel right. The colon character here replaces the newline plus indent.
 
 ```
 map lis (do value: divide value 3)
 ```
 
-### 3.3 Ternary operation
+### 2.6.4 Ternary operation
 
 Sometimes, having a single line set a value conditionally is convenient.
 
@@ -786,9 +782,9 @@ Sometimes, having a single line set a value conditionally is convenient.
 set a (if equal a b then a else b)
 ```
 
-### 3.4 Pipe
+### 2.6.5 Pipe
 
-Sometimes, we can lose the "step-by-step" feel, and the pipe alias can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
+Sometimes, we can lose the "step-by-step" feel, and the pipe can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
 
 ```
 set result [0 1 2 3 4 5 6 7 8 9]
@@ -798,11 +794,11 @@ set result [0 1 2 3 4 5 6 7 8 9]
   | reduce fn=sum start=0
 ```
 
-### 3.5 Switch and Match
+### 2.6.6 Switch and Match
 
 TODO
 
-## 4. Universal Functions
+## 3. Universal Functions
 
 When should a function be universal, as opposed to part of the standard library?
 
@@ -872,7 +868,7 @@ Type conversions transcend type.
 
 TODO to consider... format, slice; tuple/list/set/group/map/object operations
 
-## 5. Execution Rules: Lint, Build, and Run
+## 4. Execution Rules: Lint, Build, and Run
 
 - TODO Autoformat
 - TODO Autoupgrade lang version
@@ -899,7 +895,7 @@ TODO to consider... format, slice; tuple/list/set/group/map/object operations
 - Check for any unused code.
 - Check for duplicated code.
 
-## 6. Standard Library
+## 5. Standard Library
 
 - TODO Note where something would be a browser specific library or a server/local specific library.
 - Functions in modules in the standard library should not be nested past one level. (e.g. math.abs  instead of math.number.abs )
@@ -1039,19 +1035,19 @@ TODO
 
 TODO package author tools
 
-## 7. Extras
+## 6. Extras
 
-### 7.1 Implementation Checklist
-
-TODO
-
-### 7.2 Best Practices
+### 6.1 Implementation Checklist
 
 TODO
 
-### 7.3 Examples
+### 6.2 Best Practices
 
-#### 7.3.1 Quicksort
+TODO
+
+### 6.3 Examples
+
+#### 6.3.1 Quicksort
 
 A mutable quicksort implementation.
 
@@ -1071,7 +1067,7 @@ set quicksort do ~a
   return ~a
 ```
 
-#### 7.3.2 REST-ful service
+#### 6.3.2 REST-ful service
 
 ```
 set {handleHttp listenAndServe} (import 'http')
