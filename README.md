@@ -875,6 +875,28 @@ TODO to consider... format, slice; tuple/list/set/group/map/object operations
 - TODO stand alone / repl (?)
 - TODO error outputs, stacks etc. Write error messages in affirmative, active, casual, and not overly technical, language. Demonstrate when possible (did you mean...?). The compiler may refer to itself as `I`.
 
+
+### 4.1 Error Messages
+
+The relationship between the compiler and human is a conversation. Write error messages in affirmative, active, polite, concise, and casual language. Avoid jargon or "lower-level" terminology. The compiler refers to itself in first-person. Error messages must meet the following format. Use of appropriate Emojis is encouraged.
+
+1. **What**: Briefly describe what went wrong. Use direct, plain language to describe the issue. Be direct and as specific as possible.
+2. **Why**: If possible describe why the error happened.
+3. **How**: Finally, show one or more examples of how to fix the issue. For example, "did you mean...?". Use the actual code in question when possible.
+4. **Where**: Provide the file and line number of the error.
+5. Provide a look up code if the user wants more technical explanation. The code should be a Base64 URL-Safe UUID.
+6. Stack traces are an opt-in command line argument.
+
+```
+I can't `(add)` with a string.
+To `(add)`, I need number number, then I return a number.
+Try this instead:
+    add 3 (toString '3')
+helloWorld.grove line 20 fSVIHwQ1SnO53gAAzrEu0g
+```
+
+At build time, the user should have the option of seeing the first error, or all errors.
+
 * * *
 
 - Each indent should be two spaces per indent.
