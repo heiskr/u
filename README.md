@@ -75,8 +75,11 @@ Lisp, Hypertalk, Python, JavaScript/Coffeescript, Go.
 
 ### 1.3 Major Features
 
-- Grove is statically-typed, but Grove looks and writes like its dynamic.
+- **Procedural** scripting, with functional features like immutable data and list processing functions.
+- **Static typed.** Grove is statically-typed, but Grove looks and writes like its dynamic.
 - Grove has a small number of built-in types. There are no secondary or user defined types. No class-based object-oriented programming. Instead, use of indexes and keys are statically checked.
+- **Explicit** type conversion required.
+- Memory managed.
 - Whitespace significant.
 - Immutable first, but mutable data is allowed.
 - Team focused: standardized lint and format.
@@ -873,8 +876,6 @@ TODO to consider... format, slice; tuple/list/set/group/map/object operations
 - TODO Autoformat
 - TODO Autoupgrade lang version
 - TODO stand alone / repl (?)
-- TODO error outputs, stacks etc. Write error messages in affirmative, active, casual, and not overly technical, language. Demonstrate when possible (did you mean...?). The compiler may refer to itself as `I`.
-
 
 ### 4.1 Error Messages
 
