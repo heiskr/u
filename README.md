@@ -320,14 +320,14 @@ set b 2
 set myMap {a b 'c'=3}
 ```
 
-A map must have an `=` to be a map and not a set. A map can start with `=` or end with `=` to indicate its a map.
+A map must have an `=` to be a map and not a set. A map can start with `=` to indicate its a map.
 
 ```
 set a 1
 set b 2
 set c 3
 set mySet {a b c}
-set myMap {= a b c =}
+set myMap {= a b c}
 ```
 
 #### 2.2.10 Object
@@ -522,6 +522,9 @@ set outer do num
 set fn (outer 0)
 fn 2  ; => 2
 fn 3  ; => 5
+
+set fn (outer 1)
+fn 1  ; => 2
 ```
 
 You may also call the `scope` function to set the scope of a reference without defining its value. `scope ref` is essentially identical to `set ref none`.
@@ -889,8 +892,8 @@ The relationship between the compiler and human is a conversation. Write error m
 6. Stack traces are an opt-in command line argument.
 
 ```
-I can't `(add)` with a string.
-To `(add)`, I need number number, then I return a number.
+I can't (add) with a string.
+To (add), I need number number, then I return a number.
 Try this instead:
     add 3 (toString '3')
 helloWorld.grove line 20 fSVIHwQ1SnO53gAAzrEu0g
