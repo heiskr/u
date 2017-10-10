@@ -1128,7 +1128,7 @@ set listKeys do request
     FROM keys;
   set rows (runQuery query) ; keys are var names
   if not rows
-    return [404 {message='Not Found'}]
+    return [404 {'message'='Not Found'}]
   return [200 rows]
 
 set getKey do request id
@@ -1139,7 +1139,7 @@ set getKey do request id
   set rows (runQuery query id) ; keys are var names
   set row (get rows 0)
   if not row
-    return [404 {message='Not Found'}]
+    return [404 {'message'='Not Found'}]
   return [200 rows]
 
 set createKey do request
@@ -1149,7 +1149,7 @@ set createKey do request
   set value (get request 'value')
   set row (runQuery query value)
   if not row
-    return [400 {message='Bad Parameters'}]
+    return [400 {'message'='Bad Parameters'}]
   return [200 row]
 
 set updateKey do request id
@@ -1159,7 +1159,7 @@ set updateKey do request id
     WHERE id = {id};
   set row (runQuery query id value) ; keys are var names
   if not row
-    return [400 {message='Bad Parameters'}]
+    return [400 {'message'='Bad Parameters'}]
   return [200 row]
 ```
 
