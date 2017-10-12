@@ -42,7 +42,7 @@ Version 0
       - [2.6.3 Inline-Block](#)
       - [2.6.4 Ternary operation](#)
       - [2.6.5 Pipe](#)
-      - [2.6.6 Switch and Match](#)
+      - [2.6.6 Match](#)
   - [3. Universal Functions](#)
   - [4. Execution Rules: Build and Run](#)
   - [5. Standard Library](#)
@@ -193,8 +193,6 @@ Each data type has one falsy value: for numbers, its 0.
 ```
 42
 ```
-
-TODO Complex Numbers
 
 #### 2.2.4 String
 
@@ -800,9 +798,31 @@ set result [0 1 2 3 4 5 6 7 8 9]
   | reduce fn=sum start=0
 ```
 
-### 2.6.6 Switch and Match
+### 2.6.6 Match
 
-TODO
+There's already a `get` function.
+
+```
+set val (get {
+  'a'=4
+  'b'=3
+  'c'=2
+} 'a')
+```
+
+The `match` function will also:
+1. Call functions when they match, and return the value.
+2. Allows a `'default'` option, that runs when others do not match.
+3. When the value is not a set or group, and one of the keys is a set or group, then it will match any value in the set.
+
+```
+set val (match {
+  'a'=do: 4
+  'b'=do: 3
+  {'c' 'd'}=do: 2
+  'default'=do: 0
+} 'a')
+```
 
 ## 3. Universal Functions
 
@@ -823,6 +843,8 @@ Basic, universal functions.
 - `get`:
   - (tuple|list) number -> _T_
   - (map/object) (none|boolean|number|string|tuple) -> _T_
+- `match`:
+  - (none|boolean|number|string|tuple) (map/object) -> _T_
 - `import`: string -> module
 - `send`: channel _T_ -> _T_
 - `receive`: channel reference -> reference
