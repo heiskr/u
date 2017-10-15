@@ -1132,23 +1132,11 @@ set quicksort do ~a
 set {handleHttp listenAndServe} (import 'http')
 set {runQuery} (import 'database')
 
-set main do
-  set port 8573
-  handleHttp method='GET' path='/keys' function=listKeys
-  handleHttp method='GET' path='/keys/{id}' function=getKey
-  handleHttp method='POST' path='/keys' function=createKey
-  handleHttp method='PUT' path='/keys/{id}' function=updateKey
-  log (format 'Server started on {port}' port)
-  listenAndServe port
-
-; Zero, one, two arguments -> call linearly or keys
-; Three+ arguments -> use keys
-
 set listKeys do request
   set query '
     SELECT *
     FROM keys;
-  set rows (runQuery query) ; keys are var names
+  set rows (runQuery query)
   if not rows
     return [404 {'message'='Not Found'}]
   return [200 rows]
@@ -1158,7 +1146,7 @@ set getKey do request id
     SELECT *
     FROM keys
     WHERE id={id};
-  set rows (runQuery query id) ; keys are var names
+  set rows (runQuery query {id})
   set row (get rows 0)
   if not row
     return [404 {'message'='Not Found'}]
@@ -1169,7 +1157,7 @@ set createKey do request
     INSERT INTO keys (value)
     VALUES ({value});
   set value (get request 'value')
-  set row (runQuery query value)
+  set row (runQuery query {value})
   if not row
     return [400 {'message'='Bad Parameters'}]
   return [200 row]
@@ -1179,10 +1167,19 @@ set updateKey do request id
     UPDATE keys
     SET value = {value}
     WHERE id = {id};
-  set row (runQuery query id value) ; keys are var names
+  set row (runQuery query {id value})
   if not row
     return [400 {'message'='Bad Parameters'}]
   return [200 row]
+
+set main do
+  set port 8573
+  handleHttp method='GET' path='/keys' handler=listKeys
+  handleHttp method='GET' path='/keys/{id}' handler=getKey
+  handleHttp method='POST' path='/keys' handler=createKey
+  handleHttp method='PUT' path='/keys/{id}' handler=updateKey
+  log (format 'Server started on {port}' {port})
+  listenAndServe port
 ```
 
 - TODO Statistics / ML example with graph
