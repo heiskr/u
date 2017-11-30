@@ -921,7 +921,7 @@ Try this instead:
 helloWorld.grove line 20 fSVIHwQ1SnO53gAAzrEu0g
 ```
 
-At build time, the user should have the option of seeing the first error, or all errors.
+At build time, the user should have the option of seeing the first error, or all errors. You may offer the fix the errors automatically for the user. You may enter into watch mode if there is a compile error until all errors are fixed.
 
 * * *
 
