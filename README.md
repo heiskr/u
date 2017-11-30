@@ -910,7 +910,7 @@ The relationship between the compiler and human is a conversation. Write error m
 2. **Why**: If possible describe why the error happened.
 3. **How**: Finally, show one or more examples of how to fix the issue. For example, "did you mean...?". Use the actual code in question when possible.
 4. **Where**: Provide the file and line number of the error.
-5. Provide a look up code if the user wants more technical explanation. The code should be a Base64 URL-Safe UUID.
+5. Provide a look up code if the user wants more technical explanation. The code should be a Base62 UUID.
 6. Stack traces are an opt-in command line argument.
 
 ```
@@ -1024,7 +1024,7 @@ TODO what basic type should represent datetimes? Number, String, or Map?
 - TODO SQL
 - TODO XML (?)
 - TODO markdown
-- TODO Base64
+- TODO Base64 / Base62
 - TODO hex
 - TODO Compression and decompression algorithms (tar, zip, etc)
 - TODO Hashing and Encryption
