@@ -55,10 +55,6 @@ Version 0
 
 ## 1. Foundation
 
-Grove may be a programming language. Or not. This document describes what Grove is, but does not describe what Grove is not. Grove may be implemented in whatever way you might dream. Anywhere you want Grove to be, make it.
-
-TODO vet document for casual and active voice.
-
 ### 1.1 Principles
 
 - Read out-loud as is.
@@ -1187,3 +1183,4 @@ set main do
 - TODO Native application example
 - TODO Audio / graphics example
 - TODO Test example
+- TODO vet document for casual and active voice.
