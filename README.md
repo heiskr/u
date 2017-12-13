@@ -755,6 +755,55 @@ Grove will resume in any branch when the computer tells the channel to `send`.
 send channel value
 ```
 
+- TODO example sync
+  ```
+  set fn do
+    1
+  set value (fn)
+  log value
+  ```
+- TODO example one async
+  ```
+  set asyncFn do ch
+    send ch 1
+  set ch (createChannel)
+  branch asyncFn ch
+  receive ch value
+  log value
+  ```
+- TODO example multi async - sequence
+  ```
+  set asyncFn do ch
+    send ch 1
+  set ch (createChannel)
+  branch asyncFn ch
+  receive ch value
+  ; then I can decide/arg using `value` here
+  if value
+    branch asyncFn ch
+    receive ch value2
+    log value2
+  else
+    log 'Nothing to see here'
+  ```
+- TODO example multi async - parallel
+  ```
+  set asyncFn do ch
+    send ch 1
+  set asyncFn2 do ch
+    send ch 2
+  set ch (createChannel)
+  set ch2 (createChannel)
+  branch asyncFn ch
+  branch asyncFn2 ch
+  receive ch value
+  receive ch2 value2
+  log [value value2]
+  ```
+- TODO example multi async - graph
+  ```
+  ```
+
 ### 2.6.2 Comprehensions
 
 A few languages offer comprehensions as an alternative iterate-to-generate interface.
