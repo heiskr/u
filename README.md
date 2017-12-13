@@ -55,10 +55,6 @@ Version 0
 
 ## 1. Foundation
 
-Grove may be a programming language. Or not. This document describes what Grove is, but does not describe what Grove is not. Grove may be implemented in whatever way you might dream. Anywhere you want Grove to be, make it.
-
-TODO vet document for casual and active voice.
-
 ### 1.1 Principles
 
 - Read out-loud as is.
@@ -959,7 +955,7 @@ The relationship between the compiler and human is a conversation. Write error m
 2. **Why**: If possible describe why the error happened.
 3. **How**: Finally, show one or more examples of how to fix the issue. For example, "did you mean...?". Use the actual code in question when possible.
 4. **Where**: Provide the file and line number of the error.
-5. Provide a look up code if the user wants more technical explanation. The code should be a Base64 URL-Safe UUID.
+5. Provide a look up code if the user wants more technical explanation. The code should be a Base62 UUID.
 6. Stack traces are an opt-in command line argument.
 
 ```
@@ -970,7 +966,7 @@ Try this instead:
 helloWorld.grove line 20 fSVIHwQ1SnO53gAAzrEu0g
 ```
 
-At build time, the user should have the option of seeing the first error, or all errors.
+At build time, the user should have the option of seeing the first error, or all errors. You may offer the fix the errors automatically for the user. You may enter into watch mode if there is a compile error until all errors are fixed.
 
 * * *
 
@@ -1073,7 +1069,7 @@ TODO what basic type should represent datetimes? Number, String, or Map?
 - TODO SQL
 - TODO XML (?)
 - TODO markdown
-- TODO Base64
+- TODO Base64 / Base62
 - TODO hex
 - TODO Compression and decompression algorithms (tar, zip, etc)
 - TODO Hashing and Encryption
@@ -1236,3 +1232,4 @@ set main do
 - TODO Native application example
 - TODO Audio / graphics example
 - TODO Test example
+- TODO vet document for casual and active voice.
