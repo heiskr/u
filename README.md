@@ -19,12 +19,14 @@ Version 0
       - [2.2.2 Boolean](#)
       - [2.2.3 Number](#)
       - [2.2.4 String](#)
-      - [2.2.5 Tuple](#)
-      - [2.2.6 List](#)
-      - [2.2.7 Set](#)
-      - [2.2.8 Group](#)
+      - [2.2.5 Set](#)
+      - [2.2.6 Group](#)
+      - [2.2.7 Tuple](#)
+      - [2.2.8 List](#)
       - [2.2.9 Map](#)
       - [2.2.10 Object](#)
+      - [2.2.11 Table](#)
+      - [2.2.12 Dictionary](#)
     - [2.3 Expressions, Functions, References, Scope](#)
       - [2.3.1 Blocks and Termination](#)
       - [2.3.2 Calling and Defining Functions](#)
@@ -125,12 +127,14 @@ Grove assumes UTF-8 across the board. Any change from that must explicitly overr
 - `()`: Call a function. This is often optional.
 - `'`: String definition. Two must be used within a single line. One by itself indicates a multiline string.
 - `;`: Begins a comment. On a line by itself, indicates a multiline comment.
-- `[]`: Defines an immutable tuple.
-- `$[]`: Defines a mutable list.
 - `{}`: Defines an immutable set.
 - `${}`: Defines a mutable group.
+- `[]`: Defines an immutable tuple.
+- `$[]`: Defines a mutable list.
 - `{=}`: Defines an immutable map.
 - `${=}`: Defines a mutable object.
+- `[=]`: Defines an immutable table.
+- `$[=]`: Defines a mutable dictionary.
 
 **Allowed Reference Names**
 
@@ -159,7 +163,7 @@ Also, the `send` and `receive` functions have special execution properties.
 
 Grove only has three types of things: data, functions, and references.
 
-**Data**. Immutable examples are boolean, numbers, strings, tuples, and maps. Mutable lists and objects are also available. There are no secondary or user-defined types.
+**Data**. Immutable examples are boolean, numbers, strings, sets, tuples, maps, and tables. Mutable groups, lists, objects, and dictionaries are also available. There are no secondary or user-defined types.
 
 **Functions**. Functions are first-class. Data does not own functions. Methods do not exist.
 
@@ -208,7 +212,40 @@ Strings can be defined in multiple lines with indentation just like comments. Th
   1234
 ```
 
-#### 2.2.5 Tuple
+#### 2.2.5 Set
+
+Sets are defined with `{}`. The falsy form of set is an empty set, `{}`.
+Sets are unordered. Sets support embedding.
+Sets are immutable. Sets may only store immutable data types.
+
+```
+{1 2 3}
+```
+
+Sets may be also written as:
+
+```
+{
+  1
+  2
+  3
+}
+```
+
+The read out-loud equilavent would be `set column to (set of 1 2 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `{}` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
+
+
+#### 2.2.6 Group
+
+Groups are like sets, but mutable. They are defined with `${}`.
+The falsy group is the empty group.
+Groups can store immutable data, mutable data, and functions. Groups only store references.
+
+```
+${1 2 3}
+```
+
+#### 2.2.7 Tuple
 
 Tuples are defined with `[]`. Tuples are zero-indexed.
 The falsy value of tuple is the empty tuple, `[]`. Tuples are immutable.
@@ -234,9 +271,7 @@ A tuple statement would be like
 set column [1 2 3]
 ```
 
-The read out-loud equilavent would be `set column to (tuple of 1 2 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `[]` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
-
-#### 2.2.6 List
+#### 2.2.8 List
 
 Lists are defined with `$[]`.
 The falsy value of list is the empty list, `$[]`. Lists are like tuples, but mutable.
@@ -244,38 +279,6 @@ Lists can store immutable data, mutable data, and functions. Lists only store re
 
 ```
 $[1 2 3]
-```
-
-#### 2.2.7 Set
-
-Sets are defined with `{}`. The falsy form of set is an empty set, `{}`.
-Sets are unordered. Sets support embedding.
-Sets are immutable. Sets may only store immutable data types.
-
-```
-{1 2 3}
-```
-
-Sets may be also written as:
-
-```
-{
-  1
-  2
-  3
-}
-```
-
-The read out-loud equilavent would be `set column to (set of 1 2 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `{}` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
-
-#### 2.2.8 Group
-
-Groups are like sets, but mutable. They are defined with `${}`.
-The falsy group is the empty group.
-Groups can store immutable data, mutable data, and functions. Groups only store references.
-
-```
-${1 2 3}
 ```
 
 #### 2.2.9 Map
@@ -332,6 +335,36 @@ Objects can store immutable data, mutable data, and functions. Objects only stor
 
 ```
 ${'a'=1 'b'=2 'c'=3}
+```
+
+### 2.2.11 Table
+
+Tables are defined with `[=]`. Tables are like maps but also ordered. Tables are zero-indexed.
+The falsy value of table is the empty table, `[=]`. Tables are immutable.
+Tables can only store other immutable data types, such as boolean, number, string, tuple, and map.
+
+```
+['a'=1 'b'=2 c'c=3]
+```
+
+Tables do not differentiate between the kind of whitespace, so we can just as easily write:
+
+```
+[
+  'a'=1
+  'b'=2
+  'c'=3
+]
+```
+
+### 2.2.12 Dictionary
+
+Dictionaries are like maps, but mutable. They are defined with `$[=]`.
+The falsy dictionary is the empty dictionary.
+Objects can store immutable data, mutable data, and functions. Dictionaries only store references.
+
+```
+$['a'=1 'b'=2 'c'=3]
 ```
 
 ### 2.3 Expressions, Functions, References, Scope
@@ -475,7 +508,7 @@ divideAndAddWithDefaults a=1 b=2 c=3
 divideAndAddWithDefaults a=1 c=3
 ```
 
-Immutable type default arguments (none, boolean, number, string, tuple, set, map) are created only once. Mutable type default arguments (list, group, object) are created each time the function is called.
+Immutable type default arguments (none, boolean, number, string, set, tuple, map, table) are created only once. Mutable type default arguments (group, list, object, dictionary) are created each time the function is called.
 
 #### 2.3.3 References, Get and set
 
@@ -543,7 +576,7 @@ Any references to mutable data types, such as list or object, *must* start with 
 set $a $[1 2 3]
 ```
 
-The `get` and `set` methods exist on all tuples, lists, sets, groups, maps, and objects, respecting the mutability characteristic. A `set` operation will always return the full value of the iterable.
+The `get` and `set` methods exist on all tuples, lists, sets, groups, maps, objects, tables, and dictionaries, respecting the mutability characteristic. A `set` operation will always return the full value of the iterable.
 
 ```
 set a (get myMap 'key')
@@ -609,7 +642,7 @@ if (lessThan a 5)
 
 #### 2.4.2 Destructuring
 
-Set multiple references at the same time by pulling values out of tuples, lists, maps, and objects. There's no way to destructure sets or groups.
+Set multiple references at the same time by pulling values out of tuples, lists, maps, objects, tables, and dictionaries. There's no way to destructure sets or groups.
 
 ```
 set [a b] [1 2]
@@ -679,7 +712,7 @@ catch exception
   log exception
 ```
 
-There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any string, tuple, set, or map that is not empty.
+There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any string, tuple, set, map, or table that is not empty.
 
 ```
 try
@@ -981,7 +1014,7 @@ At build time, the user should have the option of seeing the first error, or all
 - No lines should have trailing whitespace.
 - Lines should be no longer than 80 characters.
 - Types must match to do a comparison.
-- Any compiler or linter for Grove should statically check primitive types (none, boolean, number, string, tuple, list, map, object, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that references can change type, essentially creating a union type.
+- Any compiler or linter for Grove should statically check primitive types (none, boolean, number, string, tuple, list, map, object, table, dictionary, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that references can change type, essentially creating a union type.
 - A linter should check to ensure that the tuple and list indexes and map and object keys as used are defined and within range, and return the expected, and if not a condition statement is used to prevent the use of an unexpected index or key.
 - A reference to a mutable data type should be prefixed with `$`.
   - `~` prefix indicates the referenced data _may_ be mutable or immutable, in the case of a function argument.
@@ -1024,7 +1057,7 @@ The functions `log`, `warn`, and `error` are universal. The logging module helps
 - TODO statistics
 - TODO geometry / trig
 
-#### TODO Collections (Tuples, Lists, Maps, Objects)
+#### TODO Collections (Tuples, Lists, Maps, Objects, Tables, Dictionaries)
 
 - append
 - concat
