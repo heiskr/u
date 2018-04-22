@@ -145,7 +145,7 @@ Reference names may start with `$` or `~`, any letter `a-z` or `A-Z` as well as 
 - `none`
 - `true`
 - `false`
-- `do`
+- `to`
 - `return`
 - `if`
 - `else`
@@ -213,6 +213,14 @@ Strings can be defined in multiple lines with indentation just like comments. Th
 ```
 
 #### 2.2.5 Set
+
+For collection types...
+
+- Immutable or mutable: immutable is plain, mutable starts with `$`
+- Unordered or ordered: unordered uses `{}`, ordered uses `[]`
+- Unkeyed or keyed: unkeyed does not use `=`, keyed uses `=`
+
+---
 
 Sets are defined with `{}`. The falsy form of set is an empty set, `{}`.
 Sets are unordered. Sets support embedding.
@@ -344,7 +352,7 @@ The falsy value of table is the empty table, `[=]`. Tables are immutable.
 Tables can only store other immutable data types, such as boolean, number, string, tuple, and map.
 
 ```
-['a'=1 'b'=2 c'c=3]
+['a'=1 'b'=2 'c'=3]
 ```
 
 Tables do not differentiate between the kind of whitespace, so we can just as easily write:
@@ -453,24 +461,24 @@ divide divisor dividend=36
 divide dividend=divisor divisor=36
 ```
 
-The anonymous function is defined as: `do arg1 arg2 ... \n block`
+The anonymous function is defined as: `to arg1 arg2 ... \n <indent> block`
 
 ```
-do col
+to col
   divide (sum col) (length col)
 ```
 
-Define functions using the following formation. `do` has special powers: you do not need to use parantheses around `do`.
+Define functions using the following formation. `to` has special powers: you do not need to use parantheses around `to`.
 
 ```
-set average do col
+set average to col
   divide (sum col) (length col)
 ```
 
 Every statement is an expression, so returns are only needed when wanting to return early.
 
 ```
-set average do col
+set average to col
   if equal (length col) 0
     return 0
   divide (sum col) (length col)
@@ -480,7 +488,7 @@ Functions may be passed by reference as arguments to other functions. If a funct
 
 ```
 set col [1 2 3]
-set addThree do num
+set addThree to num
   add num 3
 map col addThree
 ```
@@ -488,10 +496,10 @@ map col addThree
 You must call functions with the exact set of available arguments. However, functions may define defaults for some arguments. When calling functions, arguments with defined defaults can be skipped.
 
 ```
-set divideAndAdd do a b c
+set divideAndAdd to a b c
   add (divide a b) c
 
-set divideAndAddWithDefaults do a b=1 c=0
+set divideAndAddWithDefaults to a b=1 c=0
   add (divide a b) c
 
 ; ERROR: You must use the exact set of arguments.
@@ -529,7 +537,7 @@ References are always lexically scoped.
 
 ```
 set a 0  ; `a` is scoped to the module
-set f do   ;  function declaration with `do`
+set f to   ;  function declaration with `to`
   set b 2  ; `b` is scoped to the function `f`
   if equal a b
     set a 5  ; `a` still has module scope
@@ -539,9 +547,9 @@ set f do   ;  function declaration with `do`
 Closures.
 
 ```
-set outer do num
+set outer to num
   set sum num
-  set inner do num2
+  set inner to num2
     set sum (add sum num2)
 
 (outer 3) 2  ; => 5
@@ -559,10 +567,10 @@ You may also call the `scope` function to set the scope of a reference without d
 ```
 scope num
 
-set myAdd do num2
+set myAdd to num2
   set num (add num num2)
 
-set mySubtract do num2
+set mySubtract to num2
   set num (subtract num num2)
 
 set num 0
@@ -653,7 +661,7 @@ set {a b} ${'a'=1 'b'=2}
 
 #### 2.4.3 Loops
 
-`for` loops also do not require parentheses around the first function call.
+`for` loops also to not require parentheses around the first function call.
 
 ```
 set myTuple [1 2 3]
@@ -750,7 +758,7 @@ Everything in the module is made available. Grove has no concept of `public` or 
 Some modes of execution will default to look for a `main` function. This function will be the entry point to the program.
 
 ```
-set main do
+set main to
   add 1 2
 ```
 
@@ -786,14 +794,14 @@ send channel value
 
 - TODO example sync
   ```
-  set fn do
+  set fn to
     1
   set value (fn)
   log value
   ```
 - TODO example one async
   ```
-  set asyncFn do ch
+  set asyncFn to ch
     send ch 1
   set ch (createChannel)
   branch asyncFn ch
@@ -802,7 +810,7 @@ send channel value
   ```
 - TODO example multi async - sequence
   ```
-  set asyncFn do ch
+  set asyncFn to ch
     send ch 1
   set ch (createChannel)
   branch asyncFn ch
@@ -817,9 +825,9 @@ send channel value
   ```
 - TODO example multi async - parallel
   ```
-  set asyncFn do ch
+  set asyncFn to ch
     send ch 1
-  set asyncFn2 do ch
+  set asyncFn2 to ch
     send ch 2
   set ch (createChannel)
   set ch2 (createChannel)
@@ -853,7 +861,7 @@ A few languages offer comprehensions as an alternative iterate-to-generate inter
 Sometimes, having to hit return just for a single-line block doesn't feel right. The colon character here replaces the newline plus indent.
 
 ```
-map lis (do value: divide value 3)
+map lis (to value: divide value 3)
 ```
 
 ### 2.6.4 Ternary operation
@@ -895,10 +903,10 @@ The `match` function will also:
 
 ```
 set val (match {
-  'a'=do: 4
-  'b'=do: 3
-  {'c' 'd'}=do: 2
-  'default'=do: 0
+  'a'=4
+  'b'=3
+  {'c' 'd'}=to: 2
+  'default'=0
 } 'a')
 ```
 
@@ -1189,7 +1197,7 @@ TODO
 A mutable quicksort implementation.
 
 ```
-set quicksort do ~a
+set quicksort to ~a
   set [$less $equal $greater] [$[] $[] $[]]
   if greaterThan (length ~a) 1
     set pivot (random (length ~a))
@@ -1210,7 +1218,7 @@ set quicksort do ~a
 set {handleHttp listenAndServe} (import 'http')
 set {runQuery} (import 'database')
 
-set listKeys do request
+set listKeys to request
   set query '
     SELECT *
     FROM keys;
@@ -1219,7 +1227,7 @@ set listKeys do request
     return [404 {'message'='Not Found'}]
   return [200 rows]
 
-set getKey do request id
+set getKey to request id
   set query '
     SELECT *
     FROM keys
@@ -1230,7 +1238,7 @@ set getKey do request id
     return [404 {'message'='Not Found'}]
   return [200 rows]
 
-set createKey do request
+set createKey to request
   set query '
     INSERT INTO keys (value)
     VALUES ({value});
@@ -1240,7 +1248,7 @@ set createKey do request
     return [400 {'message'='Bad Parameters'}]
   return [200 row]
 
-set updateKey do request id
+set updateKey to request id
   set query '
     UPDATE keys
     SET value = {value}
@@ -1250,7 +1258,7 @@ set updateKey do request id
     return [400 {'message'='Bad Parameters'}]
   return [200 row]
 
-set main do
+set main to
   set port 8573
   handleHttp method='GET' path='/keys' handler=listKeys
   handleHttp method='GET' path='/keys/{id}' handler=getKey
