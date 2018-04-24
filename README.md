@@ -225,6 +225,7 @@ For collection types...
 Sets are defined with `{}`. The falsy form of set is an empty set, `{}`.
 Sets are unordered. Sets support embedding.
 Sets are immutable. Sets may only store immutable data types.
+Because sets have no keys, duplicate values are not possible.
 
 ```
 {1 2 3}
