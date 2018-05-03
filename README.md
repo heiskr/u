@@ -31,7 +31,7 @@ Version 0
       - [2.3.1 Blocks and Termination](#)
       - [2.3.2 Calling and Defining Functions](#)
       - [2.3.3 References, Get and set](#)
-      - [2.3.4 Inline-Indent and Inline-Outdent](#)
+      - [2.3.4 Inline-Indent](#)
       - [2.3.5 Then](#)
       - [2.3.6 Comments](#)
     - [2.4 Control Structures](#)
@@ -590,21 +590,12 @@ The `get` and `set` methods exist on all tuples, lists, sets, groups, maps, obje
 set a (get myMap 'key')
 ```
 
-#### 2.3.4 Inline-Indent and Inline-Outdent
+#### 2.3.4 Inline-Indent
 
 Having to hit return just for a single-line block doesn't feel right. The colon character here replaces the newline plus indent.
 
 ```
 map lis (to value: divide value 3)
-```
-
-You can also use `:` to tighten up `if` as well.
-
-```
-set a (
-  if equal a b: a
-  else: b
-)
 ```
 
 #### 2.3.5 Then
@@ -675,6 +666,15 @@ if lessThan a 5
   true
 if (lessThan a 5)
   true
+```
+
+You can also use `:` to tighten up `if` as well.
+
+```
+set a (
+  if equal a b: a
+  else: b
+)
 ```
 
 #### 2.4.2 Destructuring
