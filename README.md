@@ -41,8 +41,7 @@ Version 0
     - [2.6 Advanced Syntax](#)
       - [2.6.1 Concurrency](#)
       - [2.6.2 Inline-Block](#)
-      - [2.6.3 Ternary operation](#)
-      - [2.6.4 Then](#)
+      - [2.6.3 Then](#)
   - [3. Universal Functions](#)
   - [4. Execution Rules: Build and Run](#)
   - [5. Standard Library](#)
@@ -133,6 +132,7 @@ Grove assumes UTF-8 across the board. Any change from that must explicitly overr
 - `${=}`: Defines a mutable object.
 - `[=]`: Defines an immutable table.
 - `$[=]`: Defines a mutable dictionary.
+- `:`: Provides inlining of function or block body.
 
 **Allowed Reference Names**
 
@@ -154,6 +154,7 @@ Reference names may start with `$` or `~`, any letter `a-z` or `A-Z` as well as 
 - `catch`
 - `raise`
 - `branch`
+- `then`
 
 Also, the `send` and `receive` functions have special execution properties.
 
@@ -842,21 +843,13 @@ send channel value
 
 ### 2.6.2 Inline-Block
 
-Sometimes, having to hit return just for a single-line block doesn't feel right. The colon character here replaces the newline plus indent.
+Having to hit return just for a single-line block doesn't feel right. The colon character here replaces the newline plus indent.
 
 ```
 map lis (to value: divide value 3)
 ```
 
-### 2.6.3 Ternary operation
-
-Sometimes, having a single line set a value conditionally is convenient.
-
-```
-set a (if equal a b then a else b)
-```
-
-### 2.6.4 Then
+### 2.6.3 Then
 
 Sometimes, we can lose the "step-by-step" feel, and `then` can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. `then` may be used on the same line or on succeeding indented lines.
 
