@@ -31,17 +31,16 @@ Version 0
       - [2.3.1 Blocks and Termination](#)
       - [2.3.2 Calling and Defining Functions](#)
       - [2.3.3 References, Get and set](#)
-      - [2.3.4 Comments](#)
+      - [2.3.4 Inline-Indent and Inline-Outdent](#)
+      - [2.3.5 Then](#)
+      - [2.3.6 Comments](#)
     - [2.4 Control Structures](#)
       - [2.4.1 Conditions](#)
       - [2.4.2 Destructuring](#)
       - [2.4.2 Loops](#)
       - [2.4.3 Exceptions](#)
     - [2.5 Modules](#)
-    - [2.6 Advanced Syntax](#)
-      - [2.6.1 Concurrency](#)
-      - [2.6.2 Inline-Block](#)
-      - [2.6.3 Then](#)
+    - [2.6 Concurrency](#)
   - [3. Universal Functions](#)
   - [4. Execution Rules: Build and Run](#)
   - [5. Standard Library](#)
@@ -133,6 +132,7 @@ Grove assumes UTF-8 across the board. Any change from that must explicitly overr
 - `[=]`: Defines an immutable table.
 - `$[=]`: Defines a mutable dictionary.
 - `:`: Provides inlining of function or block body.
+- `..`: Provides outdent, inlining successive.
 
 **Allowed Reference Names**
 
@@ -590,7 +590,33 @@ The `get` and `set` methods exist on all tuples, lists, sets, groups, maps, obje
 set a (get myMap 'key')
 ```
 
-#### 2.3.4 Comments
+#### 2.3.4 Inline-Indent and Inline-Outdent
+
+Having to hit return just for a single-line block doesn't feel right. The colon character here replaces the newline plus indent.
+
+```
+map lis (to value: divide value 3)
+```
+
+You can also use `..` two dots to newline plus outdent.
+
+```
+set a (if equal a b: a .. else: b)
+```
+
+#### 2.3.5 Then
+
+Sometimes, we can lose the "step-by-step" feel, and `then` can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. `then` may be used on the same line or on succeeding indented lines.
+
+```
+set result [0 1 2 3 4 5 6 7 8 9]
+  then filter isOddNumber
+  then map addThree
+  then sort getLargerNumber
+  then reduce fn=sum start=0
+```
+
+#### 2.3.6 Comments
 
 Comments start with a semicolon.
 
@@ -762,9 +788,7 @@ set main to
   add 1 2
 ```
 
-### 2.6 Advanced Syntax
-
-### 2.6.1 Concurrency
+### 2.6 Concurrency
 
 Grove has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, `branch` does not require parenthesis around the first function call.
 
@@ -840,26 +864,6 @@ send channel value
 - TODO example multi async - graph
   ```
   ```
-
-### 2.6.2 Inline-Block
-
-Having to hit return just for a single-line block doesn't feel right. The colon character here replaces the newline plus indent.
-
-```
-map lis (to value: divide value 3)
-```
-
-### 2.6.3 Then
-
-Sometimes, we can lose the "step-by-step" feel, and `then` can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. `then` may be used on the same line or on succeeding indented lines.
-
-```
-set result [0 1 2 3 4 5 6 7 8 9]
-  then filter isOddNumber
-  then map addThree
-  then sort getLargerNumber
-  then reduce fn=sum start=0
-```
 
 ## 3. Universal Functions
 
