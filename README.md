@@ -132,7 +132,6 @@ Grove assumes UTF-8 across the board. Any change from that must explicitly overr
 - `[=]`: Defines an immutable table.
 - `$[=]`: Defines a mutable dictionary.
 - `:`: Provides inlining of function or block body.
-- `..`: Provides outdent, inlining successive.
 
 **Allowed Reference Names**
 
