@@ -598,10 +598,13 @@ Having to hit return just for a single-line block doesn't feel right. The colon 
 map lis (to value: divide value 3)
 ```
 
-You can also use `..` two dots to newline plus outdent.
+You can also use `:` to tighten up `if` as well.
 
 ```
-set a (if equal a b: a .. else: b)
+set a (
+  if equal a b: a
+  else: b
+)
 ```
 
 #### 2.3.5 Then
