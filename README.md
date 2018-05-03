@@ -40,11 +40,9 @@ Version 0
     - [2.5 Modules](#)
     - [2.6 Advanced Syntax](#)
       - [2.6.1 Concurrency](#)
-      - [2.6.2 Comprehensions](#)
-      - [2.6.3 Inline-Block](#)
-      - [2.6.4 Ternary operation](#)
-      - [2.6.5 Pipe](#)
-      - [2.6.6 Match](#)
+      - [2.6.2 Inline-Block](#)
+      - [2.6.3 Ternary operation](#)
+      - [2.6.4 Then](#)
   - [3. Universal Functions](#)
   - [4. Execution Rules: Build and Run](#)
   - [5. Standard Library](#)
@@ -842,22 +840,7 @@ send channel value
   ```
   ```
 
-### 2.6.2 Comprehensions
-
-A few languages offer comprehensions as an alternative iterate-to-generate interface.
-
-```
-; A tuple comprehension.
-[(divide num 3) for range [_ num] myTuple]
-
-; A set comprehension.
-{(divide num 3) for range num mySet}
-
-; A map comprehension. Notice the `=`.
-{key=(divide num 3) for range [key num] myMap}
-```
-
-### 2.6.3 Inline-Block
+### 2.6.2 Inline-Block
 
 Sometimes, having to hit return just for a single-line block doesn't feel right. The colon character here replaces the newline plus indent.
 
@@ -865,7 +848,7 @@ Sometimes, having to hit return just for a single-line block doesn't feel right.
 map lis (to value: divide value 3)
 ```
 
-### 2.6.4 Ternary operation
+### 2.6.3 Ternary operation
 
 Sometimes, having a single line set a value conditionally is convenient.
 
@@ -873,42 +856,16 @@ Sometimes, having a single line set a value conditionally is convenient.
 set a (if equal a b then a else b)
 ```
 
-### 2.6.5 Pipe
+### 2.6.4 Then
 
-Sometimes, we can lose the "step-by-step" feel, and the pipe can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. Pipes may be used on the same line or on succeeding indented lines.
+Sometimes, we can lose the "step-by-step" feel, and `then` can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. `then` may be used on the same line or on succeeding indented lines.
 
 ```
 set result [0 1 2 3 4 5 6 7 8 9]
-  | filter isOddNumber
-  | map addThree
-  | sort getLargerNumber
-  | reduce fn=sum start=0
-```
-
-### 2.6.6 Match
-
-There's already a `get` function.
-
-```
-set val (get {
-  'a'=4
-  'b'=3
-  'c'=2
-} 'a')
-```
-
-The `match` function will also:
-1. Call functions when they match, and return the value.
-2. Allows a `'default'` option, that runs when others do not match.
-3. When the value is not a set or group, and one of the keys is a set or group, then it will match any value in the set.
-
-```
-set val (match {
-  'a'=4
-  'b'=3
-  {'c' 'd'}=to: 2
-  'default'=0
-} 'a')
+  then filter isOddNumber
+  then map addThree
+  then sort getLargerNumber
+  then reduce fn=sum start=0
 ```
 
 ## 3. Universal Functions
