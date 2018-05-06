@@ -960,7 +960,7 @@ The relationship between the compiler and human is a conversation. Write error m
 I can't (add) with a string.
 To (add), I need number number, then I return a number.
 Try this instead:
-    add 3 (toString '3')
+    add 3 (toNumber '3')
 helloWorld.grove line 20 fSVIHwQ1SnO53gAAzrEu0g
 ```
 
