@@ -149,7 +149,6 @@ Reference names may start with `$` or `~`, any letter `a-z` or `A-Z` as well as 
 - `for`
 - `break`
 - `continue`
-- `try`
 - `catch`
 - `raise`
 - `branch`
@@ -739,22 +738,22 @@ for range [_ num] myTuple
 
 #### 2.4.4 Exceptions
 
-Try and catch blocks work very similar to other languages.
+If you add a `catch` block to your function, all the lines above act as a _try_ in other languages. This changes the model from permission to forgiveness.
 
 ```
-try
+to
   divide 1 0
-catch exception
-  log exception
+  catch exception
+    log exception
 ```
 
 There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any string, tuple, set, map, or table that is not empty.
 
 ```
-try
+to
   raise 'You just found an error!'
-catch exception
-  log exception
+  catch exception
+    log exception
 ```
 
 An unhandled exception will stop the execution of the program. The compiler will warn about any possible unhandled exceptions at lint or build time.
