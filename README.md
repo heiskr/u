@@ -608,7 +608,8 @@ map lis (to value: divide value 3)
 Sometimes, we can lose the "step-by-step" feel, and `then` can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. `then` may be used on the same line or on succeeding indented lines.
 
 ```
-set result [0 1 2 3 4 5 6 7 8 9]
+set myTuple [0 1 2 3 4 5 6 7 8 9]
+set result myTuple
   then filter isOddNumber
   then map addThree
   then sort getLargerNumber
