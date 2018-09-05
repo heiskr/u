@@ -216,6 +216,14 @@ For collection types...
 - Unordered or ordered: unordered uses `{}`, ordered uses `[]`
 - Unkeyed or keyed: unkeyed does not use `=`, keyed uses `=`
 
+|                   | Immutable   | Mutable           |
+| ----------------- | ----------- | ----------------- |
+| Unordered Unkeyed | Set `{}`    | Group `${}`       |
+| Ordered Unkeyed   | Tuple `[]`  | List `$[]`        |
+| Unordered Keyed   | Map `{=}`   | Object `${=}`     |
+| Ordered Keyed     | Table `[=]` | Dictionary `$[=]` |
+
+
 ---
 
 Sets are defined with `{}`. The falsy form of set is an empty set, `{}`.
