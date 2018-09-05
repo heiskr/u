@@ -135,7 +135,7 @@ Grove assumes UTF-8 across the board. Any change from that must explicitly overr
 
 **Allowed Reference Names**
 
-Reference names may start with `$` or `~`, any letter `a-z` or `A-Z` as well as any unicode letter from any spoken language or mathematics; reference names cannot start with a digit. The remainder of the reference name may use any letters `a-z` or `A-Z` as well as any unicode letter from any spoken language or mathematics, or any digit; the remainder of the reference name cannot use punctuation including `$` or `~`. When using Latin languages, use camelCase. You may only use `_` to ignore references when destructuring.
+Reference names may start with `$` or any letter `a-z` or `A-Z` as well as any unicode letter from any spoken language or mathematics; reference names cannot start with a digit. The remainder of the reference name may use any letters `a-z` or `A-Z` as well as any unicode letter from any spoken language or mathematics, or any digit; the remainder of the reference name cannot use punctuation including `$`. When using Latin languages, use camelCase. You may only use `_` to ignore references when destructuring.
 
 **Keywords**
 
@@ -148,7 +148,6 @@ Reference names may start with `$` or `~`, any letter `a-z` or `A-Z` as well as 
 - `else`
 - `for`
 - `break`
-- `continue`
 - `catch`
 - `raise`
 - `branch`
@@ -164,7 +163,7 @@ Grove only has three types of things: data, functions, and references.
 
 **Functions**. Functions are first-class. Data does not own functions. Methods do not exist.
 
-**References**. References, or variables, are plain text in Grove. References may refer to data or functions. References always denote mutable types with a prefixed `$`. References that may be mutable or immutable are prefixed with `~`.
+**References**. References, or variables, are plain text in Grove. References may refer to data or functions. If a reference may refer to mutable data, you must prefix with `$`.
 
 #### 2.2.1 None
 
@@ -688,24 +687,19 @@ set {a b} ${'a'=1 'b'=2}
 
 #### 2.4.3 Loops
 
-`for` loops also to not require parentheses around the first function call.
-
-```
-set myTuple [1 2 3]
-for range [_ num] myTuple
-  log num
-```
-
-`for` loops are aware of the data type because the `range` function can handle multiple types. `range` returns `false` until its at the end, then returns `true`.
+`for` loops act as functions, that take an iterable and a function that receives key and value arguments.
 
 ```
 set myTuple [1 2 3]
 set myMap {'a'=1 'b'=2 'c'=3}
 
-for range [index num] myTuple
+for myTuple to _ num
+  log num
+
+for myTuple to index num
   log (concat index num)
 
-for range [key value] myMap
+for myMap to key value
   log (concat key value)
 ```
 
@@ -713,11 +707,11 @@ You can use `_` to ignore parts you don't need.
 
 ```
 set myTuple [1 2 3]
-for range [_ num] myTuple
+for myTuple to _ num
   log num
 ```
 
-`for` loops can also act like `while` loops.
+`for` loops can also act like `while` loops. If there's no `to` in the boolean calculation, parenthesis is not needed.
 
 ```
 set a 0
@@ -725,14 +719,14 @@ for lessThan a 5
   set a (add 1 a)
 ```
 
-Breaks and continues are allowed as well.
+To "continue", use `return`. In loops, `break` has a special property, it acts as a return but also flags the loop to not continue.
 
 ```
-for range [_ num] myTuple
+for myTuple to _ num
   if lessThan num 5
     break
   if greaterThan num 5
-    continue
+    return
   doSomething num
 ```
 
@@ -747,7 +741,7 @@ to
     log exception
 ```
 
-There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any string, tuple, set, map, or table that is not empty.
+There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any string, tuple, set, map, or table that is not empty. Generally speaking, Grove will use map for errors.
 
 ```
 to
@@ -794,7 +788,7 @@ set main to
 Grove has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, `branch` does not require parenthesis around the first function call.
 
 ```
-for range [_ i] x
+for x to _ i
   branch log i
 ```
 
@@ -890,9 +884,6 @@ Basic, universal functions.
 - `import`: string -> module
 - `send`: channel _T_ -> _T_
 - `receive`: channel reference -> reference
-- `range`
-  - (tuple|list|map|object) -> tuple (iterable)
-  - set|group -> _T_ (iterable)
 
 Math functions.
 
@@ -980,8 +971,7 @@ At build time, the user should have the option of seeing the first error, or all
 - Types must match to do a comparison.
 - Any compiler or linter for Grove should statically check primitive types (none, boolean, number, string, tuple, list, map, object, table, dictionary, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that references can change type, essentially creating a union type.
 - A linter should check to ensure that the tuple and list indexes and map and object keys as used are defined and within range, and return the expected, and if not a condition statement is used to prevent the use of an unexpected index or key.
-- A reference to a mutable data type should be prefixed with `$`.
-  - `~` prefix indicates the referenced data _may_ be mutable or immutable, in the case of a function argument.
+- A reference to a mutable data type should be prefixed with `$`. `$` may reference mutable or immutable data. If the reference never references mutable data, do not use `$`.
 - Check for any unused code.
 - Check for duplicated code.
 
@@ -1153,11 +1143,11 @@ TODO
 A mutable quicksort implementation.
 
 ```
-set quicksort to ~a
+set quicksort to $a
   set [$less $equal $greater] [$[] $[] $[]]
-  if greaterThan (length ~a) 1
-    set pivot (random (length ~a))
-    for range [_ x] ~a
+  if greaterThan (length $a) 1
+    set pivot (random (length $a))
+    for $a to _ x
       if lessThan x pivot
         append $less x
       if equal x pivot
@@ -1165,7 +1155,7 @@ set quicksort to ~a
       if greaterThan x pivot
         append $greater x
     return concat [(quicksort $less) $equal (quicksort $greater)]
-  return ~a
+  return $a
 ```
 
 #### 6.3.2 REST-ful service
