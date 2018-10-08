@@ -1,4 +1,4 @@
-# The Grove Language Specification
+# The U Language Specification
 
 I release this document under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) and [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
@@ -6,7 +6,7 @@ Version 0
 
 ## Table of Contents
 
-- [The Grove Language Specification](#)
+- [The U Language Specification](#)
   - [1. Foundation](#)
     - [1.1 Principles](#)
     - [1.2 Influences](#)
@@ -70,8 +70,8 @@ Lisp, Hypertalk, Python, JavaScript/Coffeescript, Go.
 ### 1.3 Major Features
 
 - **Procedural** scripting, with functional features like immutable data and list processing functions.
-- **Static typed.** Grove is statically-typed, but Grove looks and writes like its dynamic.
-- Grove has a small number of built-in types. There are no secondary or user defined types. No class-based object-oriented programming. Instead, use of indexes and keys are statically checked.
+- **Static typed.** U is statically-typed, but U looks and writes like its dynamic.
+- U has a small number of built-in types. There are no secondary or user defined types. No class-based object-oriented programming. Instead, use of indexes and keys are statically checked.
 - **Explicit** type conversion required.
 - Memory managed.
 - Whitespace significant.
@@ -113,7 +113,7 @@ TODO write out definitions
 
 TODO Write tokens section
 
-Grove assumes UTF-8 across the board. Any change from that must explicitly override UTF-8.
+U assumes UTF-8 across the board. Any change from that must explicitly override UTF-8.
 
 **Symbols**
 
@@ -157,13 +157,13 @@ Also, the `send` and `receive` functions have special execution properties.
 
 ### 2.2 Types
 
-Grove only has three types of things: data, functions, and references.
+U only has three types of things: data, functions, and references.
 
 **Data**. Immutable examples are boolean, numbers, strings, sets, tuples, maps, and tables. Mutable groups, lists, objects, and dictionaries are also available. There are no secondary or user-defined types.
 
 **Functions**. Functions are first-class. Data does not own functions. Methods do not exist.
 
-**References**. References, or variables, are plain text in Grove. References may refer to data or functions. If a reference may refer to mutable data, you must prefix with `$`.
+**References**. References, or variables, are plain text in U. References may refer to data or functions. If a reference may refer to mutable data, you must prefix with `$`.
 
 #### 2.2.1 None
 
@@ -386,7 +386,7 @@ $['a'=1 'b'=2 'c'=3]
 
 Statements are terminated with the new line character.
 
-Grove is whitespace sensitive. Two spaces per indent is enforced.
+U is whitespace sensitive. Two spaces per indent is enforced.
 
 #### 2.3.2 Calling and Defining Functions
 
@@ -750,7 +750,7 @@ to
     log exception
 ```
 
-There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any string, tuple, set, map, or table that is not empty. Generally speaking, Grove will use map for errors.
+There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any string, tuple, set, map, or table that is not empty. Generally speaking, U will use map for errors.
 
 ```
 to
@@ -783,7 +783,7 @@ A more convenient way is to combine import with destructuring.
 set {mean median mode} (import './math')
 ```
 
-Everything in the module is made available. Grove has no concept of `public` or `private` references or data. However, module outputs are read-only.
+Everything in the module is made available. U has no concept of `public` or `private` references or data. However, module outputs are read-only.
 
 Some modes of execution will default to look for a `main` function. This function will be the entry point to the program.
 
@@ -794,7 +794,7 @@ set main to
 
 ### 2.6 Concurrency
 
-Grove has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, `branch` does not require parenthesis around the first function call.
+U has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, `branch` does not require parenthesis around the first function call.
 
 ```
 for x to _ i
@@ -808,13 +808,13 @@ set ch (createChannel)
 branch myFunc ch
 ```
 
-Grove will pause in any branch when it arrives at `receive`.
+U will pause in any branch when it arrives at `receive`.
 
 ```
 receive channel value
 ```
 
-Grove will resume in any branch when the computer tells the channel to `send`.
+U will resume in any branch when the computer tells the channel to `send`.
 
 ```
 send channel value
@@ -960,7 +960,7 @@ I can't (add) with a string.
 To (add), I need number number, then I return a number.
 Try this instead:
     add 3 (toNumber '3')
-helloWorld.grove line 20 fSVIHwQ1SnO53gAAzrEu0g
+helloWorld.u line 20 fSVIHwQ1SnO53gAAzrEu0g
 ```
 
 At build time, the user should have the option of seeing the first error, or all errors. You may offer the fix the errors automatically for the user. You may enter into watch mode if there is a compile error until all errors are fixed.
@@ -978,7 +978,7 @@ At build time, the user should have the option of seeing the first error, or all
 - No lines should have trailing whitespace.
 - Lines should be no longer than 80 characters.
 - Types must match to do a comparison.
-- Any compiler or linter for Grove should statically check primitive types (none, boolean, number, string, tuple, list, map, object, table, dictionary, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that references can change type, essentially creating a union type.
+- Any compiler or linter for U should statically check primitive types (none, boolean, number, string, tuple, list, map, object, table, dictionary, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that references can change type, essentially creating a union type.
 - A linter should check to ensure that the tuple and list indexes and map and object keys as used are defined and within range, and return the expected, and if not a condition statement is used to prevent the use of an unexpected index or key.
 - A reference to a mutable data type should be prefixed with `$`. `$` may reference mutable or immutable data. If the reference never references mutable data, do not use `$`.
 - Check for any unused code.
@@ -1117,21 +1117,21 @@ Any dependency change should be treated as a breaking change.
 
 Versions may be whole numbers or hashes. Versions are immutable. Version tags, such as 'latest', 'stable', or 'jazz hands' may be used. A version tag is a reference to version. The package author may change the version tag to a different version at another time. The dependency manager should default to use specific versions (ie number or hash, not the tag). The user may override to use a version tag instead.
 
-When you run `grove install packageName`, it will by default pick the latest specific version currently tagged with `stable` or `stable-.*` (where .* is anything), or the specific version currently tagged as `latest`, or finally the actual latest version.
+When you run `u install packageName`, it will by default pick the latest specific version currently tagged with `stable` or `stable-.*` (where .* is anything), or the specific version currently tagged as `latest`, or finally the actual latest version.
 
 TODO
 
 ### TODO Command Line Interface
 
-- `grove install`
-- `grove install packageName@latest`
-- `grove remove packageName`
-- `grove lint ...`
-- `grove format ...` ; autoformat all grove code in directory
-- `grove build ...`
-- `grove run ...`
-- `grove test ...`
-- `grove repl ...` ; Run Grove REPL, optionally with environment
+- `u install`
+- `u install packageName@latest`
+- `u remove packageName`
+- `u lint ...`
+- `u format ...` ; autoformat all u code in directory
+- `u build ...`
+- `u run ...`
+- `u test ...`
+- `u repl ...` ; Run U REPL, optionally with environment
 
 TODO package author tools
 
