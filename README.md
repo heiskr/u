@@ -147,7 +147,6 @@ Reference names may start with `$` or any letter `a-z` or `A-Z` as well as any u
 - `if`
 - `else`
 - `for`
-- `break`
 - `catch`
 - `raise`
 - `branch`
@@ -728,12 +727,12 @@ for lessThan a 5
   set a (add 1 a)
 ```
 
-To "continue", use `return`. In loops, `break` has a special property, it acts as a return but also flags the loop to not continue.
+To "continue", use `return`. To stop the execution in the loop, you can `raise` -- effectively, `raise none`. If you raise data other than `none`, U will bubble the error as normal.
 
 ```
 for myTuple to _ num
   if lessThan num 5
-    break
+    raise
   if greaterThan num 5
     return
   doSomething num
@@ -750,7 +749,7 @@ to
     log exception
 ```
 
-There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any text, tuple, set, map, or table that is not empty. Generally speaking, U will use map for errors.
+There is no error or exception type. Instead, any immutable value will work. Generally speaking, U will use non-falsy maps for errors.
 
 ```
 to
