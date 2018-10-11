@@ -18,7 +18,7 @@ Version 0
       - [2.2.1 None](#)
       - [2.2.2 Boolean](#)
       - [2.2.3 Number](#)
-      - [2.2.4 String](#)
+      - [2.2.4 Text](#)
       - [2.2.5 Set](#)
       - [2.2.6 Group](#)
       - [2.2.7 Tuple](#)
@@ -96,7 +96,7 @@ TODO write out definitions
 - **Scope**:
 - **Boolean**:
 - **Character**:
-- **String**:
+- **Text**:
 - **Number**:
 - **Infinity**:
 - **Function**:
@@ -121,7 +121,7 @@ U assumes UTF-8 across the board. Any change from that must explicitly override 
 - `Newline`: Ends a statement. A new line within parenthesis or literal definition does not end a statement. Newlines must use the Unix character.
 - `Two Spaces` at the beginning of a line: Indents. Tabs or other cadences of spaces cannot be used.
 - `()`: Call a function. This is often optional.
-- `'`: String definition. Two must be used within a single line. One by itself indicates a multiline string.
+- `'`: Text definition. Two must be used within a single line. One by itself indicates multiline text.
 - `;`: Begins a comment. On a line by itself, indicates a multiline comment.
 - `{}`: Defines an immutable set.
 - `${}`: Defines a mutable group.
@@ -159,7 +159,7 @@ Also, the `send` and `receive` functions have special execution properties.
 
 U only has three types of things: data, functions, and references.
 
-**Data**. Immutable examples are boolean, numbers, strings, sets, tuples, maps, and tables. Mutable groups, lists, objects, and dictionaries are also available. There are no secondary or user-defined types.
+**Data**. Immutable examples are boolean, numbers, texts, sets, tuples, maps, and tables. Mutable groups, lists, objects, and dictionaries are also available. There are no secondary or user-defined types.
 
 **Functions**. Functions are first-class. Data does not own functions. Methods do not exist.
 
@@ -190,17 +190,17 @@ Each data type has one falsy value: for numbers, its 0.
 42
 ```
 
-#### 2.2.4 String
+#### 2.2.4 Text
 
-Strings use only the single-quote `'` character. Regular expressions are just strings.
+Texts use only the single-quote `'` character. Regular expressions are just texts.
 `\'` is the escaped version of the single quote character.
- `''`, empty string, is the falsy value. Strings are always immutable.
+ `''`, empty text, is the falsy value. Texts are always immutable.
 
 ```
 'abcd'
 ```
 
-Strings can be defined in multiple lines with indentation just like comments. The indentation is stripped.
+You can define texts in multiple lines with indentation just like comments. U strips indentation.
 
 ```
 '
@@ -262,7 +262,7 @@ ${1 2 3}
 
 Tuples are defined with `[]`. Tuples are zero-indexed.
 The falsy value of tuple is the empty tuple, `[]`. Tuples are immutable.
-Tuples can only store other immutable data types, such as boolean, number, string, tuple, and map.
+Tuples can only store other immutable data types, such as boolean, number, text, tuple, and map.
 
 ```
 [1 2 3]
@@ -354,7 +354,7 @@ ${'a':1 'b':2 'c':3}
 
 Tables are defined with `[:]`. Tables are like maps but also ordered. Tables are zero-indexed.
 The falsy value of table is the empty table, `[:]`. Tables are immutable.
-Tables can only store other immutable data types, such as boolean, number, string, tuple, and map.
+Tables can only store other immutable data types, such as boolean, number, text, tuple, and map.
 
 ```
 ['a':1 'b':2 'c':3]
@@ -521,7 +521,7 @@ divideAndAddWithDefaults a:1 b:2 c:3
 divideAndAddWithDefaults a:1 c:3
 ```
 
-Immutable type default arguments (none, boolean, number, string, set, tuple, map, table) are created only once. Mutable type default arguments (group, list, object, dictionary) are created each time the function is called.
+Immutable type default arguments (none, boolean, number, text, set, tuple, map, table) are created only once. Mutable type default arguments (group, list, object, dictionary) are created each time the function is called.
 
 #### 2.3.3 References, Get and set
 
@@ -750,7 +750,7 @@ to
     log exception
 ```
 
-There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any string, tuple, set, map, or table that is not empty. Generally speaking, U will use map for errors.
+There is no error or exception type. Instead, any non-falsy immutable value will work. You may use `true`, any number other than `0`, or any text, tuple, set, map, or table that is not empty. Generally speaking, U will use map for errors.
 
 ```
 to
@@ -884,13 +884,13 @@ Basic, universal functions.
 - `set`:
   - reference _T_ -> reference
   - (tuple|list) number _T_ -> _T_
-  - (map/object) (none|boolean|number|string|tuple) _T_ -> _T_
+  - (map/object) (none|boolean|number|text|tuple) _T_ -> _T_
 - `get`:
   - (tuple|list) number -> _T_
-  - (map/object) (none|boolean|number|string|tuple) -> _T_
+  - (map/object) (none|boolean|number|text|tuple) -> _T_
 - `match`:
-  - (none|boolean|number|string|tuple) (map/object) -> _T_
-- `import`: string -> module
+  - (none|boolean|number|text|tuple) (map/object) -> _T_
+- `import`: text -> module
 - `send`: channel _T_ -> _T_
 - `receive`: channel reference -> reference
 
@@ -908,7 +908,7 @@ Comparison functions.
 - `not`: boolean -> boolean
 - `all`: [_T_] -> boolean
 - `any`: [_T_] -> boolean
-- `equal`: _A_ _A_ -> boolean; where _A_ is none|boolean|string|number
+- `equal`: _A_ _A_ -> boolean; where _A_ is none|boolean|text|number
 - `is`: _A_ _A_ -> boolean
 - `not`: _A_ _A_ -> boolean
 - `lessThan`: _A_ _A_ -> boolean
@@ -926,15 +926,15 @@ Type conversions transcend type.
 
 - (can't convert to none)
 - `toBoolean`: any -> boolean
-- `toNumber`: none|boolean|string -> number
-- `toString`: any -> string
+- `toNumber`: none|boolean|text -> number
+- `toText`: any -> text
 - `toTuple`: list|set|group -> tuple
 - `toList`: tuple|set|group -> list
 - `toSet`: tuple|list|group -> set
 - `toGroup`: tuple|list|set -> group
 - `toMap`: object -> map
 - `toObject`: map -> object
-- `getType`: any -> string
+- `getType`: any -> text
 
 TODO to consider... format, slice; tuple/list/set/group/map/object operations
 
@@ -956,7 +956,7 @@ The relationship between the compiler and human is a conversation. Write error m
 6. Stack traces are an opt-in command line argument.
 
 ```
-I can't (add) with a string.
+I can't (add) with a text.
 To (add), I need number number, then I return a number.
 Try this instead:
     add 3 (toNumber '3')
@@ -978,7 +978,7 @@ At build time, the user should have the option of seeing the first error, or all
 - No lines should have trailing whitespace.
 - Lines should be no longer than 80 characters.
 - Types must match to do a comparison.
-- Any compiler or linter for U should statically check primitive types (none, boolean, number, string, tuple, list, map, object, table, dictionary, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that references can change type, essentially creating a union type.
+- Any compiler or linter for U should statically check primitive types (none, boolean, number, text, tuple, list, map, object, table, dictionary, module) to ensure the types match correctly. This static type check must be done without the use of type annotations. Static type checking should allow that references can change type, essentially creating a union type.
 - A linter should check to ensure that the tuple and list indexes and map and object keys as used are defined and within range, and return the expected, and if not a condition statement is used to prevent the use of an unexpected index or key.
 - A reference to a mutable data type should be prefixed with `$`. `$` may reference mutable or immutable data. If the reference never references mutable data, do not use `$`.
 - Check for any unused code.
@@ -1006,7 +1006,7 @@ A few target areas:
 
 The functions `log`, `warn`, and `error` are universal. The logging module helps figure out where the logging should go.
 
-#### TODO Strings and Regular Expressions
+#### TODO Texts and Regular Expressions
 
 - Formatting
 - Matching
@@ -1041,7 +1041,7 @@ TODO
 
 #### TODO Dates and Times
 
-TODO what basic type should represent datetimes? Number, String, or Map?
+TODO what basic type should represent datetimes? Number, Text, or Map?
 
 #### TODO Streams, Files and Directories
 
@@ -1049,7 +1049,7 @@ TODO what basic type should represent datetimes? Number, String, or Map?
 
 - TODO HTTP, SSL, sockets
     - CGI
-    - URL: Formatting, parsing strings for IP, domain, path, query string etc
+    - URL: Formatting, parsing texts for IP, domain, path, query text etc
     - Server
     - Headers / cookies
 - TODO Email (pop, imap, smtp, etc)
