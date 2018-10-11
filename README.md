@@ -127,11 +127,11 @@ U assumes UTF-8 across the board. Any change from that must explicitly override 
 - `${}`: Defines a mutable group.
 - `[]`: Defines an immutable tuple.
 - `$[]`: Defines a mutable list.
-- `{=}`: Defines an immutable map.
-- `${=}`: Defines a mutable object.
-- `[=]`: Defines an immutable table.
-- `$[=]`: Defines a mutable dictionary.
-- `:`: Provides inlining of function or block body.
+- `{:}`: Defines an immutable map.
+- `${:}`: Defines a mutable object.
+- `[:]`: Defines an immutable table.
+- `$[:]`: Defines a mutable dictionary.
+- `,`: Provides inlining of function or block body.
 
 **Allowed Reference Names**
 
@@ -214,14 +214,14 @@ For collection types...
 
 - Immutable or mutable: immutable is plain, mutable starts with `$`
 - Unordered or ordered: unordered uses `{}`, ordered uses `[]`
-- Unkeyed or keyed: unkeyed does not use `=`, keyed uses `=`
+- Unkeyed or keyed: unkeyed does not use `:`, keyed uses `:`
 
 |                   | Immutable   | Mutable           |
 | ----------------- | ----------- | ----------------- |
 | Unordered Unkeyed | Set `{}`    | Group `${}`       |
 | Ordered Unkeyed   | Tuple `[]`  | List `$[]`        |
-| Unordered Keyed   | Map `{=}`   | Object `${=}`     |
-| Ordered Keyed     | Table `[=]` | Dictionary `$[=]` |
+| Unordered Keyed   | Map `{:}`   | Object `${:}`     |
+| Ordered Keyed     | Table `[:]` | Dictionary `$[:]` |
 
 
 ---
@@ -296,27 +296,27 @@ $[1 2 3]
 
 #### 2.2.9 Map
 
-Maps are defined with `{}`. The falsy form of map is an empty map, `{=}`.
+Maps are defined with `{}`. The falsy form of map is an empty map, `{:}`.
 Maps are unordered. Maps support embedding.
 Maps are immutable. Maps may only store immutable data types.
 
 ```
-{'a'=1 'b'=2 'c'=3}
+{'a':1 'b':2 'c':3}
 ```
 
 The pattern is always:
 
 ```
-{key=value key=value key=value ...}
+{key:value key:value key:value ...}
 ```
 
 Maps may be also written as:
 
 ```
 {
-  'a'=1
-  'b'=2
-  'c'=3
+  'a':1
+  'b':2
+  'c':3
 }
 ```
 
@@ -327,17 +327,17 @@ You may use reference names as map keys.
 ```
 set a 1
 set b 2
-set myMap {a b 'c'=3}
+set myMap {a b 'c':3}
 ```
 
-A map must have an `=` to be a map and not a set. A map can start with `=` to indicate its a map.
+A map must have an `:` to be a map and not a set. A map can start with `:` to indicate its a map.
 
 ```
 set a 1
 set b 2
 set c 3
 set mySet {a b c}
-set myMap {= a b c}
+set myMap {: a b c}
 ```
 
 #### 2.2.10 Object
@@ -347,37 +347,37 @@ The falsy object is the empty object.
 Objects can store immutable data, mutable data, and functions. Objects only store references.
 
 ```
-${'a'=1 'b'=2 'c'=3}
+${'a':1 'b':2 'c':3}
 ```
 
 ### 2.2.11 Table
 
-Tables are defined with `[=]`. Tables are like maps but also ordered. Tables are zero-indexed.
-The falsy value of table is the empty table, `[=]`. Tables are immutable.
+Tables are defined with `[:]`. Tables are like maps but also ordered. Tables are zero-indexed.
+The falsy value of table is the empty table, `[:]`. Tables are immutable.
 Tables can only store other immutable data types, such as boolean, number, string, tuple, and map.
 
 ```
-['a'=1 'b'=2 'c'=3]
+['a':1 'b':2 'c':3]
 ```
 
 Tables do not differentiate between the kind of whitespace, so we can just as easily write:
 
 ```
 [
-  'a'=1
-  'b'=2
-  'c'=3
+  'a':1
+  'b':2
+  'c':3
 ]
 ```
 
 ### 2.2.12 Dictionary
 
-Dictionaries are like maps, but mutable. They are defined with `$[=]`.
+Dictionaries are like maps, but mutable. They are defined with `$[:]`.
 The falsy dictionary is the empty dictionary.
 Objects can store immutable data, mutable data, and functions. Dictionaries only store references.
 
 ```
-$['a'=1 'b'=2 'c'=3]
+$['a':1 'b':2 'c':3]
 ```
 
 ### 2.3 Expressions, Functions, References, Scope
@@ -411,7 +411,7 @@ add 1 (divide 3 4)
 For three or more arguments, you must use the argument keys.
 
 ```
-handleHttp method='GET' path='/keys' function=listKeys
+handleHttp method:'GET' path:'/keys' function:listKeys
 ```
 
 When you call a function with zero, one, or two arguments, you may omit the argument keys.
@@ -460,10 +460,10 @@ divide 3 divisor
 divide divisor 36
 
 ; Good: Use explicit keys instead.
-divide divisor dividend=36
+divide divisor dividend:36
 
 ; Good: Use explicit keys instead.
-divide dividend=divisor divisor=36
+divide dividend:divisor divisor:36
 ```
 
 The anonymous function is defined as: `to arg1 arg2 ... \n <indent> block`
@@ -504,21 +504,21 @@ You must call functions with the exact set of available arguments. However, func
 set divideAndAdd to a b c
   add (divide a b) c
 
-set divideAndAddWithDefaults to a b=1 c=0
+set divideAndAddWithDefaults to a b:1 c:0
   add (divide a b) c
 
 ; ERROR: You must use the exact set of arguments.
 divideAndAdd 1 2
-divideAndAdd a=1 b=2 c=3 d=4
+divideAndAdd a:1 b:2 c:3 d:4
 
 ; Good: Using the exact set of arguments.
-divideAndAdd a=1 b=2 c=3
+divideAndAdd a:1 b:2 c:3
 
 ; Good: You may skip arguments with defaults.
 divideAndAddWithDefaults 1
 divideAndAddWithDefaults 1 2
-divideAndAddWithDefaults a=1 b=2 c=3
-divideAndAddWithDefaults a=1 c=3
+divideAndAddWithDefaults a:1 b:2 c:3
+divideAndAddWithDefaults a:1 c:3
 ```
 
 Immutable type default arguments (none, boolean, number, string, set, tuple, map, table) are created only once. Mutable type default arguments (group, list, object, dictionary) are created each time the function is called.
@@ -557,14 +557,14 @@ set outer to num
   set inner to num2
     set sum (add sum num2)
 
-(outer 3) 2  ; => 5
+(outer 3) 2  ; > 5
 
 set fn (outer 0)
-fn 2  ; => 2
-fn 3  ; => 5
+fn 2  ; > 2
+fn 3  ; > 5
 
 set fn (outer 1)
-fn 1  ; => 2
+fn 1  ; > 2
 ```
 
 You may also call the `scope` function to set the scope of a reference without defining its value. `scope ref` is essentially identical to `set ref none`.
@@ -597,10 +597,10 @@ set a (get myMap 'key')
 
 #### 2.3.4 Inline-Indent
 
-Having to hit return just for a single-line block doesn't feel right. The colon character here replaces the newline plus indent.
+Having to hit return just for a single-line block doesn't feel right. The comma character here replaces the newline plus indent.
 
 ```
-map lis (to value: divide value 3)
+map lis (to value, divide value 3)
 ```
 
 #### 2.3.5 Then
@@ -613,7 +613,7 @@ set result myTuple
   then filter isOddNumber
   then map addThree
   then sort getLargerNumber
-  then reduce fn=sum start=0
+  then reduce fn:sum start:0
 ```
 
 #### 2.3.6 Comments
@@ -674,12 +674,12 @@ if (lessThan a 5)
   true
 ```
 
-You can also use `:` to tighten up `if` as well.
+You can also use `,` to tighten up `if` as well.
 
 ```
 set a (
-  if equal a b: a
-  else: b
+  if equal a b, a
+  else, b
 )
 ```
 
@@ -690,8 +690,8 @@ Set multiple references at the same time by pulling values out of tuples, lists,
 ```
 set [a b] [1 2]
 set [a b] $[1 2]
-set {a b} {'a'=1 'b'=2}
-set {a b} ${'a'=1 'b'=2}
+set {a b} {'a':1 'b':2}
+set {a b} ${'a':1 'b':2}
 ```
 
 #### 2.4.3 Loops
@@ -700,7 +700,7 @@ set {a b} ${'a'=1 'b'=2}
 
 ```
 set myTuple [1 2 3]
-set myMap {'a'=1 'b'=2 'c'=3}
+set myMap {'a':1 'b':2 'c':3}
 
 for myTuple to _ num
   log num
@@ -1179,18 +1179,18 @@ set listKeys to request
     FROM keys;
   set rows (runQuery query)
   if not rows
-    return [404 {'message'='Not Found'}]
+    return [404 {'message':'Not Found'}]
   return [200 rows]
 
 set getKey to request id
   set query '
     SELECT *
     FROM keys
-    WHERE id={id};
+    WHERE id = {id};
   set rows (runQuery query {id})
   set row (get rows 0)
   if not row
-    return [404 {'message'='Not Found'}]
+    return [404 {'message':'Not Found'}]
   return [200 rows]
 
 set createKey to request
@@ -1200,7 +1200,7 @@ set createKey to request
   set value (get request 'value')
   set row (runQuery query {value})
   if not row
-    return [400 {'message'='Bad Parameters'}]
+    return [400 {'message':'Bad Parameters'}]
   return [200 row]
 
 set updateKey to request id
@@ -1210,15 +1210,15 @@ set updateKey to request id
     WHERE id = {id};
   set row (runQuery query {id value})
   if not row
-    return [400 {'message'='Bad Parameters'}]
+    return [400 {'message':'Bad Parameters'}]
   return [200 row]
 
 set main to
   set port 8573
-  handleHttp method='GET' path='/keys' handler=listKeys
-  handleHttp method='GET' path='/keys/{id}' handler=getKey
-  handleHttp method='POST' path='/keys' handler=createKey
-  handleHttp method='PUT' path='/keys/{id}' handler=updateKey
+  handleHttp method:'GET' path:'/keys' handler:listKeys
+  handleHttp method:'GET' path:'/keys/{id}' handler:getKey
+  handleHttp method:'POST' path:'/keys' handler:createKey
+  handleHttp method:'PUT' path:'/keys/{id}' handler:updateKey
   log (format 'Server started on {port}' {port})
   listenAndServe port
 ```
