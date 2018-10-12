@@ -14,31 +14,33 @@ Version 0
     - [1.4 Definitions](#)
   - [2. Core Language](#)
     - [2.1 Tokens](#)
-    - [2.2 Types](#)
+    - [2.2 Basic Types](#)
       - [2.2.1 None](#)
       - [2.2.2 Boolean](#)
       - [2.2.3 Number](#)
       - [2.2.4 Text](#)
-      - [2.2.5 Set](#)
-      - [2.2.6 Group](#)
-      - [2.2.7 Tuple](#)
-      - [2.2.8 List](#)
-      - [2.2.9 Map](#)
-      - [2.2.10 Object](#)
-      - [2.2.11 Table](#)
-      - [2.2.12 Dictionary](#)
-    - [2.3 Expressions, Functions, References, Scope](#)
-      - [2.3.1 Blocks and Termination](#)
-      - [2.3.2 Calling and Defining Functions](#)
-      - [2.3.3 References, Get and set](#)
-      - [2.3.4 Inline-Indent](#)
-      - [2.3.5 Then](#)
-      - [2.3.6 Comments](#)
-    - [2.4 Control Structures](#)
-      - [2.4.1 Conditions](#)
-      - [2.4.2 Destructuring](#)
-      - [2.4.2 Loops](#)
-      - [2.4.3 Exceptions](#)
+      - [2.2.5 Comments](#)
+    - [2.3 Collection Types](#)
+      - [2.3.1 Set](#)
+      - [2.3.2 Group](#)
+      - [2.3.3 Tuple](#)
+      - [2.3.4 List](#)
+      - [2.3.5 Map](#)
+      - [2.3.6 Object](#)
+      - [2.3.7 Table](#)
+      - [2.3.8 Dictionary](#)
+    - [2.4 Expressions, Functions, References, Scope](#)
+      - [2.4.1 Blocks and Termination](#)
+      - [2.4.2 Calling and Defining Functions](#)
+      - [2.4.3 References, Get and set](#)
+    - [2.5 Control Structures](#)
+      - [2.5.1 Conditions](#)
+      - [2.5.2 Loops](#)
+      - [2.5.3 Exceptions](#)
+    - [2.6 Additional Syntax](#)
+      - [2.6.1 Inline-Indent](#)
+      - [2.6.2 Then](#)
+      - [2.6.3 Destructuring](#)
     - [2.5 Modules](#)
     - [2.6 Concurrency](#)
   - [3. Universal Functions](#)
@@ -154,7 +156,7 @@ Reference names may start with `$` or any letter `a-z` or `A-Z` as well as any u
 
 Also, the `send` and `receive` functions have special execution properties.
 
-### 2.2 Types
+### 2.2 Basic Types
 
 U only has three types of things: data, functions, and references.
 
@@ -207,7 +209,31 @@ You can define texts in multiple lines with indentation just like comments. U st
   1234
 ```
 
-#### 2.2.5 Set
+#### 2.2.5 Comments
+
+Comments start with a semicolon.
+
+```
+; This is a comment.
+```
+
+Semicolons are the comment character because semicolons:
+  a) require only one key,
+  b) are easy to reach, and
+  c) aren't mistaken for another operation.
+Comments may be in block format.
+Indentation is 2 spaces.
+
+```
+;
+  This
+  is a
+  block comment.
+```
+
+### 2.3 Collection Types
+
+#### 2.3.1 Set
 
 For collection types...
 
@@ -247,7 +273,7 @@ Sets may be also written as:
 The read out-loud equilavent would be `set column to (set of 1 2 3)`. The read out-loud version breaks the syntax rules. Either way we are creating new syntax. The `{}` for is common, known, easy to learn, and only 'one-level' from the principle of read out-loud as is.
 
 
-#### 2.2.6 Group
+#### 2.3.2 Group
 
 Groups are like sets, but mutable. They are defined with `${}`.
 The falsy group is the empty group.
@@ -257,7 +283,7 @@ Groups can store immutable data, mutable data, and functions. Groups only store 
 ${1 2 3}
 ```
 
-#### 2.2.7 Tuple
+#### 2.3.3 Tuple
 
 Tuples are defined with `[]`. Tuples are zero-indexed.
 The falsy value of tuple is the empty tuple, `[]`. Tuples are immutable.
@@ -283,7 +309,7 @@ A tuple statement would be like
 set column [1 2 3]
 ```
 
-#### 2.2.8 List
+#### 2.3.4 List
 
 Lists are defined with `$[]`.
 The falsy value of list is the empty list, `$[]`. Lists are like tuples, but mutable.
@@ -293,7 +319,7 @@ Lists can store immutable data, mutable data, and functions. Lists only store re
 $[1 2 3]
 ```
 
-#### 2.2.9 Map
+#### 2.3.5 Map
 
 Maps are defined with `{}`. The falsy form of map is an empty map, `{:}`.
 Maps are unordered. Maps support embedding.
@@ -339,7 +365,7 @@ set mySet {a b c}
 set myMap {: a b c}
 ```
 
-#### 2.2.10 Object
+#### 2.3.6 Object
 
 Objects are like maps, but mutable. They are defined with `${}`.
 The falsy object is the empty object.
@@ -349,7 +375,7 @@ Objects can store immutable data, mutable data, and functions. Objects only stor
 ${'a':1 'b':2 'c':3}
 ```
 
-### 2.2.11 Table
+### 2.3.7 Table
 
 Tables are defined with `[:]`. Tables are like maps but also ordered. Tables are zero-indexed.
 The falsy value of table is the empty table, `[:]`. Tables are immutable.
@@ -369,7 +395,7 @@ Tables do not differentiate between the kind of whitespace, so we can just as ea
 ]
 ```
 
-### 2.2.12 Dictionary
+### 2.3.8 Dictionary
 
 Dictionaries are like maps, but mutable. They are defined with `$[:]`.
 The falsy dictionary is the empty dictionary.
@@ -379,15 +405,15 @@ Objects can store immutable data, mutable data, and functions. Dictionaries only
 $['a':1 'b':2 'c':3]
 ```
 
-### 2.3 Expressions, Functions, References, Scope
+### 2.4 Expressions, Functions, References, Scope
 
-#### 2.3.1 Blocks and Termination
+#### 2.4.1 Blocks and Termination
 
 Statements are terminated with the new line character.
 
 U is whitespace sensitive. Two spaces per indent is enforced.
 
-#### 2.3.2 Calling and Defining Functions
+#### 2.4.2 Calling and Defining Functions
 
 Functions are called simply by having a reference to the function the first in the group.
 
@@ -522,7 +548,7 @@ divideAndAddWithDefaults a:1 c:3
 
 Immutable type default arguments (none, boolean, number, text, set, tuple, map, table) are created only once. Mutable type default arguments (group, list, object, dictionary) are created each time the function is called.
 
-#### 2.3.3 References, Get and set
+#### 2.4.3 References, Get and set
 
 References are set using the `set` function. The first argument is the reference, the second argument is the value.
 
@@ -594,52 +620,9 @@ The `get` and `set` methods exist on all tuples, lists, sets, groups, maps, obje
 set a (get myMap 'key')
 ```
 
-#### 2.3.4 Inline-Indent
+### 2.5 Control Structures
 
-Having to hit return just for a single-line block doesn't feel right. The comma character here replaces the newline plus indent.
-
-```
-map lis (to value, divide value 3)
-```
-
-#### 2.3.5 Then
-
-Sometimes, we can lose the "step-by-step" feel, and `then` can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. `then` may be used on the same line or on succeeding indented lines.
-
-```
-set myTuple [0 1 2 3 4 5 6 7 8 9]
-set result myTuple
-  then filter isOddNumber
-  then map addThree
-  then sort getLargerNumber
-  then reduce fn:sum start:0
-```
-
-#### 2.3.6 Comments
-
-Comments start with a semicolon.
-
-```
-; This is a comment.
-```
-
-Semicolons are the comment character because semicolons:
-  a) require only one key,
-  b) are easy to reach, and
-  c) aren't mistaken for another operation.
-Comments may be in block format.
-Indentation is 2 spaces.
-
-```
-;
-  This
-  is a
-  block comment.
-```
-
-### 2.4 Control Structures
-
-#### 2.4.1 Conditions
+#### 2.5.1 Conditions
 
 Conditions use the keywords `if` and `else`. Conditions are also expressions.
 
@@ -673,27 +656,7 @@ if (lessThan a 5)
   true
 ```
 
-You can also use `,` to tighten up `if` as well.
-
-```
-set a (
-  if equal a b, a
-  else, b
-)
-```
-
-#### 2.4.2 Destructuring
-
-Set multiple references at the same time by pulling values out of tuples, lists, maps, objects, tables, and dictionaries. There's no way to destructure sets or groups.
-
-```
-set [a b] [1 2]
-set [a b] $[1 2]
-set {a b} {'a':1 'b':2}
-set {a b} ${'a':1 'b':2}
-```
-
-#### 2.4.3 Loops
+#### 2.5.2 Loops
 
 `for` loops act as functions, that take an iterable and a function that receives key and value arguments.
 
@@ -738,7 +701,7 @@ for myTuple to _ num
   doSomething num
 ```
 
-#### 2.4.4 Exceptions
+#### 2.5.3 Exceptions
 
 If you add a `catch` block to your function, all the lines above act as a _try_ in other languages. This changes the model from permission to forgiveness.
 
@@ -760,7 +723,50 @@ to
 
 An unhandled exception will stop the execution of the program. The compiler will warn about any possible unhandled exceptions at lint or build time.
 
-### 2.5 Modules
+### 2.6 Additional Syntax
+
+#### 2.6.1 Inline-Indent
+
+Having to hit return just for a single-line block doesn't feel right. The comma character here replaces the newline plus indent.
+
+```
+map lis (to value, divide value 3)
+```
+
+You can also use `,` to tighten up `if` as well.
+
+```
+set a (
+  if equal a b, a
+  else, b
+)
+```
+
+#### 2.6.2 Then
+
+Sometimes, we can lose the "step-by-step" feel, and `then` can help restore this feeling by letting us chain functions. The previous value is passed to the succeeding function as the given (first) argument. `then` may be used on the same line or on succeeding indented lines.
+
+```
+set myTuple [0 1 2 3 4 5 6 7 8 9]
+set result myTuple
+  then filter isOddNumber
+  then map addThree
+  then sort getLargerNumber
+  then reduce fn:sum start:0
+```
+
+#### 2.6.3 Destructuring
+
+Set multiple references at the same time by pulling values out of tuples, lists, maps, objects, tables, and dictionaries. There's no way to destructure sets or groups.
+
+```
+set [a b] [1 2]
+set [a b] $[1 2]
+set {a b} {'a':1 'b':2}
+set {a b} ${'a':1 'b':2}
+```
+
+### 2.7 Modules
 
 Files are treated as modules, with their own namespaces.
 If a cycle is formed with `import`, the compiler will throw an error.
@@ -791,7 +797,7 @@ set main to
   add 1 2
 ```
 
-### 2.6 Concurrency
+### 2.8 Concurrency
 
 U has a similar concurrency model to Go. You can `branch` a call to run at the same time. Like `if` and `for`, `branch` does not require parenthesis around the first function call.
 
