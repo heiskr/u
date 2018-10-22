@@ -233,8 +233,6 @@ Indentation is 2 spaces.
 
 ### 2.3 Collection Types
 
-#### 2.3.1 Set
-
 For collection types...
 
 - Immutable or mutable: immutable is plain, mutable starts with `$`
@@ -248,8 +246,7 @@ For collection types...
 | Unordered Keyed   | Map `{:}`   | Object `${:}`     |
 | Ordered Keyed     | Table `[:]` | Dictionary `$[:]` |
 
-
----
+#### 2.3.1 Set
 
 Sets are defined with `{}`. The falsy form of set is an empty set, `{}`.
 Sets are unordered. Sets support embedding.
