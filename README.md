@@ -75,7 +75,7 @@ Lisp, Hypertalk, Python, JavaScript/Coffeescript, Go.
 - **Static typed.** U is statically-typed, but U looks and writes like its dynamic.
 - U has a small number of built-in types. There are no secondary or user defined types. No class-based object-oriented programming. Instead, use of indexes and keys are statically checked.
 - **Explicit** type conversion required.
-- Memory managed.
+- Memory managed. (Question... see F76E03F7)
 - Whitespace significant.
 - Immutable first, but mutable data is allowed.
 - Team focused: standardized lint and format.
@@ -945,6 +945,9 @@ TODO to consider... format, slice; tuple/list/set/group/map/object operations
 - TODO Autoformat
 - TODO Autoupgrade lang version
 - TODO stand alone / repl (?)
+
+TODO Question F76E03F7 on memory management:
+- Would it be possible to determine how to manage memory at compile time? For example, a C developer has to allocate memory, use memory, then figure out when to deallocate memory. Most languages without "deallocate" commands manage this at run-time with a garbage collector / reference counter. Would it be possible to automatically figure out when to "deallocate" at compile (build)? Avoids the memory and CPU overhead of a run-time memory management system...
 
 ### 4.1 Error Messages
 
